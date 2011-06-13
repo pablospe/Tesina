@@ -1,0 +1,105 @@
+%% Entorno Descripción. En tres sabores:
+    %% 1. El más general
+    \newenvironment{descripcion}[2]%
+    {\begin{basedescript}{\desclabelwidth{#2}}%
+    \item[#1]}%
+    {\end{basedescript}}%
+
+    %% 2. Como poner en negrita (también parecido a section* pero puedo seguir en la misma línea)
+    \newenvironment{descripcion0}[1]%
+    {\begin{basedescript}{\desclabelwidth{-1ex}}%
+    \item[#1]}%
+    {\end{basedescript}}%
+
+    %% 3. Con 1.25cm de tamaño
+    \newenvironment{descripcion1}[1]%
+    {\begin{basedescript}{\desclabelwidth{1.25cm}}%
+    \item[#1]}%
+    {\end{basedescript}}%
+
+    %% Entorno para citar texto, 80% del tamaño (10% de cada lado)
+      \newenvironment{citetext}{%
+      \def\leftmargini{0.1\textwidth}%
+      \def\rightmargini{0.1\textwidth}%
+      \vspace*{-0.35cm}%
+      \begin{quotation}\parskip 0.15cm\guillemotleft}%
+      {\guillemotright\end{quotation}\vspace*{0.1cm}}
+
+
+      %% Sin » (caso especial de citetext)
+      \newenvironment{citetext_sin_right}{%
+      \def\leftmargini{0.1\textwidth}%
+      \def\rightmargini{0.1\textwidth}%
+      \vspace*{-0.35cm}%
+      \begin{quotation}\parskip 0.15cm\guillemotleft}%
+      { \end{quotation}\vspace*{0.1cm}}
+
+
+
+\newcommand{\subsubseccion}[1]{\subsubsection*{#1}\addcontentsline{toc}{subsubsection}{#1}}
+
+
+
+% Circulos chicos: un cuarto, mitad, trescuartos y completo.
+% \newcommand{\quarter}{
+%                     \begin{tikzpicture}
+%                     \fill[black] (0,0.11) arc (90:-90:0.1cm) ;
+%                     \filldraw[white] [rotate=-90] (0,0.11) arc (90:-90:0.1cm);
+%                     \draw (0,0) circle (0.1cm);
+%                     \end{tikzpicture}
+%                     }
+% 
+% \newcommand{\half}{
+%                     \begin{tikzpicture}
+%                     \draw (0,0) circle (0.1cm);
+%                     \fill[black] (0,0.11) arc (90:-90:0.1cm) ;
+%                     \end{tikzpicture}
+%                    }
+% 
+% \newcommand{\threequarter}{
+%                     \begin{tikzpicture}
+%                     \fill[black] (0,0.10) arc (90:-90:0.1cm);
+%                     \filldraw[black] [rotate=-90] (0,0.10) arc (90:-90:0.1cm);
+%                     \draw (0,0) circle (0.1cm);
+%                     \end{tikzpicture}
+%                    }
+% 
+% 
+% \newcommand{\full}{
+%                     \begin{tikzpicture}
+%                     \fill[black] (0,0.10) arc (180:-180:0.1cm);
+%                     \end{tikzpicture}
+%                      }
+
+
+
+% Circulos grandes
+\newcommand{\quarter}{
+                    \begin{tikzpicture}
+                    \fill[black] (0,0.16) arc (90:-90:0.9ex);
+                    \filldraw[white] [rotate=-90] (0,0.16) arc (90:-90:0.9ex);
+                    \draw (0,0) circle (1ex);
+                    \end{tikzpicture}
+                    }
+
+\newcommand{\half}{
+                    \begin{tikzpicture}
+                    \fill[black] (0,0.165) arc (90:-90:0.9ex) ;
+                    \draw (0,0) circle (1ex);
+                    \end{tikzpicture}
+                   }
+
+\newcommand{\threequarter}{
+                    \begin{tikzpicture}
+                    \fill[black] (0,0.165) arc (90:-90:0.9ex) ;
+                    \filldraw[black] [rotate=-90] (0,0.16) arc (90:-90:0.9ex) ;
+                    \draw (0,0) circle (1ex);
+                    \end{tikzpicture}
+                        }
+
+
+\newcommand{\full}{
+                    \begin{tikzpicture}
+                    \filldraw[black] [rotate=-90] (0,0.18) arc (180:-180:1ex) ;
+                    \end{tikzpicture}
+                     }

@@ -1,0 +1,264 @@
+\input{tex/preamble}
+\input{tex/comandos}
+\makeindex
+
+\begin{document}
+    \input{tex/estilo}
+    \thispagestyle{empty}
+
+
+\vspace*{-8ex}
+\begin{center} \begin{LARGE}\textbf{Plan de Trabajo}\end{LARGE} \end{center}
+
+\vspace*{-1ex}
+% Integrantes
+    \noindent
+    \begin{tabular}{lcl}
+    \textbf{Postulante:} & & Pablo Speciale \\
+    \textbf{Director:} & & Juan Carlos Gómez \\
+    \textbf{Co-director:} & & Pablo Granitto
+    \end{tabular}
+    \vspace*{1em}
+
+% Titulo
+\vspace*{-3ex}
+\subsection*{Título}
+\vspace*{-1ex}   
+\noindent
+Reconocimiento automático de escritura matemática manuscrita (Online).\\
+\textit{Online Mathematical Handwriting Recognition}
+% \footnote{Se utilizará terminología en inglés para facilitar la búsqueda de material}
+
+
+
+\vspace*{-1ex}
+\subsection*{Grupo de Trabajo}
+\noindent
+El siguiente proyecto involucra tópicos del área del conocimiento de Aprendizaje Automatizado (Machine Learning) y de Procesamiento de Señales. Se trabajará con Dr. Pablo Granitto, director del grupo \textit{Aprendizaje Automatizado y Aplicaciones} del CIFASIS, y con Dr. Juan Carlos Gómez, director del grupo \textit{Procesamiento de Señales Multimedia} del CIFASIS.
+
+
+\vspace*{-1ex}
+\subsection*{Motivación y Objetivo general}
+\noindent
+En Handwriting Recognition, el humano y la computadora se turnan entre pensar y estar en reposo. Uno podría preguntarse, ¿es posible que la computadora pueda, mientras el usuario escribe, hacer algo de utilidad y proporcionar respuestas rápidas antes de que se termine de escribir? La respuesta es sí.
+
+Poder escribir en dispositivos electrónicos es factible actualmente, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y últimamente las pantallas táctiles como ipad. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose verdaderamente en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones, más allá del mouse y el teclado.
+% Sin embargo, todavía no hay una aplicación sobresaliente para tales dispositivos. El usuario ve al stylus como un mouse sofisticado.
+
+En este proyecto se busca crear un entorno de software libre que permita la escritura de fórmulas matemáticas con la posibilidad de interpretarlas --darles semántica--, y poder computar el resultado a dichas fórmulas o simplemente devolver el texto en formato \LaTeX.
+
+
+\vspace*{-1ex}
+\subsection*{Fundamentos y estado de conocimiento sobre el tema}
+\label{Fundamentos}
+
+% \subsubsection*{On-line vs Off-line}
+\noindent
+A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de trazos de una curva. Es decir, se posee más información que sólo los puntos, también el tiempo en que cada uno de ellos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final sea el mismo. Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
+
+\begin{figure}[h!]
+ \centering
+ \includegraphics[scale=0.85, bb=0 0 308 92]{imagen/off|on-line.pdf}
+ \caption{Reconocimiento Offline y Online.}
+ \label{fig:off|on-line}
+\end{figure}
+
+\noindent
+La utilización de un stylus en un dispositivo electrónico permite usar el enfoque online.
+
+\subsubsection*{Handwriting recognition}
+\noindent
+En el análisis de Handwriting para contenido matemático se reconocen 4 etapas, como se destaca en \cite{CommunicatingMathematics}:
+% colección de trazos (digital ink), reconocimiento de caracteres, análisis estructural y determinación de semántica.
+
+\begin{enumerate}[A.]
+
+ \item \textbf{Colección de trazos}
+
+Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}.
+\begin{figure}[h!]
+ \centering
+ \includegraphics[bb=0 20 212 80]{imagen/single|multi-stroke.pdf}
+ \caption{Izquierda y centro caracter Single-Stroke. Derecha Multi-Stroke.}
+ \label{fig:single|multi-stroke}
+\end{figure}
+
+
+ \item \textbf{Reconocimiento de caracteres}
+
+El reconocimiento tiene 3 etapas:
+    \begin{enumerate}[1.]
+    \item \textit{Preproceso}
+
+    El preprocesado primero elimina el ruido frecuentemente presente al principio y final de cada trazo. Luego, se normaliza por \textit{resampling} y \textit{resizing}. Resampling ayuda a unificar distancias entre los puntos, y resizing asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.
+
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[bb=0 0 120 58]{imagen/preprocesing.pdf}
+    \label{fig:preprocesing}
+    \caption{(a) Suavizado y resizing, (b) luego resampling }
+    \end{figure}
+
+
+    \item \textit{Extracción de características (Feature extraction)}
+
+    En este paso se extraen características (feature) de los trazos. Hay varios tipos de features: los relativos a apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones; los relativos al estilo de escritura, como la dirección y cantidad de strokes.
+
+    Estos features son usados como criterio para podar el árbol de modelos, dejando una cantidad pequeña de clases a examinar, incrementando la performance del reconocimiento. Por ejemplo, en el caso de escribir ``$\ell$'' o ``$\alpha$'', solo se considerarán los modelos que contienen un único loop.
+
+
+    \item \textit{Matching}
+
+    La etapa final del reconocimiento es el matching de la entrada con los modelos en una base de datos. Después de que los features podaron el árbol de modelos, es necesario lidiar con solo una fracción de la colección. Se pueden citar algoritmos como \textit{Elastic Matching} \cite{ElasticMatching} o \textit{Legendre-Sobolev} \cite{LegendreSobolevComp, OnlineStrokeModeling}.
+
+    \end{enumerate}
+
+
+% \newpage
+    \item \textbf{Análisis estructural}
+
+Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
+\begin{figure}[h]
+ \centering
+ \includegraphics[bb=0 5 276 104]{imagen/layout_trees.pdf}
+ \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
+ \label{fig:layout_trees}
+\end{figure}
+
+Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
+
+
+
+\item \textbf{Extracción de contenido matemático}
+
+El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
+
+
+\end{enumerate}
+
+
+\subsection*{Objetivos específicos}
+\noindent
+Como hemos indicado anteriormente, existe una variedad importante de dispositivos electrónicos en los que se puede usar un lápiz. Sin embargo, todavía no hay una aplicación sobresaliente para tales dispositivos. El usuario ve al stylus como un mouse sofisticado.
+
+Vemos en la matemática una aplicación que puede cambiar el estado actual. No sólo escribir en matemática sino también trabajar con expresiones, ya que actualmente existen poderosos sistemas de cálculo simbólico, como Maple \cite{Maple}.
+
+Una obvia motivación es el hecho de que escribir matemática en una computadora es problemático. Por ejemplo, la expresión:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[bb=0 10 142 25]{imagen/formula.pdf}
+\end{figure}
+
+\noindent
+es más natural que escribir en \LaTeX:
+\vspace*{-1ex}
+\begin{footnotesize}\begin{verbatim}
+                    \int {\frac { \left( 3\,{x}^{2}+2 \right)
+                                  \sin \left( {x}^{3}+2\,x-1 \right) }
+                                { \cos \left( {x}^{3}+2\,x-1 \right) }
+                         } ~ dx
+\end{verbatim}\end{footnotesize}
+
+
+En Mathematical Handwriting Recognition hay un número de desafíos a sortear. A nivel de entrada, el reconocimiento de símbolos matemáticos es considerablemente más complicado que reconocer texto normal. A nivel de construcción de fórmulas válidas, el texto por naturaleza es unidimensional pero expresiones matemáticas son bidimensionales, haciendo difícil determinar una línea de referencia (\textit{baseline}) apropiada; sin mencionar el problema de textos ambiguos. A nivel del renderizado y edición de fórmulas matemáticas, está el problema de la interacción con el humano pues el stylus es un dispositivo nuevo. A nivel de símbolos, existen muchos que son similares y no existe un alfabeto pequeño como lo tiene un lenguaje natural.
+
+El campo es amplio y complejo con lo cuál, en el tiempo de duración de este proyecto, solo se podrá profundizar en una porción de él. Por el momento, se dejará de lado la interacción con algún motor matemático externo. Se desea focalizar el esfuerzo en las etapas de Feature Extraction y Clasificación. También se espera lograr un componente de software libre que permita el reconocimiento de ciertas símbolos matemáticos más usados, para lo cual se elegirá un conjunto pequeño para comenzar, de tal manera que se logre escribir fórmulas básicas.
+
+\vspace*{-1ex}
+\section*{Metodología y Plan de Trabajo}
+
+\vspace*{-1ex}
+\subsubsection*{Etapa I - Prototipo}
+\vspace*{-1ex}
+\noindent
+En una primera etapa, se pretende un prototipo funcional, con la utilización de algoritmos básicos de Feature Extraction y clasificación; es decir, algoritmos generales y posiblemente ya implementados. La idea es hacer uso de dicho prototipo para ir ajustando los resultados de las siguientes etapas. No se pretende mucha exactitud en los resultados, hasta conseguir un método de comparación de dichos algoritmos.
+
+Para la evaluación se usarán bases de datos disponibles, como las de dígitos manuscritos \textit{MNIST} \cite{MNIST} y \textit{UNIPEN} \cite{UNIPEN}, o \textit{LaViola} \cite{LaViola} que además contiene algunos símbolos matemáticos. Se utilizará el \textit{Cluster} ubicado en el \textit{CCT-Rosario} para el entrenamiento y la ejecución de los tests.
+
+En cuanto a la implementación, se considerará el uso de \cite{OpenCV}, biblioteca gráfica; y también de \textit{LipiTk} \cite{LipiTk, LipiTk:web}, un toolkit para Handwriting Recognition. Se intentará, en lo posible, hacerlo \textit{portable} ya que se pretende desarrollarlo para PC y para un e-Reader (Irex dr800sg) que posee un SDK (Software Development Kit). Se programará en~\texttt{C/C++}.
+
+En esta etapa, se concentrará la atención en el reconocimiento de símbolos matemáticos individuales, fuera de su contexto; es decir, sin semántica. El esfuerzo se centrará en el desarrollo de un marco de trabajo.
+
+
+\vspace*{-2ex}
+\subsubsection*{Etapa II}
+\vspace*{-1ex}
+\noindent
+Una vez finalizada la etapa anterior, se puede avanzar a una etapa de investigación y evaluación de nuevos algoritmos para cada una de las fases del sistema de reconocimiento. Algunos temas a tocar:
+\vspace*{-0.5ex}
+\begin{itemize}
+ \item Algoritmos particulares para Mathematical Handwriting Recognition de Feature Extration. Considerar el uso de series de Legendre-Sobolev \cite{OnlineStrokeModeling} para la representación analítica de los strokes. Se usará esta representación para derivar más características de los strokes.
+
+ \item Utilización de SVM (Support Vector Machine) \cite{SVM, SVM2} para la clasificación. Se considerará el uso de la implementación dada en \cite{SVMLight}.
+
+ \item Ampliación del diccionario. A pesar de que existen bases de datos de números y letras, no se encuentran muchas sobre símbolos matemáticos en general. La ampliación se hará sobre el conjunto de símbolos elegido previamente.
+
+ \item Considerar el entrenamiento para una persona individual, es decir, hacer el programa writer-dependent, para aumentar la precisión.
+
+ \item Semántica. Estudiar la incorporación de contexto, considerando la posición de cada caracter en la fórmula y así lograr una mayor predicción.
+
+\end{itemize}
+
+\subsubsection*{Cronograma}
+{%
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\renewcommand\arraystretch{1.5}% (MyValue=1.0 is for standard spacing)
+\begin{center}
+%     \resizebox{8cm}{!}{
+        \begin{tabular}{|l|c|c|c|c|c|c|r|}
+        \hline
+        \hline
+        \mc{1}{|c|}{Tareas}   & 1 & 2 & 3 & 4 & 5 & 6 &\mc{1}{|c|}{Grupo de Trabajo} \\
+        \hline
+        I. Prototipo          & \full & \threequarter &               &               & \quarter      & \quarter  & Ambos grupos \\
+        \hline
+        II. Feature Extration \hspace*{1cm} &    & \quarter      & \half         & \half         &               &           & \hspace*{1cm} Juan Carlos Gómez \\
+        \hline
+        III. Clasificación    &       &               & \quarter      & \half         & \half         &           & Pablo Granitto \\
+        \hline
+        IV. Semántica         &       &               &               &               & \quarter      & \half     & Ambos grupos \\
+        \hline
+        V. Informes           &       &               & \quarter      &               &               & \quarter  & Ambos grupos \\
+        \hline
+        \hline
+        \end{tabular}
+%     }
+\end{center}
+}%
+
+\noindent
+Las tareas están separadas en bimestres, y los relojes indican el tiempo estimado que se le dedicará a cada tarea.
+
+
+% {%
+% \newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+% \renewcommand\arraystretch{1.3}% (MyValue=1.0 is for standard spacing)
+% \begin{center}
+% %     \resizebox{8cm}{!}{
+%         \begin{tabular}{|l|r|r|}
+%         \hline
+%         \mc{1}{|c|}{Etapa} & \mc{1}{|c|}{Tiempo estimado} & \mc{1}{|c|}{Grupo de Trabajo}\\
+%         \hline
+%         I. Prototipo & $4$ meses & Ambos\\
+%         \hline
+%         II. Feature Extration & $3\,\frac{1}{2}$ meses & Juan Carlos Gomez\\
+%         \hline
+%         III. Clasificación y Data Mining & $3\,\frac{1}{2}$ meses & Pablo Granitto \\
+%         \hline
+%         IV. Semántica & $1$ meses & Ambos \\
+%         \hline
+%         \end{tabular}
+% %     }
+% \end{center}
+% }%
+
+\subsubsection*{Disponibilidades}
+\noindent
+El grupo de Procesamiento de Señales Multimedia cuenta con los elementos necesarios para el desarrollo del trabajo: sala de trabajo, computadora, conexión a Internet, servicio de la Biblioteca Electrónica de Ciencia y Tecnología del MINCyT. Uso del material de la biblioteca del CIFASIS y la escuela de Ingeniería Electrónica. Disponibilidad del Cluster del CCT-Rosario.
+
+
+\bibliography{bibliografia} % indica el archivo de bibliografía
+\bibliographystyle{pablo}   % indica el estilo de la bibliografía.
+                            % Otros estilos (en orden de pref.): unsrt, alpha, plain, abbrv
+
+\end{document}
