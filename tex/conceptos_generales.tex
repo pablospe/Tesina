@@ -1,8 +1,6 @@
-\section{Introducción}
-
-\subsection*{Motivación}
+\section{Conceptos Generales}
 \noindent
-Poder escribir en dispositivos electrónicos es factible actualmente, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y las pantallas táctiles. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones más allá del teclado y mouse. En la figura \ref{tabletas}, puede apreciarse una variedad de dispositivos que permiten la escritura con lápiz.
+Actualmente es posible escribir en dispositivos electrónicos, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y las pantallas táctiles. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones más allá del teclado y mouse. En la figura \ref{tabletas}, puede apreciarse una variedad de dispositivos que permiten la escritura con lápiz.
 \begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.70]{imagen/tabletas.pdf}
@@ -65,7 +63,7 @@ El reconocimiento tiene 3 etapas:
 
     \item \textit{Extracción de características (Feature extraction)}
 
-    En este paso se extraen características (feature) de los trazos. Hay varios tipos de features: los relativos a apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones; los relativos al estilo de escritura, como la dirección y cantidad de strokes.
+    En este paso se extraen características (feature) de los trazos. Hay varios tipos de features: los relativos a la apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones; los relativos al estilo de escritura, como la dirección y cantidad de strokes.
 
     Estos features son usados como criterio para podar el árbol de modelos, dejando una cantidad pequeña de clases a examinar, incrementando la performance del reconocimiento. Por ejemplo, en el caso de escribir ``$\ell$'' o ``$\alpha$'', solo se considerarán los modelos que contienen un único loop.
 
