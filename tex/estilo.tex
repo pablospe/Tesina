@@ -8,33 +8,50 @@
 %
 %  Simple faz
 %
-% \pagestyle{fancy}
-% \fancyhf{}                   % Borrar todos los ajustes
+\pagestyle{fancy}
+\fancyhf{}                   % Borrar todos los ajustes
+\fancyfoot[C]{\thepage}
 % \fancyhead[RO,RE]{\scshape{\thepage}}  % Números de página en las esquinas de los encabezados
-% \renewcommand{\sectionmark}[1]{
-%     \fancyhead[LO]{\thesection.\ \scshape{#1}}
-%     \fancyhead[LE]{\thesection.\ \scshape{#1}}
-% }
-% \renewcommand{\subsectionmark}[1]{
-%     \fancyhead[LE]{\thesubsection.\ \scshape{#1}}
-% }
+\renewcommand{\sectionmark}[1]{
+    \fancyhead[RO]{\begin{footnotesize}\thesection.\ \scshape{#1}\end{footnotesize}}
+    \fancyhead[RE]{\begin{footnotesize}\thesection.\ \scshape{#1}\end{footnotesize}}
+    \renewcommand{\headrulewidth}{0.1pt}
+}
+\renewcommand{\subsectionmark}[1]{
+    \fancyhead[RE]{\begin{footnotesize}\thesubsection.\ \scshape{#1}\end{footnotesize}}
+}
 
 
 %
 %  Doble faz
 %
-\pagestyle{fancy}
-\fancyhf{}                   % Borrar todos los ajustes
-\fancyhead[RO,LE]{\begin{small}\thepage\end{small}}  % Números de página en las esquinas de los encabezados
-\renewcommand{\sectionmark}[1]{
-    \fancyhead[LO]{\begin{small}\thesection.\ \scshape{#1}\end{small}}
-    \fancyhead[RE]{\begin{small}\thesection.\ \scshape{#1}\end{small}}
-}
-\renewcommand{\subsectionmark}[1]{
-    \fancyhead[RE]{\begin{small}\thesubsection.\ \scshape{#1}                   \end{small}}
-}
+% \pagestyle{fancy}
+% \fancyhf{}                   % Borrar todos los ajustes
+% \fancyfoot[C]{\thepage}
+% % \fancyhead[RO,LE]{\begin{small}\thepage\end{small}}  % Números de página en las esquinas de los encabezados
+% \renewcommand{\sectionmark}[1]{
+%     \fancyhead[RO]{\begin{footnotesize}\thesection.\ \scshape{#1}\end{footnotesize}}
+%     \fancyhead[LE]{\begin{footnotesize}\thesection.\ \scshape{#1}\end{footnotesize}}
+%     \renewcommand{\headrulewidth}{0.1pt}
+% }
+% \renewcommand{\subsectionmark}[1]{
+%     \fancyhead[RE]{\begin{footnotesize}\thesubsection.\ \scshape{#1}                   \end{footnotesize}}
+% }
 
 
 %% Para los perzonalizar itemize
 \renewcommand{\labelitemi}{$\bullet$}
 \renewcommand{\labelitemii}{$\ast$}
+
+
+% % A more convenient way to stop floats at section boundaries is to change
+% % the definition of "\section" to include "\FloatBarrier", at the beginning
+% \let\oldsection\section
+% \renewcommand{\section}{\FloatBarrier\oldsection}
+
+
+% % Util para ser impreso. Hace que las secciones comiencen desde una página impar
+% % similar a \cleardoublepage
+% \let\oldsection\section
+% \renewcommand{\section}{\cleartoevenpage\oldsection}
+

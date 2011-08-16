@@ -3,10 +3,17 @@
 \makeindex
 
 \begin{document}
-    \input{tex/estilo}
+    \pagestyle{headings}
     \input{tex/titulo.tex}
 %     \input{tex/prefacio.tex}
+    \include{tex/indice}
+
+    \input{tex/estilo}
+
+    \pagestyle{fancy}
+    
     \input{tex/intro.tex}
+    
     
 %     \thispagestyle{empty}
 % 
@@ -53,11 +60,11 @@ Poder escribir en dispositivos electrónicos es factible actualmente, sobre todo 
 
 % \subsubsection*{On-line vs Off-line}
 \noindent
-A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de trazos de una curva. Es decir, se posee más información que sólo los puntos, también el orden en que cada uno de ellos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}. La utilización de un stylus en un dispositivo electrónico permite usar el enfoque online.
+A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de trazos de una curva. Se posee, además de los puntos, el orden en que cada uno de ellos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}. La utilización de un stylus en un dispositivo electrónico permite usar el enfoque online.
 
-\begin{figure}[h!]
+\begin{figure}[!htbp]
  \centering
- \includegraphics[scale=0.85, bb=0 0 308 92]{imagen/off|on-line.pdf}
+ \includegraphics[scale=0.85]{imagen/off|on-line.pdf}
  \caption{Reconocimiento Offline y Online.}
  \label{fig:off|on-line}
 \end{figure}
@@ -74,9 +81,9 @@ En el análisis de Handwriting para contenido matemático se reconocen 4 etapas, c
  \item \textbf{Colección de trazos}
 
 Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}.
-\begin{figure}[h!]
+\begin{figure}[!htbp]
  \centering
- \includegraphics[bb=0 20 212 80]{imagen/single|multi-stroke.pdf}
+ \includegraphics{imagen/single|multi-stroke.pdf}
  \caption{Izquierda y centro caracter Single-Stroke. Derecha Multi-Stroke.}
  \label{fig:single|multi-stroke}
 \end{figure}
@@ -90,9 +97,9 @@ El reconocimiento tiene 3 etapas:
 
     El preprocesado primero elimina el ruido frecuentemente presente al principio y final de cada trazo. Luego, se normaliza por \textit{resampling} y \textit{resizing}. Resampling ayuda a unificar distancias entre los puntos, y resizing asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.
 
-    \begin{figure}[h!]
+    \begin{figure}[!htbp]
     \centering
-    \includegraphics[bb=0 0 120 58]{imagen/preprocesing.pdf}
+    \includegraphics{imagen/preprocesing.pdf}
     \label{fig:preprocesing}
     \caption{(a) Suavizado y resizing, (b) luego resampling }
     \end{figure}
@@ -116,9 +123,9 @@ El reconocimiento tiene 3 etapas:
     \item \textbf{Análisis estructural}
 
 Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
-\begin{figure}[h]
+\begin{figure}[!htbp]
  \centering
- \includegraphics[bb=0 5 276 104]{imagen/layout_trees.pdf}
+ \includegraphics{imagen/layout_trees.pdf}
  \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
  \label{fig:layout_trees}
 \end{figure}
@@ -142,9 +149,9 @@ Como hemos indicado anteriormente, existe una variedad importante de dispositivo
 Vemos en la matemática una aplicación que puede cambiar el estado actual. No sólo escribir en matemática sino también trabajar con expresiones, ya que actualmente existen poderosos sistemas de cálculo simbólico, como Maple \cite{Maple}.
 
 Una obvia motivación es el hecho de que escribir matemática en una computadora es problemático. Por ejemplo, la expresión:
-\begin{figure}[h!]
+\begin{figure}[!htbp]
     \centering
-    \includegraphics[bb=0 10 142 25]{imagen/formula.pdf}
+    \includegraphics{imagen/formula.pdf}
 \end{figure}
 
 \noindent

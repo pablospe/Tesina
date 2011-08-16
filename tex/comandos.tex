@@ -40,66 +40,17 @@
 
 
 
-% Circulos chicos: un cuarto, mitad, trescuartos y completo.
-% \newcommand{\quarter}{
-%                     \begin{tikzpicture}
-%                     \fill[black] (0,0.11) arc (90:-90:0.1cm) ;
-%                     \filldraw[white] [rotate=-90] (0,0.11) arc (90:-90:0.1cm);
-%                     \draw (0,0) circle (0.1cm);
-%                     \end{tikzpicture}
-%                     }
-% 
-% \newcommand{\half}{
-%                     \begin{tikzpicture}
-%                     \draw (0,0) circle (0.1cm);
-%                     \fill[black] (0,0.11) arc (90:-90:0.1cm) ;
-%                     \end{tikzpicture}
-%                    }
-% 
-% \newcommand{\threequarter}{
-%                     \begin{tikzpicture}
-%                     \fill[black] (0,0.10) arc (90:-90:0.1cm);
-%                     \filldraw[black] [rotate=-90] (0,0.10) arc (90:-90:0.1cm);
-%                     \draw (0,0) circle (0.1cm);
-%                     \end{tikzpicture}
-%                    }
-% 
-% 
-% \newcommand{\full}{
-%                     \begin{tikzpicture}
-%                     \fill[black] (0,0.10) arc (180:-180:0.1cm);
-%                     \end{tikzpicture}
-%                      }
+
+\newcommand{\cleartoevenpage}{%   Similar a \cleardoublepage
+    \clearpage
+    \ifodd\thepage
+        \newpage
+    \else
+        \newpage
+        ~ \\
+        \newpage
+    \fi
+}
 
 
 
-% Circulos grandes
-\newcommand{\quarter}{
-                    \begin{tikzpicture}
-                    \fill[black] (0,0.16) arc (90:-90:0.9ex);
-                    \filldraw[white] [rotate=-90] (0,0.16) arc (90:-90:0.9ex);
-                    \draw (0,0) circle (1ex);
-                    \end{tikzpicture}
-                    }
-
-\newcommand{\half}{
-                    \begin{tikzpicture}
-                    \fill[black] (0,0.165) arc (90:-90:0.9ex) ;
-                    \draw (0,0) circle (1ex);
-                    \end{tikzpicture}
-                   }
-
-\newcommand{\threequarter}{
-                    \begin{tikzpicture}
-                    \fill[black] (0,0.165) arc (90:-90:0.9ex) ;
-                    \filldraw[black] [rotate=-90] (0,0.16) arc (90:-90:0.9ex) ;
-                    \draw (0,0) circle (1ex);
-                    \end{tikzpicture}
-                        }
-
-
-\newcommand{\full}{
-                    \begin{tikzpicture}
-                    \filldraw[black] [rotate=-90] (0,0.18) arc (180:-180:1ex) ;
-                    \end{tikzpicture}
-                     }

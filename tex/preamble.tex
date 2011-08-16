@@ -32,7 +32,7 @@
 
 \usepackage{graphicx}
 \usepackage{color}       % Para el color de las fuentes
-\usepackage{lettrine}    % Letra capital
+% \usepackage{lettrine}    % Letra capital
 \usepackage{enumerate}   % Entorno enumerate mejorado
 \usepackage{mdwlist}     % Entorno descripcion mejorado
 \usepackage[amsthm,hyperref,thref]{ntheorem}
@@ -54,3 +54,8 @@
 \usepackage{pgf}
 \usepackage{wrapfig}
 
+\usepackage{placeins}   % Placeins.sty keeps floats "in their place", preventing them from floating past
+                        % a "\FloatBarrier" command into another section. To use it, declare
+                        % "\usepackage{placeins}" and insert "\FloatBarrier" at places that floats
+                        % should not move past, perhaps at every "\section" (en "command.tex")
+                        
