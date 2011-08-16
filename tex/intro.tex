@@ -1,7 +1,101 @@
 \section{Introducción}
 
-blabla
+\subsection*{Motivación}
+\noindent
+Poder escribir en dispositivos electrónicos es factible actualmente, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y las pantallas táctiles. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones más allá del teclado y mouse. En la figura \ref{tabletas}, puede apreciarse una variedad de dispositivos que permiten la escritura con lápiz.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics[scale=0.70]{imagen/tabletas.pdf}
+ \caption{Tabletas}
+ \label{tabletas}
+\end{figure}
 
-bla\footnote{asdfasdf}
 
-b\footnote{asdfasdf}
+\vspace*{-1ex}
+\subsection*{Online vs Offline Recognition}
+\label{Fundamentos}
+
+% \subsubsection*{On-line vs Off-line}
+\noindent
+A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de trazos. Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics[scale=0.85]{imagen/off|on-line.pdf}
+ \caption{Offline vs Online.}
+ \label{fig:off|on-line}
+\end{figure}
+
+Como puede verse, se posee el orden en que cada uno de los puntos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. . La utilización de un stylus en un dispositivo electrónico permite usar el enfoque online.
+
+
+
+\subsubsection*{Handwriting recognition}
+\noindent
+En el análisis de Handwriting para contenido matemático se reconocen 4 etapas, como se destaca en \cite{CommunicatingMathematics}:
+% colección de trazos (digital ink), reconocimiento de caracteres, análisis estructural y determinación de semántica.
+
+\begin{enumerate}[A.]
+
+ \item \textbf{Colección de trazos}
+
+Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics{imagen/single|multi-stroke.pdf}
+ \caption{Izquierda y centro caracter Single-Stroke. Derecha Multi-Stroke.}
+ \label{fig:single|multi-stroke}
+\end{figure}
+
+
+ \item \textbf{Reconocimiento de caracteres}
+
+El reconocimiento tiene 3 etapas:
+    \begin{enumerate}[1.]
+    \item \textit{Preproceso}
+
+    El preprocesado primero elimina el ruido frecuentemente presente al principio y final de cada trazo. Luego, se normaliza por \textit{resampling} y \textit{resizing}. Resampling ayuda a unificar distancias entre los puntos, y resizing asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.
+
+    \begin{figure}[!htbp]
+    \centering
+    \includegraphics{imagen/preprocesing.pdf}
+    \label{fig:preprocesing}
+    \caption{(a) Suavizado y resizing, (b) luego resampling }
+    \end{figure}
+
+
+    \item \textit{Extracción de características (Feature extraction)}
+
+    En este paso se extraen características (feature) de los trazos. Hay varios tipos de features: los relativos a apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones; los relativos al estilo de escritura, como la dirección y cantidad de strokes.
+
+    Estos features son usados como criterio para podar el árbol de modelos, dejando una cantidad pequeña de clases a examinar, incrementando la performance del reconocimiento. Por ejemplo, en el caso de escribir ``$\ell$'' o ``$\alpha$'', solo se considerarán los modelos que contienen un único loop.
+
+
+    \item \textit{Matching}
+
+    La etapa final del reconocimiento es el matching de la entrada con los modelos en una base de datos. Después de que los features podaron el árbol de modelos, es necesario lidiar con solo una fracción de la colección. Se pueden citar algoritmos como \textit{Elastic Matching} \cite{ElasticMatching} o \textit{Legendre-Sobolev} \cite{LegendreSobolevComp, OnlineStrokeModeling}.
+
+    \end{enumerate}
+
+
+% \newpage
+    \item \textbf{Análisis estructural}
+
+Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics{imagen/layout_trees.pdf}
+ \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
+ \label{fig:layout_trees}
+\end{figure}
+
+Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
+
+
+
+\item \textbf{Extracción de contenido matemático}
+
+El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
+
+
+\end{enumerate}
+
