@@ -1,4 +1,7 @@
 \section{Conceptos Generales}
+
+
+\subsection*{Motivación}
 \noindent
 Actualmente es posible escribir en dispositivos electrónicos, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y las pantallas táctiles. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones más allá del teclado y mouse. En la figura \ref{tabletas}, puede apreciarse una variedad de dispositivos que permiten la escritura con lápiz.
 \begin{figure}[!htbp]
@@ -8,14 +11,16 @@ Actualmente es posible escribir en dispositivos electrónicos, sobre todo con la 
  \label{tabletas}
 \end{figure}
 
+A pesar de que exista una variedad importante de tales dispositivos, todavía no hay una aplicación sobresaliente para ellos. El usuario ve al stylus como un mouse sofisticado, sin que se logre una mejora significativa en la productividad al no explotar la potencialidad del mismo. Un buen sistema de handwriting recognition podría permitir al usuario una mejor experiencia con respecto al papel y lápiz tradicional, permitiéndole obtener resultados inmediatos a partir de su escritura, como ser resultados matemáticos.
+
 
 \vspace*{-1ex}
-\subsection*{Online vs Offline Recognition}
+\subsection*{Reconocimiento Online vs Offline}
 \label{Fundamentos}
 
 % \subsubsection*{On-line vs Off-line}
 \noindent
-A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de trazos. Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
+A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de secuencias de puntos, que aquí llamaremos trazos (\textit{strokes}). Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
 \begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.85]{imagen/off|on-line.pdf}
@@ -23,16 +28,20 @@ A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pr
  \label{fig:off|on-line}
 \end{figure}
 
-Como puede verse, se posee el orden en que cada uno de los puntos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. . La utilización de un stylus en un dispositivo electrónico permite usar el enfoque online.
+Como puede verse, se posee el orden en que cada uno de los puntos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. La utilización de un stylus en un dispositivo electrónico permite usar el enfoque Online.
 
 
-
-\subsubsection*{Handwriting recognition}
+\subsection*{Segmentación}
 \noindent
-En el análisis de Handwriting para contenido matemático se reconocen 4 etapas, como se destaca en \cite{CommunicatingMathematics}:
-% colección de trazos (digital ink), reconocimiento de caracteres, análisis estructural y determinación de semántica.
 
-\begin{enumerate}[A.]
+
+
+\subsection*{Posibles etapas}
+\noindent
+En el análisis de handwriting recognition pueden reconocerse las siguientes etapas:
+% , como en parte se destaca en \cite{CommunicatingMathematics}:
+
+\begin{enumerate}[1.]
 
  \item \textbf{Colección de trazos}
 
@@ -40,39 +49,35 @@ Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con m
 \begin{figure}[!htbp]
  \centering
  \includegraphics{imagen/single|multi-stroke.pdf}
- \caption{Izquierda y centro caracter Single-Stroke. Derecha Multi-Stroke.}
+ \caption{Los dos primeros trazos son Single-Stroke, y el último es Multi-Stroke.}
  \label{fig:single|multi-stroke}
 \end{figure}
 
 
- \item \textbf{Reconocimiento de caracteres}
+ \item \textbf{Preproceso}
 
-El reconocimiento tiene 3 etapas:
-    \begin{enumerate}[1.]
-    \item \textit{Preproceso}
-
-    El preprocesado primero elimina el ruido frecuentemente presente al principio y final de cada trazo. Luego, se normaliza por \textit{resampling} y \textit{resizing}. Resampling ayuda a unificar distancias entre los puntos, y resizing asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.
+    En el preprocesado pueden aplicarse diferentes filtros. El \textit{suavizado} elimina el ruido frecuentemente presente al principio y final de cada trazo. La normalización por \textit{resampling}\footnote{\textit{Resampling} ayuda a unificar distancias entre los puntos.} y \textit{resizing}\footnote{\textit{Resizing} asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.}. En la figura \ref{fig:preprocesing} puede observarse una posible secuencia de aplicación de filtros.
 
     \begin{figure}[!htbp]
     \centering
     \includegraphics{imagen/preprocesing.pdf}
-    \label{fig:preprocesing}
     \caption{(a) Suavizado y resizing, (b) luego resampling }
+    \label{fig:preprocesing}
     \end{figure}
 
 
-    \item \textit{Extracción de características (Feature extraction)}
+ \item \textbf{Extracción de características (\textit{Feature extraction})}
 
-    En este paso se extraen características (feature) de los trazos. Hay varios tipos de features: los relativos a la apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones; los relativos al estilo de escritura, como la dirección y cantidad de strokes.
-
-    Estos features son usados como criterio para podar el árbol de modelos, dejando una cantidad pequeña de clases a examinar, incrementando la performance del reconocimiento. Por ejemplo, en el caso de escribir ``$\ell$'' o ``$\alpha$'', solo se considerarán los modelos que contienen un único loop.
+    En este paso se extraen características (\textit{features}) de los trazos. Hay varios tipos de features que se han usado tradicionalmente: los relativos a la apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones, centro de gravedad, puntos dominantes; los relativos al estilo de escritura, como la dirección y cantidad de strokes. Se posterga para la sección~\ref{feature_extraction} la explicación de los features utilizados en este trabajo.
 
 
-    \item \textit{Matching}
+ \item \textit{Entrenamiento (o Training)}
 
-    La etapa final del reconocimiento es el matching de la entrada con los modelos en una base de datos. Después de que los features podaron el árbol de modelos, es necesario lidiar con solo una fracción de la colección. Se pueden citar algoritmos como \textit{Elastic Matching} \cite{ElasticMatching} o \textit{Legendre-Sobolev} \cite{LegendreSobolevComp, OnlineStrokeModeling}.
 
-    \end{enumerate}
+ \item \textit{Reconocimiento  (o Matching)}
+
+    La etapa es el matching de la entrada con los modelos en una base de datos. Después de que los features podaron el árbol de modelos, es necesario lidiar con solo una fracción de la colección. Se pueden citar algoritmos como \textit{Elastic Matching} \cite{ElasticMatching} o \textit{Legendre-Sobolev} \cite{LegendreSobolevComp, OnlineStrokeModeling}.
+
 
 
 % \newpage
