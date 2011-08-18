@@ -1,8 +1,23 @@
 \section{Conceptos Generales}
 
+En esta sección se describirán las partes esenciales del campo permitiendo así aclarar en dónde se centrará este trabajo. También se comentará brevemente las etapas que intervienen en el proceso de reconocimiento de escritura (\textit{handwriting recognition}\footnote{Muchos términos utilizados aquí se dejan intencionalmente en inglés, facilitando la búsqueda de contenido de tales términos.}).
+% que tiene un sistema de reconocimiento de escritura.
 
-\subsection*{Motivación}
-\noindent
+
+% En esta sección describir las partes esenciales del campo y reducirlo para 
+% ubicar al lector para que pueda entender en que parte del campo se trabajó.
+
+% se intenta reducir el campo de handwriting recognition de manera que se pueda apreciar en qué parte del campo se está trabajando. También se describen las etapas en las cuáles se debe profundizar.
+
+% se centralizará
+% para centrarlo en un subdominio 
+
+% focalizará
+% reducirá
+
+
+\subsection{Motivación}
+% \noindent
 Actualmente es posible escribir en dispositivos electrónicos, sobre todo con la llegada de las Tablet PC, pizarras eléctricas, celulares touch-screen y las pantallas táctiles. También cabe destacar algunos e-Readers que permiten la escritura, convirtiéndose en \textit{papel electrónico}. La escritura se realiza generalmente con un \textit{stylus} (lápiz), abriendo la puerta a nuevas interacciones más allá del teclado y mouse. En la figura \ref{tabletas}, puede apreciarse una variedad de dispositivos que permiten la escritura con lápiz.
 \begin{figure}[!htbp]
  \centering
@@ -11,16 +26,16 @@ Actualmente es posible escribir en dispositivos electrónicos, sobre todo con la 
  \label{tabletas}
 \end{figure}
 
-A pesar de que exista una variedad importante de tales dispositivos, todavía no hay una aplicación sobresaliente para ellos. El usuario ve al stylus como un mouse sofisticado, sin que se logre una mejora significativa en la productividad al no explotar la potencialidad del mismo. Un buen sistema de handwriting recognition podría permitir al usuario una mejor experiencia con respecto al papel y lápiz tradicional, permitiéndole obtener resultados inmediatos a partir de su escritura, como ser resultados matemáticos.
+A pesar de que exista una variedad importante de tales dispositivos, todavía no hay una aplicación sobresaliente de reconocimiento para ellos. El usuario ve al \textit{stylus} como un mouse sofisticado, sin que se logre una mejora significativa en la productividad al no explotar la potencialidad del mismo. Un buen sistema de \textit{handwriting recognition} podría permitir al usuario una mejor experiencia con respecto al papel y lápiz tradicional, permitiéndole obtener resultados inmediatos a partir de su escritura, como ser resultados matemáticos.
 
 
 \vspace*{-1ex}
-\subsection*{Reconocimiento Online vs Offline}
+\subsection{Reconocimiento Online vs Offline}
 \label{Fundamentos}
 
-% \subsubsection*{On-line vs Off-line}
-\noindent
-A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de secuencias de puntos, que aquí llamaremos trazos (\textit{strokes}). Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
+% \subsubsection{On-line vs Off-line}
+% \noindent
+A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pretende reconocer caracteres a partir de una imagen, el enfoque \textit{Online} intenta el reconocimiento a partir de secuencias de puntos, aquí llamados trazos (\textit{strokes}). Ambos enfoques están esquemáticamente representados en la figura \ref{fig:off|on-line}.
 \begin{figure}[!htbp]
  \centering
  \includegraphics[scale=0.85]{imagen/off|on-line.pdf}
@@ -31,21 +46,28 @@ A diferencia del enfoque \textit{Offline} de handwriting recognition, el cual pr
 Como puede verse, se posee el orden en que cada uno de los puntos fue escrito. Así, es posible diferenciar distintos estilos de escrituras, a pesar de que el resultado final puede que sea el mismo. La utilización de un stylus en un dispositivo electrónico permite usar el enfoque Online.
 
 
-\subsection*{Segmentación}
+\subsection{Segmentación}
+\label{segmentation}
+% \noindent
+Se asume que la escritura está en imprenta y los símbolos están bien distanciados entre sí. Según la figura \ref{fig:segmentation}, nuestra hipótesis es la utilización del nivel 2 de segmentación en la construcción de la base de datos. Las demás formas de escritura requieren de un trabajo adicional de segmentación que no entra en el alcance de este trabajo.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics[scale=0.75]{imagen/segmentation.pdf}
+ \caption{Niveles de dificultad en segmentación \cite{Connell00onlinehandwriting}.}
+ \label{fig:segmentation}
+\end{figure}
+
+
+
+\subsection{Etapas de reconocimiento de escritura}
 \noindent
-
-
-
-\subsection*{Posibles etapas}
-\noindent
-En el análisis de handwriting recognition pueden reconocerse las siguientes etapas:
+En el análisis \textit{handwriting recognition} pueden reconocerse las siguientes posibles etapas:
 % , como en parte se destaca en \cite{CommunicatingMathematics}:
 
 \begin{enumerate}[1.]
 
- \item \textbf{Colección de trazos}
-
-Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}.
+ \item \textbf{Colección de trazos:}
+Un símbolo\footnote{Se usa el término \textit{símbolo} en vez de \textit{caracter} pues puede ser un dígito, una letra o un símbolo matemático.} puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}. Observar que esta etapa depende de la segmentación asumida, ver sección~\ref{segmentation}.
 \begin{figure}[!htbp]
  \centering
  \includegraphics{imagen/single|multi-stroke.pdf}
@@ -54,51 +76,34 @@ Un caracter puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con m
 \end{figure}
 
 
- \item \textbf{Preproceso}
-
-    En el preprocesado pueden aplicarse diferentes filtros. El \textit{suavizado} elimina el ruido frecuentemente presente al principio y final de cada trazo. La normalización por \textit{resampling}\footnote{\textit{Resampling} ayuda a unificar distancias entre los puntos.} y \textit{resizing}\footnote{\textit{Resizing} asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento.}. En la figura \ref{fig:preprocesing} puede observarse una posible secuencia de aplicación de filtros.
+ \item \textbf{Preproceso:}
+    En el preprocesado pueden aplicarse diferentes tipos de filtros. El \textit{suavizado} elimina el ruido frecuentemente presente al principio y final de cada trazo. La normalización por \textit{resampling} ayuda a unificar distancias entre los puntos, y la normalización por \textit{resizing} asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento. En la figura \ref{fig:preprocesing} puede observarse una posible secuencia de aplicación de filtros.
 
     \begin{figure}[!htbp]
     \centering
     \includegraphics{imagen/preprocesing.pdf}
-    \caption{(a) Suavizado y resizing, (b) luego resampling }
+    \caption{\texttt{(a)} Suavizado y Resizing, \texttt{(b)} Resampling }
     \label{fig:preprocesing}
     \end{figure}
 
 
- \item \textbf{Extracción de características (\textit{Feature extraction})}
-
-    En este paso se extraen características (\textit{features}) de los trazos. Hay varios tipos de features que se han usado tradicionalmente: los relativos a la apariencia que incluye, por ejemplo, proporción entre la altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones, centro de gravedad, puntos dominantes; los relativos al estilo de escritura, como la dirección y cantidad de strokes. Se posterga para la sección~\ref{feature_extraction} la explicación de los features utilizados en este trabajo.
-
-
- \item \textit{Entrenamiento (o Training)}
+ \item \textbf{Extracción de características (\textit{Feature extraction}):}
+    En este paso se extraen características (\textit{features}) de los trazos. Hay varios tipos de features que se han usado tradicionalmente: los relativos a la apariencia que incluye, por ejemplo, proporción entre altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones, centro de gravedad, puntos dominantes; los relativos al estilo de escritura, como la dirección y cantidad de strokes. Se posterga para la sección~\ref{feature_extraction} la explicación de los features utilizados en este trabajo.
 
 
- \item \textit{Reconocimiento  (o Matching)}
-
-    La etapa es el matching de la entrada con los modelos en una base de datos. Después de que los features podaron el árbol de modelos, es necesario lidiar con solo una fracción de la colección. Se pueden citar algoritmos como \textit{Elastic Matching} \cite{ElasticMatching} o \textit{Legendre-Sobolev} \cite{LegendreSobolevComp, OnlineStrokeModeling}.
-
-
-
-% \newpage
-    \item \textbf{Análisis estructural}
-
-Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
-\begin{figure}[!htbp]
- \centering
- \includegraphics{imagen/layout_trees.pdf}
- \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
- \label{fig:layout_trees}
-\end{figure}
-
-Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
+ \item \textbf{Entrenamiento (\textit{Training}):}
+    Se requiere tener una base de datos de modelos con el cuál contrastar el símbolo actual de entrada. Se realiza por una única vez en los algoritmos que permiten entrenamiento.
+%     Y si se quiere pensarlo así, realmente esta etapa no es parte del reconocimiento de la entrada actual en sí.
 
 
-
-\item \textbf{Extracción de contenido matemático}
-
-El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
-
+ \item \textbf{Reconocimiento o Estimación (\textit{Matching}): }
+    Aquí se intenta estimar, para la entrada actual, cuál modelo es el más ``similar'', sobre la base de datos disponible que sirvió de entrenamiento. Es decir, se clasifica a la nueva entrada determinando a qué clase pertenece. Pueden considerarse múltiples estimaciones, por ejemplo, dar las mejores tres estimaciones; pero en este trabajo solo se considera la primera (\textit{first match}).
 
 \end{enumerate}
+
+
+\subsection{Dependiente o independiente del usuario}
+    Un sistema de \textit{handwriting recognition} puede ser dividido en: dependiente del usuario (\textit{writer-dependient}) o independiente del usuario (\textit{writer-independient}). Un sistema \textit{writer-independient} es entrenado para reconocer una gran variedad de estilos de escritura, mientras que un sistema \textit{writer-dependient} es entrenado para reconocer a un único individuo. Un sistema \textit{writer-dependient} trabaja con datos con poca variabilidad, y entonces puede alcanzar mejores resultado, el único problema es que exige al usuario tomarse el tiempo para entrenar el sistema.
+
+    En este trabajo se puede utilizar ambos enfoques, dependiendo solo de la base de datos utilizada.
 

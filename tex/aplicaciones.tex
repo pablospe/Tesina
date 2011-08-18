@@ -1,3 +1,23 @@
+\textbf{Análisis estructural}
+
+Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
+\begin{figure}[!htbp]
+ \centering
+ \includegraphics{imagen/layout_trees.pdf}
+ \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
+ \label{fig:layout_trees}
+\end{figure}
+
+Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
+
+
+
+\textbf{Extracción de contenido matemático}
+
+El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
+
+
+
 
 \subsection*{Trabajos Futuros}
 \noindent
