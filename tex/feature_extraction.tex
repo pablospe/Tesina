@@ -1,2 +1,9 @@
 \section{Feature extraction}
 \label{feature_extraction}
+
+Las técnicas usuales para \textit{handwriting recognition} tratan de encontrar \textit{features} particulares sobre un conjunto de símbolos, citemos por ejemplo los dígitos. Pero al cambiar dicho conjunto, estos features dejan de ser efectivos, no discriminan correctamente. Entonces, se vuelve impráctico desarrollar heurísticas para reconocer features específicos para cada símbolo.
+% Sobre todo si se tiene en cuenta que símbolos matemáticos pueden ser inventados o agregados en la marcha.
+Por lo que es deseable buscar una representación que permita ser aplicada sin importar el símbolo que se trate; ya sea un dígito, una letra o un símbolo matemático.
+
+Unos de los mayores problemas con los métodos de reconocimientos tradicionales es que los trazos son tratados como secuencias de puntos (disceto), en vez de verlos como lo que realmente son, curvas (continuo).
+% son pensados como una secuencia de puntos. El problema con ésto es que no se lo están tratando como lo que realmente son, curvas.

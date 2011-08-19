@@ -4,13 +4,13 @@ En esta sección se describirán las partes esenciales del campo permitiendo así a
 % que tiene un sistema de reconocimiento de escritura.
 
 
-% En esta sección describir las partes esenciales del campo y reducirlo para 
+% En esta sección describir las partes esenciales del campo y reducirlo para
 % ubicar al lector para que pueda entender en que parte del campo se trabajó.
 
 % se intenta reducir el campo de handwriting recognition de manera que se pueda apreciar en qué parte del campo se está trabajando. También se describen las etapas en las cuáles se debe profundizar.
 
 % se centralizará
-% para centrarlo en un subdominio 
+% para centrarlo en un subdominio
 
 % focalizará
 % reducirá
@@ -59,14 +59,13 @@ Se asume que la escritura está en imprenta y los símbolos están bien distanciado
 
 
 
-\subsection{Etapas de reconocimiento de escritura}
+\subsection{Etapas del Reconocimiento de Escritura}
 \noindent
 En el análisis \textit{handwriting recognition} pueden reconocerse las siguientes posibles etapas:
 % , como en parte se destaca en \cite{CommunicatingMathematics}:
 
-\begin{enumerate}[1.]
 
- \item \textbf{Colección de trazos:}
+\subsubsection{Colección de trazos}
 Un símbolo\footnote{Se usa el término \textit{símbolo} en vez de \textit{caracter} pues puede ser un dígito, una letra o un símbolo matemático.} puede ser escrito con un sólo trazo (\textit{Single-Stroke}) o con muchos (\textit{Multi-Stroke}), ver figura \ref{fig:single|multi-stroke}. El problema de determinar qué trazos pertenecen a qué caracteres es llamado \textit{Stroke grouping}. Observar que esta etapa depende de la segmentación asumida, ver sección~\ref{segmentation}.
 \begin{figure}[!htbp]
  \centering
@@ -76,7 +75,7 @@ Un símbolo\footnote{Se usa el término \textit{símbolo} en vez de \textit{caracte
 \end{figure}
 
 
- \item \textbf{Preproceso:}
+ \subsubsection{Preproceso}
     En el preprocesado pueden aplicarse diferentes tipos de filtros. El \textit{suavizado} elimina el ruido frecuentemente presente al principio y final de cada trazo. La normalización por \textit{resampling} ayuda a unificar distancias entre los puntos, y la normalización por \textit{resizing} asegura que el tamaño del caracter escrito no afecte al resultado del reconocimiento. En la figura \ref{fig:preprocesing} puede observarse una posible secuencia de aplicación de filtros.
 
     \begin{figure}[!htbp]
@@ -87,19 +86,18 @@ Un símbolo\footnote{Se usa el término \textit{símbolo} en vez de \textit{caracte
     \end{figure}
 
 
- \item \textbf{Extracción de características (\textit{Feature extraction}):}
+ \subsubsection{Extracción de características (\textit{Feature extraction})}
     En este paso se extraen características (\textit{features}) de los trazos. Hay varios tipos de features que se han usado tradicionalmente: los relativos a la apariencia que incluye, por ejemplo, proporción entre altura y ancho; los relativos a propiedades geométricas, como ser la cantidad de loops e intersecciones, centro de gravedad, puntos dominantes; los relativos al estilo de escritura, como la dirección y cantidad de strokes. Se posterga para la sección~\ref{feature_extraction} la explicación de los features utilizados en este trabajo.
 
 
- \item \textbf{Entrenamiento (\textit{Training}):}
+ \subsubsection{Entrenamiento (\textit{Training})}
     Se requiere tener una base de datos de modelos con el cuál contrastar el símbolo actual de entrada. Se realiza por una única vez en los algoritmos que permiten entrenamiento.
 %     Y si se quiere pensarlo así, realmente esta etapa no es parte del reconocimiento de la entrada actual en sí.
 
 
- \item \textbf{Reconocimiento o Estimación (\textit{Matching}): }
+ \subsubsection{Reconocimiento o Estimación (\textit{Matching})}
     Aquí se intenta estimar, para la entrada actual, cuál modelo es el más ``similar'', sobre la base de datos disponible que sirvió de entrenamiento. Es decir, se clasifica a la nueva entrada determinando a qué clase pertenece. Pueden considerarse múltiples estimaciones, por ejemplo, dar las mejores tres estimaciones; pero en este trabajo solo se considera la primera (\textit{first match}).
 
-\end{enumerate}
 
 
 \subsection{Dependiente o independiente del usuario}
