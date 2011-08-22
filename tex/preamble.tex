@@ -2,7 +2,7 @@
 
 \documentclass[11pt,spanish,a4paper,twoside]{article}
 
-\usepackage[spanish,activeacute]{babel}
+\usepackage[spanish,activeacute,es-noindentfirst]{babel}   % es-noindentfirst: no activa la sangría del primer párrafo tras un título
 \usepackage{amssymb,amsfonts}
 \usepackage{amsmath}             %  Para las fórmula matemáticas
 \usepackage[latin1]{inputenc}    %  Permite escribir los acentos
@@ -39,23 +39,21 @@
 %\usepackage{paralist}
 
 
-
 \parskip 0.15cm          % Queda mejor pero mas paginas
 
 \input{tex/hyperref}     % Hiperreferencias
 
 \usepackage{url}
 
-\usepackage{longtable}
-\usepackage{supertabular}
+% \usepackage{longtable}
+% \usepackage{supertabular}
 
 
-\usepackage{tikz}
-\usepackage{pgf}
-\usepackage{wrapfig}
+% \usepackage{tikz}
+% \usepackage{pgf}
+% \usepackage{wrapfig}
 
-\usepackage{placeins}   % Placeins.sty keeps floats "in their place", preventing them from floating past
+% \usepackage{placeins}   % Placeins.sty keeps floats "in their place", preventing them from floating past
                         % a "\FloatBarrier" command into another section. To use it, declare
                         % "\usepackage{placeins}" and insert "\FloatBarrier" at places that floats
                         % should not move past, perhaps at every "\section" (en "command.tex")
-                        

@@ -1,9 +1,124 @@
 \section{Feature extraction}
 \label{feature_extraction}
 
-Las técnicas usuales para \textit{handwriting recognition} tratan de encontrar \textit{features} particulares sobre un conjunto de símbolos, citemos por ejemplo los dígitos. Pero al cambiar dicho conjunto, estos features dejan de ser efectivos, no discriminan correctamente. Entonces, se vuelve impráctico desarrollar heurísticas para reconocer features específicos para cada símbolo.
+Las técnicas usuales para \textit{handwriting recognition} tratan de encontrar \textit{features} particulares sobre un conjunto de símbolos, citemos por ejemplo los dígitos. Pero al cambiar dicho conjunto, estos features dejan de ser efectivos, no discriminan correctamente. Se vuelve impráctico desarrollar heurísticas para reconocer features específicos para cada símbolo.
 % Sobre todo si se tiene en cuenta que símbolos matemáticos pueden ser inventados o agregados en la marcha.
-Por lo que es deseable buscar una representación que permita ser aplicada sin importar el símbolo que se trate; ya sea un dígito, una letra o un símbolo matemático.
+Por lo que es deseable buscar una representación que permita ser aplicada sin importar qué tipo de símbolo se trate; ya sea un dígito, una letra o un símbolo matemático.
 
-Unos de los mayores problemas con los métodos de reconocimientos tradicionales es que los trazos son tratados como secuencias de puntos (disceto), en vez de verlos como lo que realmente son, curvas (continuo).
+Unos de los mayores problemas con los métodos de reconocimientos tradicionales es que los trazos son tratados como secuencias de puntos (en \textit{discreto}), en vez de verlos como lo que realmente son, curvas (en \textit{continuo}).
 % son pensados como una secuencia de puntos. El problema con ésto es que no se lo están tratando como lo que realmente son, curvas.
+
+\subsection{Trazos discretos como curvas continuas}
+\label{Trazos_como_curvas_continuas}
+
+En vez de describir a los trazos como una secuencia de puntos, éstos pueden ser representados por aproximaciones de curvas, figura~\ref{fig:trazos_vs_curvas}. Se mostrará que se necesitan menos de vein\-tes~($20$) coeficientes de una serie para representar un trazo.
+% \vspace*{-0.1cm}
+    \begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale=0.4]{imagen/trazos_como_curva.pdf}
+%     \includegraphics[scale=0.23]{imagen/x_e_y_en_t.pdf}
+    \caption{Trazos como curvas paramétricas: $r(t) = \{x(t),y(t)\}$ }
+    \label{fig:trazos_vs_curvas}
+    \end{figure}
+
+\vspace*{-0.2cm}
+\noindent
+Observar que se necesitan aproximar dos curvas: $x(t)$, $y(t)$ por símbolos, figura~\ref{fig:x_e_y_en_t}.
+% \vspace*{-0.15cm}
+    \begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale=0.29]{imagen/x_e_y_en_t.pdf}
+    \caption{En \textcolor{red}{rojo} las aproximaciones de $x(t)$, $y(t)$}
+    \label{fig:x_e_y_en_t}
+    \end{figure}
+
+\vspace*{-0.2cm}
+\noindent
+Trabajos anteriores \cite{Succinct} han demostrado cómo las coordenadas $x(t)$, $y(t)$ de símbolos escritos a mano pueden ser representados como expansión en series de polinomios ortogonales de \textit{Chebyshev}; y que los coeficientes de las series truncadas además de ser las aproximaciones buscadas, pueden ser usados para clasificación y reconocimiento.
+
+De manera similar, en este trabajo se utiliza un número finito de \textit{\textbf{momentos matemáticos}} para la reconstrucción de funciones (las curvas) como series truncadas de polinomios ortogonales de \textit{\textbf{Legendre}}, siguiendo las ideas presentadas en los artículos \cite{Moments} y \cite{OnlineModeling}. Este problema es conocido como \textit{\textbf{Hausdorff Moment Problem}} \cite{HausdorffMomentProblem}. Una alternativa a este método para la obtención de las aproximaciones a las curvas (es decir, los coeficientes de las series truncadas) es utilizar \textit{aproximación por \textbf{mínimos cuadrados}} a través de la \textit{\textbf{pseudo-inversa} de Moore-Penrose}, permitiendo este enfoque utilizar polinomios ortogonales arbitrarios, en particular polinomios de \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
+
+% usar diferentes tipos de polinomios ortogonales, en particular \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
+
+
+En lo siguiente se irán introduciendo algunos conceptos para finalmente llegar a la explicación de qué son los features, y cómo obtenerlos.
+
+
+% \subsection{Preliminares}
+
+% % Se presentarán algunos temas que se usarán a lo largo del trabajo.
+
+% \subsubsection{Producto interno}
+% \subsection{Series de funciones ortogonales}
+%
+% Se dice que una familia de funciones $\{B_i\}$ es ortonormal respecto al producto interno $\langle\,\cdot\,,\,\cdot\,\rangle$ con peso $w(t)$ en el dominio $[a,b]$ si
+% \begin{align}
+% \label{eq:relacion_ortonormalidad}
+%  \langle B_i, B_j \rangle & \doteq \int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt = \delta_{ij} =
+%         \left\{
+%             \begin{array}{ll}
+%                 1 & \mbox{si } i = j \\
+%                 0 & \mbox{si } i \neq j
+%             \end{array}
+%         \right.
+% \end{align}
+%
+% \noindent
+% Si además $\{B_i\}$ es una base,
+% %$L^2[a,b]$,
+% una función $f$ definida en el dominio $[a,b]$ puede ser escrita como
+% \[ f(t) = \sum_{i=0}^{\infty}{\alpha}_{i}\,{B}_{i}(t) \]
+% Al efectuar el producto interno con $B_i$ en ambos lados de la ecuación se obtiene:
+% \begin{align}
+% \langle f, B_i \rangle & =   \left\langle \sum_{i=0}^{\infty}{\alpha}_{i}\,{B}_{i}(t), B_i \right\rangle
+%                          =   \sum_{i=0}^{\infty} {\alpha}_{i} \langle {B}_{i}(t), B_i \rangle
+%                          =   \sum_{i=0}^{\infty} {\alpha}_{i} \delta_{ij}
+%                          =   {\alpha}_{i}
+% \end{align}
+%
+% \noindent
+% Al truncar la serie a un cierto orden $d$ (\textit{degree}) se obtiene una aproximación de f, es decir,
+% \begin{align*}
+% f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t)
+% %      & =  \sum_{i=0}^{d}\langle f, B_i \rangle\,{B}_{i}(t)
+% \end{align*}
+
+% \subsubsection{Proceso de ortogonalización de Gram-Schmidt}
+\subsection{Representación con series}
+Como se expresó en la sección \ref{Trazos_como_curvas_continuas} se desea aproximar las funciones $x(t), y(t)$ de los trazos truncando las series,
+\[
+\left\{
+\begin{array}{rcl}
+% \begin{equation}
+% \begin{split}
+x(t) & \approx & \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t) \\
+y(t) & \approx & \sum_{i=0}^{d}{\beta}_{i}\,{B}_{i}(t)
+% \end{split}
+% \end{equation}
+\end{array}
+\right.
+\]
+
+\noindent
+Clasificación puede ser obtenida, por ejemplo, al medir la distancia Euclidiana de los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ entre los distintos trazos.
+
+Consideraremos como \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)$. En lo siguiente, se mostrará dos formas de calcularlos y, en secciones posteriores, resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa a los trazos.
+
+% Se mostrará dos formas de calcularlos, una por medio de momentos matemáticos (sección \ref{HausdorffMomentProblem}) y otra a través aproximación por mínimo cuadrados usando la pseudo-inversa (sección \ref{leastSquare}), y resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa los trazos.
+
+
+
+
+\subsection{Momentos}
+% \label{Momentos}
+
+\subsection{Hausdorff Moment Problem}
+% \label{HausdorffMomentProblem}
+
+
+\subsubsection{Cálculos numéricos de los momentos}
+
+
+\subsection{Aproximación por mínimos cuadrados}
+\label{leastSquare}
+
