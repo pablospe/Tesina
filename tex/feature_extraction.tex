@@ -72,6 +72,8 @@ Consideraremos \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)
 \subsection{Momentos}
 \label{Momentos}
 
+Una posible forma de calcular los $\{\alpha_i\}$ y $\{\beta_i\}$ es mediante momentos, como se explicará a continuación.
+
 \subsubsection{Definición}
 Los momentos matemáticos de una función $f$ definida en $[0,1]$ son
 \begin{align}
@@ -88,14 +90,14 @@ Este problema consiste en recuperar a partir de una secuencia finita de  momento
 
 Con el fin de facilitar el desarrollo, recordaremos algunas definiciones y ecuaciones previas.
 %de la reconstrucción de funciones mediante momentos.
-Se supondrá que el dominio es $[0,1]$, y que la función peso es $w(t)=1$ para poder trabajar con los polinomios de \textit{Legendre} (sección \ref{legendre}). Por lo que el producto interno en \refEQ{def:inner_product} queda
+Se supondrá que el dominio es $[0,1]$, y que la función peso es $w(t)=1$ para poder trabajar con los polinomios de \textit{Legendre} (shifted), sección \ref{legendre}. Por lo que el producto interno en~\refEQ{def:inner_product} queda
 \begin{align}
 \label{eq:inner_product_2}
  \langle f, g \rangle & = \int_{0}^{1}f(t)\,g(t)\,dt
 \end{align}
 Escribamos nuevamente la ecuación \refEQ{eq:legendre},
 \begin{align*}
-L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,x^j }
+L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,t^j }
 \end{align*}
 y también la ecuación \refEQ{eq:aprox}, pero con el reemplazo de ${B}_{i}$ por ${L}_{i}$,
 \begin{align*}
@@ -117,9 +119,9 @@ Ahora, a partir de \vspace*{-0.4cm}
  = \quad &   \quad \langle \text{~ expansión del producto interno}~\refEQ{eq:inner_product_2} ~ \rangle  \\
    &   \int_{0}^{1}f(t)\,L_i(t)\,dt \\
  = \quad &   \quad \langle \text{~ definición de $L_i(t)$, ecuación}~\refEQ{eq:legendre} ~ \rangle  \\
-   &   \int_{0}^{1}f(t)\, \left( \sum_{j=0}^{i}{ C_{ij}\,x^j } \right) \,dt \\
+   &   \int_{0}^{1}f(t)\, \left( \sum_{j=0}^{i}{ C_{ij}\,t^j } \right) \,dt \\
  = \quad &   \quad \langle \text{~ reordenación de términos, sumatoria afuera} ~ \rangle  \\
-   &   \sum_{j=0}^{i}{ C_{ij}\,\underbrace{\left( \int_{0}^{1}f(t)\,x^j\,dt \right)}_{\mu_j} } \\
+   &   \sum_{j=0}^{i}{ C_{ij}\,\underbrace{\left( \int_{0}^{1}f(t)\,t^j\,dt \right)}_{\mu_j} } \\
  = \quad &   \quad \langle \text{~ definición de momento}~\refEQ{eq:momentos} ~ \rangle  \\
    &   \sum_{j=0}^{i}{ C_{ij}\,\mu_j}
 \end{align*}
@@ -159,8 +161,8 @@ Resumiendo,
 donde $\mathbf{C}$ es la matriz de coeficientes de los polinomios de Legendre, y $\mathbf{\mu}$ un vector columna con los momentos matemáticos de la función a reconstruir. De esta manera, se tiene que el cálculo de~$\mathbf{\alpha}$, los coeficientes de la expansión finita por series de la función~$f$, se realiza a partir de una multiplicación matricial en la que intervienen los momentos.
 
 
-\subsection{Cálculo numérico de los momentos}
-Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser precalcula con la fórmula~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante darse cuenta que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
+% \subsection{Cálculo de los momentos}
+Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser \textbf{precalcula} con la fórmula cerrada~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante darse cuenta que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
 
 
 \subsubsection{Momentos para funciones definidas en otros dominios}
@@ -178,7 +180,7 @@ Obsérvese que si se define,
 \begin{align}
 \gamma  & \doteq \frac{1}{\ell}\,\lambda  \quad \Longrightarrow \quad \lambda \in [0,\ell] \Leftrightarrow \gamma \in [0,1]  \hspace*{7ex}
 \end{align}
-entonces definamos,
+también definamos,
 \begin{align}
 \label{eq:f_hat}
 \hat{f}(\gamma) & \doteq f(\ell\,\gamma)  \hspace*{18ex} % = f(\lambda)
@@ -215,12 +217,20 @@ Por lo tanto, se utilizarán los momentos generalizados de la función~$f$ origina
 
 
 
-% \subsubsection{Cálculo numérico de los momentos}
-% Se asume que muestras de $f$ irán recibiendo en tiempo real.
-% que las funciones que se aproximan
+\subsubsection{Cálculo numérico de los momentos}
+Se asume que muestras de $f$ se irán recibiendo en tiempo real.
+
+que las funciones que se aproximan
 
 
 
-% \subsection{Aproximación por mínimos cuadrados}
+\subsection{Pseudo-inversa de Moore-Penrose}
 \label{leastSquare}
 
+
+\subsection{Parametrización por longitud de arco}
+
+\subsection{Invariantes}
+\subsubsection{Invariante a la escala}
+\subsubsection{Invariante a la traslación}
+\subsubsection{Invariante a la velocidad de escritura}
