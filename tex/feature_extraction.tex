@@ -41,51 +41,11 @@ De manera similar, en este trabajo se utiliza un número finito de \textit{\textb
 % usar diferentes tipos de polinomios ortogonales, en particular \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
 
 
-En lo siguiente se irán introduciendo algunos conceptos para finalmente llegar a la explicación de qué son los features, y cómo obtenerlos.
+% En lo siguiente se irán introduciendo algunos conceptos para finalmente llegar a la explicación de qué son los features, y cómo obtenerlos.
 
 
-% \subsection{Preliminares}
-
-% % Se presentarán algunos temas que se usarán a lo largo del trabajo.
-
-% \subsubsection{Producto interno}
-% \subsection{Series de funciones ortogonales}
-%
-% Se dice que una familia de funciones $\{B_i\}$ es ortonormal respecto al producto interno $\langle\,\cdot\,,\,\cdot\,\rangle$ con peso $w(t)$ en el dominio $[a,b]$ si
-% \begin{align}
-% \label{eq:relacion_ortonormalidad}
-%  \langle B_i, B_j \rangle & \doteq \int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt = \delta_{ij} =
-%         \left\{
-%             \begin{array}{ll}
-%                 1 & \mbox{si } i = j \\
-%                 0 & \mbox{si } i \neq j
-%             \end{array}
-%         \right.
-% \end{align}
-%
-% \noindent
-% Si además $\{B_i\}$ es una base,
-% %$L^2[a,b]$,
-% una función $f$ definida en el dominio $[a,b]$ puede ser escrita como
-% \[ f(t) = \sum_{i=0}^{\infty}{\alpha}_{i}\,{B}_{i}(t) \]
-% Al efectuar el producto interno con $B_i$ en ambos lados de la ecuación se obtiene:
-% \begin{align}
-% \langle f, B_i \rangle & =   \left\langle \sum_{i=0}^{\infty}{\alpha}_{i}\,{B}_{i}(t), B_i \right\rangle
-%                          =   \sum_{i=0}^{\infty} {\alpha}_{i} \langle {B}_{i}(t), B_i \rangle
-%                          =   \sum_{i=0}^{\infty} {\alpha}_{i} \delta_{ij}
-%                          =   {\alpha}_{i}
-% \end{align}
-%
-% \noindent
-% Al truncar la serie a un cierto orden $d$ (\textit{degree}) se obtiene una aproximación de f, es decir,
-% \begin{align*}
-% f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t)
-% %      & =  \sum_{i=0}^{d}\langle f, B_i \rangle\,{B}_{i}(t)
-% \end{align*}
-
-% \subsubsection{Proceso de ortogonalización de Gram-Schmidt}
 \subsection{Representación con series}
-Como se expresó en la sección \ref{Trazos_como_curvas_continuas} se desea aproximar las funciones $x(t), y(t)$ de los trazos truncando las series,
+Se desea entonces aproximar las funciones $x(t), y(t)$ de los trazos. Como se indicó en la sección~\ref{Series_de_funciones_ortogonales}, ésto puede hacerse como expansión de series de polinomios ortogonales; según la ecuación~(\ref{eq:alpha_inner_prod}),
 \[
 \left\{
 \begin{array}{rcl}
@@ -99,10 +59,10 @@ y(t) & \approx & \sum_{i=0}^{d}{\beta}_{i}\,{B}_{i}(t)
 \right.
 \]
 
-\noindent
+% \noindent
 Clasificación puede ser obtenida, por ejemplo, al medir la distancia Euclidiana de los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ entre los distintos trazos.
 
-Consideraremos como \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)$. En lo siguiente, se mostrará dos formas de calcularlos y, en secciones posteriores, resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa a los trazos.
+Consideraremos \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)$. En lo siguiente, se mostrará dos formas de calcularlos y, en secciones posteriores, resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa a los trazos.
 
 % Se mostrará dos formas de calcularlos, una por medio de momentos matemáticos (sección \ref{HausdorffMomentProblem}) y otra a través aproximación por mínimo cuadrados usando la pseudo-inversa (sección \ref{leastSquare}), y resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa los trazos.
 
@@ -110,10 +70,65 @@ Consideraremos como \textbf{features} a estos vectores que tienen dimensión $2\:
 
 
 \subsection{Momentos}
-% \label{Momentos}
+\label{Momentos}
 
-\subsection{Hausdorff Moment Problem}
-% \label{HausdorffMomentProblem}
+\subsubsection{Definición}
+Los momentos matemáticos de una función $f$ definida en $[0,1]$ son
+\begin{align}
+\label{eq:momentos}
+\mu_{k} & \doteq \int_{0}^{1}{f(\lambda)\,\lambda^k\,d\lambda}
+\end{align}
+
+% \ell
+
+
+\subsubsection{Hausdorff Moment Problem}
+\label{HausdorffMomentProblem}
+Este problema consiste en recuperar a partir de una secuencia finita de  momentos $\{\mu_k\}_{k=0,1,2,...}$ una función $f$ en el dominio $[0,1]$.
+% Ver \cite{Moments} para un desarrollo más teórico del problema.
+% Aquí se presenta una explicación simplificada.
+
+Con el fin de facilitar el desarrollo, recordaremos algunas definiciones y ecuaciones previas.
+%de la reconstrucción de funciones mediante momentos.
+Se supondrá que el dominio es $[0,1]$, y que la función peso es $w(t)=1$ para poder trabajar con los polinomios de \textit{Legendre}. Por lo que el producto interno en \refEQ{def:inner_product} queda
+\begin{align}
+\label{eq:inner_product_2}
+ \langle f, g \rangle & = \int_{0}^{1}f(t)\,g(t)\,dt
+\end{align}
+Escribamos nuevamente la ecuación \refEQ{eq:legendre}
+\begin{align}
+\label{eq:legendre2}
+L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,x^j }
+\end{align}
+y también la ecuación \refEQ{eq:aprox}, pero ésta reemplazando ${B}_{i}$ por ${L}_{i}$
+\begin{align*}
+f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(t)
+\end{align*}
+Ahora, a partir de \vspace*{-0.4cm}
+% \refEQ{eq:alpha_inner_prod}
+% \begin{align*}
+% {\alpha}_{i} & = \langle f, L_i \rangle
+% \end{align*}
+% & =  \quad \langle \rangle  \\
+% & =  \quad \langle \rangle  \\
+% & =  \quad \langle \rangle  \\
+% & =  \quad \langle \rangle  \\
+\begin{align*}
+\hspace*{4cm}  & {\alpha}_{i}  \\
+ = \quad &   \quad \langle \text{~ por}~\refEQ{eq:alpha_inner_prod} ~ \rangle  \\
+   &   \langle f, L_i \rangle \\
+ = \quad &   \quad \langle \text{~ expansión del producto interno}~\refEQ{eq:inner_product_2} ~ \rangle  \\
+   &   \int_{0}^{1}f(t)\,L_i(t)\,dt \\
+ = \quad &   \quad \langle \text{~ definición de $L_i(t)$, ecuación}~\refEQ{eq:legendre} ~ \rangle  \\
+   &   \int_{0}^{1}f(t)\, \left( \sum_{j=0}^{i}{ C_{ij}\,x^j } \right) \,dt \\
+ = \quad &   \quad \langle \text{~ reordenación de términos, sumatoria afuera} ~ \rangle  \\
+   &   \sum_{j=0}^{i}{ C_{ij}\,\underbrace{\left( \int_{0}^{1}f(t)\,x^j\,dt \right)}_{\mu_j} } \\
+ = \quad &   \quad \langle \text{~ definición de momento}~\refEQ{eq:momentos} ~ \rangle  \\
+   &   \sum_{j=0}^{i}{ C_{ij}\,\mu_j} \\
+ = \quad &   \quad \langle \text{~ escrito matricialmente}~ \rangle  \\
+   &   \mathbf{C\,\mu}
+\end{align*}
+
 
 
 \subsubsection{Cálculos numéricos de los momentos}

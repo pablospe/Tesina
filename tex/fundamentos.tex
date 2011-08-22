@@ -84,11 +84,11 @@ los polinomios son \textit{\textbf{ortonormales}}. Es decir, están normalizados:
 \subsubsection{Polinomios de Legendre}
 % Son polinomios ortogonales definidos en $[-1,1]$. Se sabe que el grado de $L_i$ es exactamente $i$,  entonces pueden escribirse como
 
-Si tomamos como función peso $w(t)=1$ en la definición (\ref{def:inner_product}) de producto interno, es decir,
+Si tomamos como función peso $w(t)=1$ en la definición \refEQ{def:inner_product} de producto interno, es decir,
 \begin{align*}
  \langle L_i, L_j \rangle & = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t)\,w(t)\,dt = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t)\,dt
 \end{align*}
-se pueden generar los polinomios de Legendre $\{L_i\}$ con el proceso de ortogonalización de Gram-Schmidt en el intervalo $[-1,1]$. Normalizando de tal manera que $L_n(1)=1$ da los polinomios de Legendre esperados. Algunos de ellos:
+se pueden generar los polinomios de Legendre $\{L_i\}$ con el proceso de ortogonalización de Gram-Schmidt \refEQ{eq:Gram-Schmidt} en el intervalo $[-1,1]$. Normalizando de tal manera que $L_n(1)=1$ da los polinomios de Legendre esperados. Algunos de ellos:
 \begin{align*}
 L_0(t) &= 1 \\[1ex]
 L_1(t) &= t \\
@@ -134,9 +134,9 @@ Pueden verse los primeros diez polinomios de Legendre gráficamente en la figura~
 
 
 \subsection{Series de funciones ortogonales}
-
+\label{Series_de_funciones_ortogonales}
 \noindent
-Si $\{B_i\}$ es una base de polinomios ortonormales respecto al producto interno (\ref{def:inner_product}),
+Si $\{B_i\}$ es una base de polinomios ortonormales respecto al producto interno \refEQ{def:inner_product},
 %$L^2[a,b]$,
 una función continua~$f$ en el dominio $[a,b]$ puede ser escrita como
 \[ f(t) = \sum_{i=0}^{\infty}{\alpha}_{i}\,{B}_{i}(t) \]
@@ -147,27 +147,16 @@ Al aplicar el producto interno con $B_i$ en ambos lados de la ecuación anterior 
                          =   \sum_{i=0}^{\infty} {\alpha}_{i} \delta_{ij}
                          =   {\alpha}_{i}
 \end{align*}
-% Reescribiendo,
-% \begin{align}
-% \label{eq:alpha_inner_prod}
-% {\alpha}_{i} & = \langle f, B_i \rangle
-% \end{align}
+Reescribiendo,
+\begin{align}
+\label{eq:alpha_inner_prod}
+{\alpha}_{i} & = \langle f, B_i \rangle
+\end{align}
 \noindent
 Entonces, se puede obtener una aproximación a $f(t)$ al truncar la serie en un cierto orden $d$,
 \begin{align}
-\begin{split}
-\label{eq:alpha_inner_prod}
-f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t) \\
+% \begin{split}
+\label{eq:aprox}
+f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t)
 %      & =  \sum_{i=0}^{d}\langle f, B_i \rangle\,{B}_{i}(t)
-{\alpha}_{i} & = \langle f, B_i \rangle
-\end{split}
 \end{align}
-
-\subsection{Momentos}
-\label{Momentos}
-
-Los momentos matemáticos de una función $f$ definida en $[a,b]$ se definen como,
-\begin{align}
-\mu_{k} = \int_{a}^{b}{f(\lambda)\,\lambda^k\,d\lambda}
-\end{align}
-
