@@ -79,28 +79,25 @@ Los momentos matemáticos de una función $f$ definida en $[0,1]$ son
 \mu_{k} & \doteq \int_{0}^{1}{f(\lambda)\,\lambda^k\,d\lambda}
 \end{align}
 
-% \ell
-
 
 \subsubsection{Hausdorff Moment Problem}
 \label{HausdorffMomentProblem}
 Este problema consiste en recuperar a partir de una secuencia finita de  momentos $\{\mu_k\}_{k=0,1,2,...}$ una función $f$ en el dominio $[0,1]$.
-% Ver \cite{Moments} para un desarrollo más teórico del problema.
+% Para un desarrollo más teórico del problema ver \cite{Moments}.
 % Aquí se presenta una explicación simplificada.
 
 Con el fin de facilitar el desarrollo, recordaremos algunas definiciones y ecuaciones previas.
 %de la reconstrucción de funciones mediante momentos.
-Se supondrá que el dominio es $[0,1]$, y que la función peso es $w(t)=1$ para poder trabajar con los polinomios de \textit{Legendre}. Por lo que el producto interno en \refEQ{def:inner_product} queda
+Se supondrá que el dominio es $[0,1]$, y que la función peso es $w(t)=1$ para poder trabajar con los polinomios de \textit{Legendre} (sección \ref{legendre}). Por lo que el producto interno en \refEQ{def:inner_product} queda
 \begin{align}
 \label{eq:inner_product_2}
  \langle f, g \rangle & = \int_{0}^{1}f(t)\,g(t)\,dt
 \end{align}
-Escribamos nuevamente la ecuación \refEQ{eq:legendre}
-\begin{align}
-\label{eq:legendre2}
+Escribamos nuevamente la ecuación \refEQ{eq:legendre},
+\begin{align*}
 L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,x^j }
-\end{align}
-y también la ecuación \refEQ{eq:aprox}, pero ésta reemplazando ${B}_{i}$ por ${L}_{i}$
+\end{align*}
+y también la ecuación \refEQ{eq:aprox}, pero con el reemplazo de ${B}_{i}$ por ${L}_{i}$,
 \begin{align*}
 f(t) & \approx \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(t)
 \end{align*}
@@ -124,16 +121,106 @@ Ahora, a partir de \vspace*{-0.4cm}
  = \quad &   \quad \langle \text{~ reordenación de términos, sumatoria afuera} ~ \rangle  \\
    &   \sum_{j=0}^{i}{ C_{ij}\,\underbrace{\left( \int_{0}^{1}f(t)\,x^j\,dt \right)}_{\mu_j} } \\
  = \quad &   \quad \langle \text{~ definición de momento}~\refEQ{eq:momentos} ~ \rangle  \\
-   &   \sum_{j=0}^{i}{ C_{ij}\,\mu_j} \\
- = \quad &   \quad \langle \text{~ escrito matricialmente}~ \rangle  \\
-   &   \mathbf{C\,\mu}
+   &   \sum_{j=0}^{i}{ C_{ij}\,\mu_j}
 \end{align*}
 
 
+\noindent
+Se puede escribir en forma matricial
+\begin{align*}
+% alpha vector
+   \begin{bmatrix}
+    \alpha_{0} \\
+    \alpha_{1} \\
+    \vdots \\
+    \alpha_{d}
+   \end{bmatrix}_{(d+1)}
+& =
+% C matrix
+    \begin{bmatrix}
+      C_{00} \\
+      C_{10} & C_{11} \\
+      \vdots & \vdots & \ddots \\
+      C_{d0} & C_{d1} & \dots & C_{dd}
+    \end{bmatrix}_{(d+1)\times(d+1)} \dot ~
+% mu vector
+\begin{bmatrix}
+    \mu_{0} \\
+    \mu_{1} \\
+    \vdots \\
+    \mu_{d}
+   \end{bmatrix}_{(d+1)}
+\end{align*}
+Resumiendo,
+\begin{align}
+\label{eq:HMP}
+   \mathbf{\alpha} & = \mathbf{C\,\mu}
+\end{align}
+donde $\mathbf{C}$ es la matriz de coeficientes de los polinomios de Legendre, y $\mathbf{\mu}$ un vector columna con los momentos matemáticos de la función a reconstruir. De esta manera, se tiene que el cálculo de~$\mathbf{\alpha}$, los coeficientes de la expansión finita por series de la función~$f$, se realiza a partir de una multiplicación matricial en la que intervienen los momentos.
 
-\subsubsection{Cálculos numéricos de los momentos}
+
+\subsection{Cálculo numérico de los momentos}
+Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser precalcula con la fórmula~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante darse cuenta que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
 
 
-\subsection{Aproximación por mínimos cuadrados}
+\subsubsection{Momentos para funciones definidas en otros dominios}
+Generalicemos la definición \refEQ{eq:momentos}, sea $f$ una función definida en $[0,\ell]$ los momentos de~$f$ son
+\begin{align}
+\label{eq:momentos_con_param}
+\mu_{k}(f,\ell) \, & =\int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda} \hspace*{13.5ex}
+\end{align}
+%  $[0,\ell]$
+% sección \ref{legendre}
+
+Al estar los polinomios de Legendre (shifted) definidos en $[0,1]$ es necesario calcular los momentos en ese dominio. Entonces, el problema aquí es cómo calcularlos a partir de una función~$f$ definida en $[0,\ell]$. Ésto se resuelve con un \textbf{cambio de variable} como se verá de inmediato.
+
+Obsérvese que si se define,
+\begin{align}
+\gamma  & \doteq \frac{1}{\ell}\,\lambda  \quad \Longrightarrow \quad \lambda \in [0,\ell] \Leftrightarrow \gamma \in [0,1]  \hspace*{7ex}
+\end{align}
+entonces definamos,
+\begin{align}
+\label{eq:f_hat}
+\hat{f}(\gamma) & \doteq f(\ell\,\gamma)  \hspace*{18ex} % = f(\lambda)
+\end{align}
+
+Ahora, partiendo de la definición \refEQ{eq:momentos_con_param},
+\begin{align*}
+\hspace*{4cm}  \mu_{k}(f,\ell) & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}, \hspace*{7.9ex}
+\begin{footnotesize}
+\text{\textbf{cambio de variable}:}~
+\left\{\hspace*{-1ex}
+            \begin{array}{rl}
+               \lambda  = & \hspace*{-2ex} \ell\,\gamma \\
+               d\lambda = & \hspace*{-2ex} \ell\,d\gamma
+            \end{array}
+\right.
+\end{footnotesize} \\
+& = \int_{0}^{1}{f(\ell\,\gamma)\,(\ell\,\gamma)^k\,\ell\,d\gamma}, \hspace*{2.4ex}
+\begin{footnotesize}\text{reordenando}\end{footnotesize} \\
+& = \ell^{k+1}\int_{0}^{1}{f(\ell\,\gamma)\,\gamma^k\,d\gamma}, \quad
+\begin{footnotesize}\text{por \refEQ{eq:f_hat}}\end{footnotesize} \\
+& = \ell^{k+1}\underbrace{\int_{0}^{1}{\hat{f}(\gamma)\,\gamma^k\,d\gamma}}_{\mu_{k}(\hat{f},1)}, \hspace*{3.3ex}
+\begin{footnotesize}\text{por \refEQ{eq:momentos_con_param}}\end{footnotesize} \\
+& = \ell^{k+1}\,\mu_{k}(\hat{f},1)
+\end{align*}
+obtenemos,
+\begin{align}
+\label{eq:momentos_f_hat}
+\mu_{k}(\hat{f},1)  & = \frac{\mu_{k}(f,\ell)}{\ell^{k+1}} \hspace*{19ex}
+\end{align}
+
+
+Por lo tanto, se utilizarán los momentos generalizados de la función~$f$ original en $[0,\ell]$ para calcular los momentos de la función~$\hat{f}$ en el dominio que se necesitan, es decir, $[0,1]$.
+
+
+
+% \subsubsection{Cálculo numérico de los momentos}
+% Se asume que muestras de $f$ irán recibiendo en tiempo real.
+% que las funciones que se aproximan
+
+
+
+% \subsection{Aproximación por mínimos cuadrados}
 \label{leastSquare}
 
