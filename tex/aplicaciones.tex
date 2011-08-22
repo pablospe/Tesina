@@ -1,55 +1,68 @@
-\textbf{Análisis estructural}
+\section{Posibles Aplicaciones}
 
-Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
-\begin{figure}[!htbp]
- \centering
- \includegraphics{imagen/layout_trees.pdf}
- \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
- \label{fig:layout_trees}
-\end{figure}
-
-Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
-
-
-
-\textbf{Extracción de contenido matemático}
-
-El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
-
-
-
-
-\subsection*{Trabajos Futuros}
-\noindent
-Como hemos indicado anteriormente, existe una variedad importante de dispositivos electrónicos en los que se puede usar un lápiz. Sin embargo, todavía no hay una aplicación sobresaliente para tales dispositivos. El usuario ve al stylus como un mouse sofisticado.
-
-Vemos en la matemática una aplicación que puede cambiar el estado actual. No sólo escribir en matemática sino también trabajar con expresiones, ya que actualmente existen poderosos sistemas de cálculo simbólico, como Maple \cite{Maple}.
-
-Una obvia motivación es el hecho de que escribir matemática en una computadora es problemático. Por ejemplo, la expresión:
-\begin{figure}[!htbp]
+\subsection{Reconocimiento de fórmulas matemáticas}
+\subsection{Reconocimiento de firmas}
+\subsection{Reconocimiento de partituras musicales}
+    \begin{figure}[!htbp]
     \centering
-    \includegraphics{imagen/formula.pdf}
-\end{figure}
+    \includegraphics[scale=0.9]{imagen/Sheet_music.pdf}
+    \caption{Partitura}
+    \label{fig:partitura}
+    \end{figure}
 
-\noindent
-es más natural que escribir en \LaTeX:
-\vspace*{-1ex}
-\begin{footnotesize}\begin{verbatim}
-                    \int {\frac { \left( 3\,{x}^{2}+2 \right)
-                                  \sin \left( {x}^{3}+2\,x-1 \right) }
-                                { \cos \left( {x}^{3}+2\,x-1 \right) }
-                         } ~ dx
-\end{verbatim}\end{footnotesize}
-
-
-En Mathematical Handwriting Recognition hay un número de desafíos a sortear. A nivel de \textbf{símbolos}, existen muchos que son similares y no existe un alfabeto pequeño como lo tiene un lenguaje natural. A nivel de \textbf{entrada}, la segmentación de símbolos matemáticos es considerablemente más complicado que para texto normal. A nivel de construcción de \textbf{fórmulas válidas}, el texto normal por naturaleza es unidimensional pero expresiones matemáticas son bidimensionales, haciendo difícil determinar una línea de referencia (\textit{baseline}) apropiada; puede ser ambiguo. A nivel del \textbf{renderizado}, el dibujado de símbolos matemáticos no es tan trivial como parece. A nivel de \textbf{interacción}, el stylus es un dispositivo nuevo y la interacción hombre-computadora tiene que repensarse para que sea eficaz.
-
-El campo es amplio y complejo...
-
-
-
----------------
-
-En esta etapa, se concentrará la atención en el reconocimiento de símbolos matemáticos individuales, fuera de su contexto; es decir, sin semántica. El esfuerzo se centrará en el desarrollo de un marco de trabajo.
-
-Considerar el entrenamiento para una persona individual, es decir, hacer el programa writer-dependent, para aumentar la precisión.
+%
+% \textbf{Análisis estructural}
+%
+% Como la entrada se espera que sea matemática, además de reconocer cada caracter individual, también se tienen que interpretar su posición y rol en la expresión. Primero, se considera solo la posición relativa de los caracteres, sin determinar su semántica, como se ve en el ejemplo representado en la figura \ref{fig:layout_trees}.
+% \begin{figure}[!htbp]
+%  \centering
+%  \includegraphics{imagen/layout_trees.pdf}
+%  \caption{Representación de la fórmula manuscrita y su correspondiente Layout.}
+%  \label{fig:layout_trees}
+% \end{figure}
+%
+% Luego, se marcan explícitamente decimales, operadores, fracciones, etc. Cada nodo en el árbol es asignado a un rol en la expresión. Se intenta distinguir entre nombres de funciones y de variables, entre multiplicaciones implícitas de aplicación de funciones, etc. %Esta etapa es difícil y requiere semántica profunda.
+%
+%
+%
+% \textbf{Extracción de contenido matemático}
+%
+% El árbol construido después del análisis estructural ya posee semántica y puede ser transformado directamente a \LaTeX~ o MathML \cite{MathML}.
+%
+%
+%
+%
+% \subsection*{Trabajos Futuros}
+% \noindent
+% Como hemos indicado anteriormente, existe una variedad importante de dispositivos electrónicos en los que se puede usar un lápiz. Sin embargo, todavía no hay una aplicación sobresaliente para tales dispositivos. El usuario ve al stylus como un mouse sofisticado.
+%
+% Vemos en la matemática una aplicación que puede cambiar el estado actual. No sólo escribir en matemática sino también trabajar con expresiones, ya que actualmente existen poderosos sistemas de cálculo simbólico, como Maple \cite{Maple}.
+%
+% Una obvia motivación es el hecho de que escribir matemática en una computadora es problemático. Por ejemplo, la expresión:
+% \begin{figure}[!htbp]
+%     \centering
+%     \includegraphics{imagen/formula.pdf}
+% \end{figure}
+%
+% \noindent
+% es más natural que escribir en \LaTeX:
+% \vspace*{-1ex}
+% \begin{footnotesize}\begin{verbatim}
+%                     \int {\frac { \left( 3\,{x}^{2}+2 \right)
+%                                   \sin \left( {x}^{3}+2\,x-1 \right) }
+%                                 { \cos \left( {x}^{3}+2\,x-1 \right) }
+%                          } ~ dx
+% \end{verbatim}\end{footnotesize}
+%
+%
+% En Mathematical Handwriting Recognition hay un número de desafíos a sortear. A nivel de \textbf{símbolos}, existen muchos que son similares y no existe un alfabeto pequeño como lo tiene un lenguaje natural. A nivel de \textbf{entrada}, la segmentación de símbolos matemáticos es considerablemente más complicado que para texto normal. A nivel de construcción de \textbf{fórmulas válidas}, el texto normal por naturaleza es unidimensional pero expresiones matemáticas son bidimensionales, haciendo difícil determinar una línea de referencia (\textit{baseline}) apropiada; puede ser ambiguo. A nivel del \textbf{renderizado}, el dibujado de símbolos matemáticos no es tan trivial como parece. A nivel de \textbf{interacción}, el stylus es un dispositivo nuevo y la interacción hombre-computadora tiene que repensarse para que sea eficaz.
+%
+% El campo es amplio y complejo...
+%
+%
+%
+% ---------------
+%
+% En esta etapa, se concentrará la atención en el reconocimiento de símbolos matemáticos individuales, fuera de su contexto; es decir, sin semántica. El esfuerzo se centrará en el desarrollo de un marco de trabajo.
+%
+% Considerar el entrenamiento para una persona individual, es decir, hacer el programa writer-dependent, para aumentar la precisión.
