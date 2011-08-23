@@ -29,7 +29,7 @@ donde $\omega$ es la normal del hiperplano, $|b|/\|\omega\|$ es la distancia per
 Definiendo \textit{\textbf{margen}} (M) como la suma de las distancias entre este hiperplano y los puntos más cercanos de cada clase, figura~\ref{fig:svm_1}-(b); el hiperplano de separación será óptimo si éste maximiza dicho margen, figura~\ref{fig:svm_1}-(c).
 
 
-\subsection{SVM lineal}
+\subsubsection{SVM lineal}
 Si tenemos un conjunto de entrenamiento $\mathcal{D}$ de la forma,
 \begin{align*}
 \mathcal{D} & = \left\{ (\mathbf{x}_i, y_i)\mid\mathbf{x}_i \in \mathbb{R}^p,\, y_i \in \{-1,1\}\right\}_{i=1}^n
@@ -62,38 +62,26 @@ Idealmente, el modelo basado en SVM debería producir un hiperplano que separe co
     \label{fig:nonsep}
 \end{figure}
 
+En estos casos, son añadidas $\xi_k$ (\textit{slack variables}) en la formulación del problema con el objetivo de relajar las restricciones. Luego, el conjunto de inecuaciones toman la siguiente forma,
+\begin{align*}
+% \label{eq:svm3}
+y_k(\omega^Tx_k-b)\geq1-\xi_k, \hspace{3mm} k=1,...,n .
+\end{align*}
 
 
+La función objetivo es entonces incrementada por una función que penaliza los $\xi_k$ que no son cero. La optimización se vuelve un balance entre tener gran margen y penalización de errores,
+\begin{align*}
+\min_{\mathbf{w},\mathbf{\xi}, b } \left\{\frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{k=1}^n \xi_k \right\}
+\end{align*}
+sujeto a,
+\begin{align*}
+y_k(\omega^Tx_k-b) & \geq1-\xi_k, \hspace{3mm} k=1,...,n .\\
+\xi_k & \ge 0
+\end{align*}
+donce C que controla la compensación entre errores de entrenamiento y los márgenes rígidos, creando así un margen blando (\textit{soft margin}) que permita algunos errores en la clasificación a la vez que los penaliza.
 
-% 
-% 
-% In this case, additional slack variables ($\xi_k$) are introduced in the formulation of the problem in order to relax the constrains in (\ref{eq:svmpos}) and (\ref{eq:svmneg}) only when necessary. Then, the set of inequalities takes the following form
-% \begin{equation} \label{eq:svm3}
-% y_k[\omega^Tx_k+b]\geq1-\xi_k, \hspace{3mm} k=1,...,n .
-% \end{equation}
-% For an error to occur, the corresponding $\xi_k$ must exceed the unity, so $\sum_{k=1}^n\xi_k$ is an upper bound of the number of training errors. Then, changing the objective function to be minimized from $\|\omega\|_2$ to $\|\omega\|_2 + c\sum_{k=1}^n\xi_k$ will assign an extra cost for errors. The parameter $c$ is a penalization term where larger values of $c$ corresponds to higher penalty to errors.
-% %The optimization problem, for a non-separable case becomes:
-% %\begin{eqnarray} \label{eq:svm5}
-% %\min_{\omega,b,\xi}  &  J_P(\omega,\xi)=\frac{1}{2}\omega^T\omega+c\sum_{k=1}^n\xi_k
-% %\\
-% %\mbox{s.t.}  &  y_k[\omega^Tx_k+b]  \geq  1-\xi_k, & k=1,...,n\nonumber
-% %\\
-% %  &  \xi_k  \geq  0, &  k=1,...,n.\nonumber
-% %\end{eqnarray}
-% 
-% %We will now switch to a Lagrangian formulation of the problem There are two reasons
-% %for doing this The rst is that the constraints .. will be replaced by constraints on the
-% %Lagrange multipliers themselves which will be much easier to handle The second is that in
-% %this reformulation of the problem the training data will only appear ..in the actual training
-% %and test algorithms in the form of dot products between vectors This is a crucial property
-% %which will allow us to generalize the procedure to the nonlinear case ..Section 
-% 
-% %Thus for an error to occur the corresponding i must exceed unity so Pi i is an upper
-% %bound on the number of training errors Hence a natural way to assign an extra cost
-% %for errors is to change the objective function to be minimized from kwk to kwk 
-% %C ..Pi ik where C is a parameter to be chosen by the user a larger C corresponding to
-% %assigning a higher penalty to errors
-% 
+\subsubsection{SVM no lineal - Kernels}
+
 % The extension from the linear to the nonlinear case is straightforward.
 % The linear separating hyperplane is calculated in a higher dimensional feature space where the input data lie after being mapped by a nonlinear mapping $\varphi(x)$. Then, the classifier in the case of nonlinear data can be written as
 % \begin{equation} \label{eq:svm4}
