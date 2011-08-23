@@ -36,7 +36,7 @@ Observar que se necesitan aproximar dos curvas: $x(t)$, $y(t)$ por símbolos, fig
 \noindent
 Trabajos anteriores \cite{Succinct} han demostrado cómo las coordenadas $x(t)$, $y(t)$ de símbolos escritos a mano pueden ser representados como expansión en series de polinomios ortogonales de \textit{Chebyshev}; y que los coeficientes de las series truncadas además de ser las aproximaciones buscadas, pueden ser usados para clasificación y reconocimiento.
 
-De manera similar, en este trabajo se utiliza un número finito de \textit{\textbf{momentos matemáticos}} para la reconstrucción de funciones (las curvas) como series truncadas de polinomios ortogonales de \textit{\textbf{Legendre}}, siguiendo las ideas presentadas en los artículos \cite{Moments} y \cite{OnlineModeling}. Este problema es conocido como \textit{\textbf{Hausdorff Moment Problem}} \cite{HausdorffMomentProblem}. Una alternativa a este método para la obtención de las aproximaciones a las curvas (es decir, los coeficientes de las series truncadas) es utilizar \textit{aproximación por \textbf{mínimos cuadrados}} a través de la \textit{\textbf{pseudo-inversa} de Moore-Penrose}, permitiendo este enfoque utilizar polinomios ortogonales arbitrarios, en particular polinomios de \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
+De manera similar, en este trabajo se utiliza un número finito de \textit{\textbf{momentos matemáticos}} para la reconstrucción de funciones (las curvas) como series truncadas de polinomios ortogonales de \textit{\textbf{Legendre}}, siguiendo las ideas presentadas en los artículos \cite{Moments} y \cite{OnlineModeling}. Este problema es conocido como \textit{\textbf{Hausdorff Moment Problem}} \cite{HausdorffMomentProblem}. Una alternativa a este método para la obtención de las aproximaciones a las curvas (es decir, los coeficientes de las series truncadas) es utilizar \textit{aproximación por \textbf{mínimos cuadrados}} a través de la \textit{\textbf{pseudo-inversa} de Moore-Penrose}, permitiendo este enfoque utilizar polinomios ortogonales cualesquiera; en particular, polinomios de \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
 
 % usar diferentes tipos de polinomios ortogonales, en particular \textit{\textbf{Legendre}}, \textit{\textbf{Legendre-Sobolev}} y \textit{\textbf{Chebyshev}}.
 
@@ -162,7 +162,7 @@ donde $\mathbf{C}$ es la matriz de coeficientes de los polinomios de Legendre, y
 
 
 % \subsection{Cálculo de los momentos}
-Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser \textbf{precalcula} con la fórmula cerrada~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante darse cuenta que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
+Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser \textbf{precalcula} con la fórmula cerrada~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante notar que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
 
 
 \subsubsection{Momentos para funciones definidas en otros dominios}
@@ -251,12 +251,36 @@ Se puede concluir entonces que al normalizar los vectores a norma $1$, los \text
 
 
 \subsubsection{Cálculo numérico de los momentos}
-blabla...
-Se asume que muestras de $f$ se irán recibiendo en tiempo real.
-que las funciones que se aproximan
+Se asume que muestras de $f$ se irán recibiendo en tiempo real a medida que el usuario realiza el trazo. En principio, se podría esperar a que el trazo sea finalizado para comenzar el cálculo de los momentos, pero se mostrará que es posible ir calculándolos a medida que los datos van llegando. De esta manera se logra que la extracción de features sea extremadamente eficiente, pues una vez que el usuario levanta su lápiz (finalización del trazo), los momentos matemáticos ya han sido calculados. Pero antes, nos enfocaremos en el cálculo numérico.
 
+Obsérvese que la integral siguiente debe aproximarse
+\begin{align*}
+\mu_{k}(f,\ell) & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}
+\end{align*}
 
+Se ha intentado con las reglas del \textit{\textbf{Trapecio}} (primer orden) y \textit{\textbf{Simpson}} (segundo orden), pero no se han alcanzado suficiente precisión para los valores de $\mu_k$ cuando $k$ crece. Métodos que requieran el conocimiento de $\ell$ tampoco pueden ser aplicado, por lo explicado en el párrafo anterior.
 
+Un método adecuado es una instancia especializada del método de integración de primer orden, debido a \cite{OnlineModeling}. Entonces, para computar $\int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}$, se usa la siguiente aproximación en cada intervalo $[i,i+1]$, se asume que los puntos están igualmente espaciados con $\Delta\lambda=1$,
+\begin{align}
+\int_{i}^{i+1}{f(\lambda)\,\lambda^k\,d\lambda}
+  & \approx \underbrace{\frac{f(i+1)+f(i)}{2}}_{\text{valor medio}} * \underbrace{\int_{i}^{i+1}{\lambda^k\,d\lambda}}_{\text{integral exacta}} \nonumber \\
+  & = \frac{f(i+1)+f(i)}{2} * \left.\frac{\lambda^{k+1}}{k+1}\right|_{i}^{i+1} \nonumber \\
+  \label{eq:integracion}
+  & = \frac{f(i+1)+f(i)}{2} * \frac{(i+1)^{k+1} - (i)^{k}}{k+1}
+\end{align}
+Esta fórmula representa la integral exacta en $\lambda^k$ en $[i,i+1]$ multiplicado por el valor medio de la función en esos puntos. Sumando los intervalos,
+\begin{align}
+\mu_{k}(f,\ell)
+  & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda} \nonumber \\
+  & = \sum_{i=0}^{\ell-1}{ \int_{i}^{i+1}{f(\lambda)\,\lambda^k\,d\lambda} }, \hspace*{1cm}  \text{aplicando}~\refEQ{eq:integracion}~\text{se tiene} \nonumber \\
+  \label{eq:integracion_total}
+  & \approx \sum_{i=0}^{\ell-1}{ \frac{f(i+1)+f(i)}{2} * \frac{(i+1)^{k+1} - (i)^{k}}{k+1} } \\
+  \label{eq:integracion_total_2}
+  & = \sum_{i=1}^{\ell-1}{ \frac{f(i-1)+f(i+1)}{2} * \frac{i^{k+1}}{k+1} } \quad + \quad \frac{f(\ell-1)+f(\ell)}{2} * \frac{\ell^{k+1}}{k+1}
+\end{align}
+La última igualdad puede obtenerse expandiendo los términos de la ecuación \refEQ{eq:integracion_total}, sucede una situación similar a las series telescópicas en las cuales se anulan los términos en el medio y solo que dando los extremos. La cantidad de términos a calcular se reduce a la mitad, hecho importante en la búsqueda de mayor eficiencia.
+
+En la ecuación \refEQ{eq:integracion_total_2} se puede ir actualizando la suma $\sum_{i=1}^{\ell-1}{(\dots)}$ para todos los \textit{órdenes} $k$ de $0$ a $d$, tan pronto como el valor de $f(i+1)$ esté disponible, permitiendo así \textbf{calcular los momentos a medida que se ingresa el trazo}.
 \subsection{Pseudo-inversa de Moore-Penrose}
 \label{leastSquare}
 
