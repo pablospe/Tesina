@@ -215,11 +215,44 @@ obtenemos,
 
 Por lo tanto, se utilizarán los momentos generalizados de la función~$f$ original en $[0,\ell]$ para calcular los momentos de la función~$\hat{f}$ en el dominio que se necesitan, es decir, $[0,1]$.
 
+\subsubsection{Invariante a cambios de escala}
+\label{Invariante_escala}
+Recordemos la ecuación \refEQ{eq:HMP},
+\begin{align*}
+   \mathbf{\alpha} & = \mathbf{C\,\mu}
+\end{align*}
+Se demostrará que la normalización de este vector, es decir~$\frac{\alpha}{\|\alpha\|}$, es invariante a escala. Supongamos que tenemos una función~$f$ y la multiplicamos por un factor positivo~$s$, a la función resultante la llamemos~$\hat{f}$, es decir,
+\begin{align*}
+\hat{f}(t) = s\,f(t), \quad\quad s>0
+\end{align*}
+Veamos cómo ésto afecta al cálculo de momentos,
+\begin{align*}
+\mu_{k}(\hat{f},\ell) & = \int_{0}^{\ell}{\hat{f}(\lambda)\,\lambda^k\,d\lambda} \\
+                   & = \int_{0}^{\ell}{s\,f(\lambda)\,\lambda^k\,d\lambda} \\
+                   & = s\,\mu_{k}(f,\ell)
+\end{align*}
+Utilizando \refEQ{eq:HMP} para el cálculo de $\hat{\alpha}$, correspondiente a la función $\hat{f}$
+\begin{align*}
+   \hat{\alpha} & = \mathbf{C\,\hat{\mu}} = \mathbf{C\,(s\,\mu)} = s\,\mathbf{C\,\mu} = s\,\alpha
+\end{align*}
+Recordando que $s>0$, se obtiene
+\begin{align*}
+\frac{\hat{\alpha}}{\|\hat{\alpha}\|} & =
+    \frac{s\,\alpha}{\|s\,\alpha\|} =
+    \frac{s\,\alpha}{|s|\,\|\alpha\|} =
+    \frac{\alpha}{\|\alpha\|}
+\end{align*}
+Resumiendo,
+\begin{align}
+\label{eq:invaciancia_escala}
+\frac{\hat{\alpha}}{\|\hat{\alpha}\|} & = \frac{\alpha}{\|\alpha\|}
+\end{align}
+Se puede concluir entonces que al normalizar los vectores a norma $1$, los \textbf{features son invariante a escala}.
 
 
 \subsubsection{Cálculo numérico de los momentos}
+blabla...
 Se asume que muestras de $f$ se irán recibiendo en tiempo real.
-
 que las funciones que se aproximan
 
 
@@ -229,8 +262,7 @@ que las funciones que se aproximan
 
 
 \subsection{Parametrización por longitud de arco}
+\label{arc-length}
 
-\subsection{Invariantes}
-\subsubsection{Invariante a la escala}
-\subsubsection{Invariante a la traslación}
-\subsubsection{Invariante a la velocidad de escritura}
+\subsection{Necesidad del preproceso}
+Se ha demostrado que el método es invariante a escala \ref{Invariante_escala} y a la velocidad de escritura \ref{arc-length}. Pero no se ha mencionado que sea invariante a traslación, pues no lo es. Sí se puede probar empíricamente que a pesar de que no sea invariante a traslación, pequeñas traslaciones no perturban demasiado el cálculo de vectores, obteniendo igualmente buenos resultados. De aquí se deriva el análisis de si es necesario, o no, el preproceso. Se posterga dicho análisis hasta la sección \ref{prepoceso}.
