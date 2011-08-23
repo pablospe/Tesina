@@ -258,9 +258,9 @@ Obsérvese que la integral siguiente debe aproximarse
 \mu_{k}(f,\ell) & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}
 \end{align*}
 
-Se ha intentado con las reglas del \textit{\textbf{Trapecio}} (primer orden) y \textit{\textbf{Simpson}} (segundo orden), pero no se han alcanzado suficiente precisión para los valores de $\mu_k$ cuando $k$ crece. Métodos que requieran el conocimiento de $\ell$ tampoco pueden ser aplicado, por lo explicado en el párrafo anterior.
+Se ha intentado con las reglas del \textit{\textbf{Trapecio}} (primer orden) y \textit{\textbf{Simpson}} (segundo orden), pero no se ha alcanzado suficiente precisión para los valores de $\mu_k$ cuando $k$ crece. Métodos que requieran el conocimiento de $\ell$ tampoco pueden ser aplicado, por lo explicado en el primer párrafo.
 
-Un método adecuado es una instancia especializada del método de integración de primer orden, debido a \cite{OnlineModeling}. Entonces, para computar $\int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}$, se usa la siguiente aproximación en cada intervalo $[i,i+1]$, se asume que los puntos están igualmente espaciados con $\Delta\lambda=1$,
+Un método adecuado es una instancia especializada del método de integración de primer orden, debido a \cite{OnlineModeling}. Para computar $\int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}$ se usa la siguiente aproximación en cada intervalo $[i,i+1]$, %se asume que los puntos están igualmente espaciados con $\Delta\lambda=1$,
 \begin{align}
 \int_{i}^{i+1}{f(\lambda)\,\lambda^k\,d\lambda}
   & \approx \underbrace{\frac{f(i+1)+f(i)}{2}}_{\text{valor medio}} * \underbrace{\int_{i}^{i+1}{\lambda^k\,d\lambda}}_{\text{integral exacta}} \nonumber \\
@@ -272,13 +272,13 @@ Esta fórmula representa la integral exacta en $\lambda^k$ en $[i,i+1]$ multiplic
 \begin{align}
 \mu_{k}(f,\ell)
   & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda} \nonumber \\
-  & = \sum_{i=0}^{\ell-1}{ \int_{i}^{i+1}{f(\lambda)\,\lambda^k\,d\lambda} }, \hspace*{1cm}  \text{aplicando}~\refEQ{eq:integracion}~\text{se tiene} \nonumber \\
+  & = \sum_{i=0}^{\ell-1}{ \int_{i}^{i+1}{f(\lambda)\,\lambda^k\,d\lambda} }, \hspace*{1cm}  \text{aplicando}~\refEQ{eq:integracion}~\text{se obtiene} \nonumber \\
   \label{eq:integracion_total}
   & \approx \sum_{i=0}^{\ell-1}{ \frac{f(i+1)+f(i)}{2} * \frac{(i+1)^{k+1} - (i)^{k}}{k+1} } \\
   \label{eq:integracion_total_2}
   & = \sum_{i=1}^{\ell-1}{ \frac{f(i-1)+f(i+1)}{2} * \frac{i^{k+1}}{k+1} } \quad + \quad \frac{f(\ell-1)+f(\ell)}{2} * \frac{\ell^{k+1}}{k+1}
 \end{align}
-La última igualdad puede obtenerse expandiendo los términos de la ecuación \refEQ{eq:integracion_total}, sucede una situación similar a las series telescópicas en las cuales se anulan los términos en el medio y solo que dando los extremos. La cantidad de términos a calcular se reduce a la mitad, hecho importante en la búsqueda de mayor eficiencia.
+La última igualdad puede obtenerse expandiendo los términos de la ecuación \refEQ{eq:integracion_total}, sucede una situación similar a las series telescópicas en las cuales se anulan los términos intermedios, solo quedando los extremos. La cantidad de términos a calcular se reduce a la mitad, hecho importante en la búsqueda de mayor eficiencia computacional.
 
 En la ecuación \refEQ{eq:integracion_total_2} se puede ir actualizando la suma $\sum_{i=1}^{\ell-1}{(\dots)}$ para todos los \textit{órdenes} $k$ de $0$ a $d$, tan pronto como el valor de $f(i+1)$ esté disponible, permitiendo así \textbf{calcular los momentos a medida que se ingresa el trazo}.
 \subsection{Pseudo-inversa de Moore-Penrose}
