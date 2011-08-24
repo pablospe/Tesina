@@ -8,6 +8,8 @@
 
 Como se indicó en la sección \ref{sec:conceptos_preproceso}, antes del cálculo de los features se suelen usar~$3$ filtros como preproceso. Estos filtros son: 1. suavizado, 2. resampling, y 3. resizing (no necesariamente en ese orden). En lo siguiente se desea examinar la posibilidad de eliminar estos pasos en pos de eficiencia.
 
+% El algoritmo de cálculo de momento puede ser implementado (como se vio en la sec) de manera tal que puedan ser calculados a medida que los datos se vayan introduciendo.
+
 %Evitar utilizar estos filtros permitiría el cálculo de los momentos a medida que se van ingresando los datos, como se ha indicado en la sección \ref{sec:calculo_numerico_momentos}; lo cuál permitiría un aumento considerable de eficiencia en comparación con el método de la pseudo-inversa, el cual necesita esperar a que el usuario termine
 
 
@@ -21,7 +23,7 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es el de traslación, que se ocupa de trasladar el trazo al origen; ésto es, que los mínimos en cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Ésto permitiría tomar dos caminos al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Esta decisión de diseño puede ser tomada para caso en que se requiera extrema eficiencia, como en el caso de los dispositivos móviles, a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso.
+Un filtro no mencionado es el de traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Ésto permitiría tomar dos caminos al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Esta decisión de diseño puede ser tomada para caso en que se requiera extrema eficiencia y no procesar los trazos, como el caso de los dispositivos móviles, a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso.
 
 
 
