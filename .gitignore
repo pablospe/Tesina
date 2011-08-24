@@ -19,3 +19,8 @@
 *.backup
 *.blg
 !.gitignore
+/main.maf
+/main.pdf
+/main.stc1
+/main.stc2
+/main.stc3
