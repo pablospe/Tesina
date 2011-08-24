@@ -3,8 +3,21 @@
 \subsection{Bases de datos disponibles}
 
 \subsection{Momentos vs Pseudo-inversa}
-\subsection{Preprocesar vs No preprocesar}
+\subsection{Preprocesar o No Preprocesar}
 \label{prepoceso}
+
+Como se indicó en la sección \ref{sec:conceptos_preproceso}, antes del cálculo de los features se suelen usar~$3$ filtros como preproceso. Estos filtros son: 1. suavizado, 2. resizing, y 3. resampling (no necesariamente en ese orden). En lo siguiente se desea examinar la posibilidad de eliminar estos pasos en pos de eficiencia. Evitar utilizar estos filtros permitiría calcular los momentos a medida que se van ingresando los datos, como se ha indicado en la sección \ref{sec:calculo_numerico_momentos}, lo cuál permitiría un aumento considerable de eficiencia en comparación con el método de la pseudo-inversa.
+
+\subsection{Evitando suavizado}
+Recordar que los features son los coeficientes de polinomios, obtenidos por aproximación de mínimos cuadrados, lo cual genera una curva suave. El objetivo del suavizado (la eliminación del ruido presente al principio y final de cada trazo) es alcanzado sin necesidad de realizar un filtrado.
+
+\subsection{Evitando resizing}
+Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que no es innecesario aplicar este filtro.
+
+
+
+
+
 
 \subsection{Parametrización por tiempo vs Parametrización por longitud de arco}
 \subsection{Representación a elegir: Legendre, Chebyshev o Legendre-Sobolev}

@@ -253,6 +253,7 @@ Se puede concluir entonces que al normalizar los vectores a norma $1$, los \text
 
 
 \subsubsection{Cálculo numérico de los momentos}
+\label{sec:calculo_numerico_momentos}
 Se asume que muestras de $f$ se irán recibiendo en tiempo real a medida que el usuario realiza el trazo. En principio, se podría esperar a que el trazo sea finalizado para comenzar el cálculo de los momentos, pero se mostrará que es posible ir calculándolos a medida que los datos van llegando. De esta manera se logra que la extracción de features sea extremadamente eficiente, pues una vez que el usuario levanta su lápiz (finalización del trazo), los momentos matemáticos ya han sido calculados. Pero antes, nos enfocaremos en el cálculo numérico.
 
 Obsérvese que la integral siguiente debe aproximarse
@@ -282,7 +283,7 @@ Esta fórmula representa la integral exacta en $\lambda^k$ en $[i,i+1]$ multiplic
 \end{align}
 La última igualdad puede obtenerse expandiendo los términos de la ecuación \refEQ{eq:integracion_total}, sucede una situación similar a las series telescópicas en las cuales se anulan los términos intermedios, solo quedando los extremos. La cantidad de términos a calcular se reduce a la mitad, hecho importante en la búsqueda de mayor eficiencia computacional.
 
-En la ecuación \refEQ{eq:integracion_total_2} se puede ir actualizando la suma $\sum_{i=1}^{\ell-1}{(\dots)}$ para todos los \textit{órdenes} $k$ de $0$ a $d$, tan pronto como el valor de $f(i+1)$ esté disponible, permitiendo así \textbf{calcular los momentos a medida que se ingresa el trazo}.
+En la ecuación \refEQ{eq:integracion_total_2}, se puede ir actualizando la suma $\sum_{i=1}^{\ell-1}{(\dots)}$ para todos los \textit{órdenes} $k$ de $0$ a $d$ tan pronto como el valor de $f(i+1)$ esté disponible, permitiendo así \textbf{calcular los momentos a medida que se ingresa el trazo}.
 \subsection{Pseudo-inversa de Moore-Penrose}
 \label{leastSquare}
 
