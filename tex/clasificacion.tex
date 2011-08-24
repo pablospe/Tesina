@@ -1,10 +1,40 @@
 \section{Clasificación}
 \label{clasificacion}
 
-\subsection{Vecinos más cercanos - kNN}
-\subsubsection{Distancia euclidiana}
-\subsubsection{Distancia de hamming}
-\subsubsection{Distancia mahalanobis}
+En esta sección se introducirá los métodos de clasificación usados. Recordar que nuestros \textit{\textbf{features}} son vectores de dimensión $2\,(d+1)$, dados por la ecuación \refEQ{eq:features} de la sección \ref{sec:Representacion_con_series}, es decir, tienen la siguiente forma:
+\begin{align*}
+({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})
+\end{align*}
+
+% Los métodos de clasificación utilizados son: vecino más cercano y SVM, que se describen a continuación.
+
+\subsection{Vecinos más cercanos: $k$-NN}
+Este método intenta encontrar los $k$ vecinos más ``cercanos'' de un vector feature de entrada con respecto a los vectores features de una base de datos. El significado de ``cercano'' es asociado a una métrica. Las distancias que se usaron fueron: distancia \textit{\textbf{Euclidiana}}, de \textit{\textbf{Hamming}}\footnote{Existe dos versiones de esta distancia: una, a nivel de bit; y otra, a nivel de componentes de vectores. Se utilizó la última, también conocida como \textit{\textbf{cityblock}}} y de \textit{\textbf{Mahalanobis}}. En este trabajo solo se considera el \textit{\textbf{primer match}}, es decir, $k=1$.
+
+Las distancias se especifican definiendo el operador $dist(x,y)$, donde $x = (x_0,x_1, \dots, x_d)$~e $y = (y_0,y_1, \dots, y_d)$ son vectores de dimensión $d+1$. Veamos a continuación las distancias utilizas en este trabajo.
+
+\subsubsection{Distancia Euclidiana}
+\begin{align}
+\begin{split}
+dist(x,y)^2 & = \sum_{i=0}^d (x_i-y_i)^2 \\
+         & = (x-y)\,(x-y)^T
+\end{split}
+\end{align}
+
+\subsubsection{Distancia de Hamming o Cityblock}
+\begin{align}
+dist(x,y) & = \sum_{i=0}^d |x_i-y_i|
+\end{align}
+
+\subsubsection{Distancia Mahalanobis}
+Esta medida se diferencia de la distancia euclídea en que se tiene en cuenta la correlación entre las variables aleatorias,
+\begin{align}
+dist(x,y)^2 & = (x-y)\,C^{-1}\,(x-y)^T
+\end{align}
+donde $C$ es la matriz de covariancia.
+
+
+
 
 
 \subsection{Support Vector Machine}
@@ -55,7 +85,7 @@ Notar que si $\mathcal{D}$ es linealmente separable, se pueden seleccionar dos h
 \end{figure}
 
 
-Idealmente, el modelo basado en SVM debería producir un hiperplano que separe completamente los datos en dos categorías. Sin embargo, una separación perfecta no siempre es posible, ver figura \ref{fig:nonsep}.
+Idealmente, el modelo basado en SVM debería producir un hiperplano que separe completamente los datos en dos clases. Sin embargo, una separación perfecta no siempre es posible, ver figura \ref{fig:nonsep}.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[scale=0.8]{imagen/svm_2.pdf}
@@ -109,17 +139,17 @@ K_{RBF}(x_k,x_\ell) & = & e^{-\frac{\|x_k-x_\ell\|^2}{\sigma^2}}
 
 
 \subsubsection{SVM Multiclase}
-Obervar que SVM es un clasificador binario. Hay dos filosofías básicas para resolver la clasificación de datos en más de dos categorías:
+Obervar que SVM es un clasificador binario. Hay dos filosofías básicas para resolver la clasificación de datos en más de dos clases:
 \begin{itemize}
-\item una categoría contra el resto (\textit{\textbf{one-versus-all}}),
-\item entre cada par (\textit{\textbf{one-versus-one}}), se construyen $\frac{k(k-1)}{2}$ modelos para $k$ categorías.
+\item una clase contra el resto (\textit{\textbf{one-versus-all}}),
+\item entre cada par (\textit{\textbf{one-versus-one}}); se construyen $\frac{k(k-1)}{2}$ modelos para $k$ clases.
 \end{itemize}
 
 
 
 \subsubsection{Grilla de Valores}
 
-En este trabajo los mejores resultados se consiguieron con el Kernel RBF ($K_{RBF}$), el cuál posee un parámetro $\sigma$ que debe ser elegido convenientemente para cada conjunto de datos. También el parámetro $C$ debe ser escogido pues, como se indicó en la sección \ref{svm_lineal}, es el que controla la compensación entre los errores de entrenamiento y los márgenes. Al ser dos parámetros se puede generar una grilla de valores he ir probando hasta encontrar dónde de hace llega al máximo dentro ella. Un ejemplo de este procedimiento puede verse en la figura \ref{fig:grid}, ignorar los resultados numéricos por el momento.
+En este trabajo los mejores resultados se consiguieron con el Kernel RBF ($K_{RBF}$), el cuál posee un parámetro $\sigma$ que debe ser elegido convenientemente para cada conjunto de datos. También el parámetro $C$ debe ser escogido pues, como se indicó en la sección \ref{svm_lineal}, es el que controla la compensación entre los errores de entrenamiento y los márgenes. Al ser dos parámetros, se puede generar una grilla de valores he ir probando hasta encontrar dónde se llega al máximo dentro ella. Un ejemplo de este procedimiento puede verse en la figura \ref{fig:grid}, ignorar por el momento los resultados numéricos.
 \begin{figure}[!htbp]
     \centering
     \vspace*{-0.1cm}

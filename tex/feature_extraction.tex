@@ -45,8 +45,10 @@ De manera similar, en este trabajo se utiliza un número finito de \textit{\textb
 
 
 \subsection{Representación con series}
+\label{sec:Representacion_con_series}
 Se desea entonces aproximar las funciones $x(t), y(t)$ de los trazos. Como se indicó en la sección~\ref{Series_de_funciones_ortogonales}, ésto puede hacerse como expansión de series de polinomios ortogonales; según la ecuación~(\ref{eq:alpha_inner_prod}),
-\[
+\begin{equation}
+\label{eq:features}
 \left\{
 \begin{array}{rcl}
 % \begin{equation}
@@ -57,7 +59,7 @@ y(t) & \approx & \sum_{i=0}^{d}{\beta}_{i}\,{B}_{i}(t)
 % \end{equation}
 \end{array}
 \right.
-\]
+\end{equation}
 
 % \noindent
 Clasificación puede ser obtenida, por ejemplo, al medir la distancia Euclidiana de los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ entre los distintos trazos.
