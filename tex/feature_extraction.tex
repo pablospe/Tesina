@@ -288,8 +288,8 @@ En la ecuación \refEQ{eq:integracion_total_2}, se puede ir actualizando la suma 
 \label{leastSquare}
 Otra forma de calcular los $\alpha$ de la ecuación~\refEQ{eq:aprox} es a través de la pseudo-inversa de Moore-Penrose. Esta solución no solo funciona con los polinomios de Legendre sino también para polinomios ortogonales $\{L_i\}$ cualesquiera. Definamos la siguiente función:
 \begin{align*}
-p(t) & = \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(t) \\
-     & = \alpha_{0}\,{L}_{0}(t) + \alpha_{1}\,{L}_{1}(t) + \dots + \alpha_{d}\,{L}_{d}(t)
+p(x) & = \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(x) \\
+     & = \alpha_{0}\,{L}_{0}(x) + \alpha_{1}\,{L}_{1}(x) + \dots + \alpha_{d}\,{L}_{d}(x)
 \end{align*}
 
 Planteamos el siguiente sistema sobre-determinado de ecuaciones
@@ -352,7 +352,7 @@ donde $L^{\dag}$ es la pseudo-inversa de Moore-Penrose.
 \label{sec:arc-length}
 Parametrización por tiempo y por longitud de arco (\textit{arc-length}) son las elecciones más populares en el campo de reconocimiento de escritura online, ver \cite{Nalwa} y \cite{Toward_affine_recognition}. Parametrización por longitud de arco es usualmente preferible, pues no es afectada por variaciones en la velocidad de escritura. Esta puede ser expresada como:
 \begin{align*}
-    \text{\textit{arc-length}}(\lambda) = \int_{0}^{\lambda}{\sqrt{(x'(\lambda))^2+(y'(\lambda))^2}}
+    \text{\textit{arc-length}}(t) = \int_{0}^{t}{\sqrt{(x'(\lambda))^2+(y'(\lambda))^2}\,d\lambda}
 \end{align*}
 
 

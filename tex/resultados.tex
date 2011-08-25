@@ -25,6 +25,8 @@ En \textit{\textbf{k-fold} cross-validation}, la base de datos es dividida en $k
 
 \subsection{Entendiendo las gráficas}
 
+*** FALTA ***
+
 A lo largo de esta sección se incluirán gráficas similares al estilo de la figura \ref{fig:graficas}.
     \begin{figure}[!htbp]
     \centering
@@ -57,9 +59,9 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo es conocido recién cuando el trazo es finalizado, no permitiendo así el cálculo de los momentos a medida que se escribe.
+Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo de cada eje es conocido recién cuando el trazo es finalizado, no permitiendo así el cálculo de los momentos a medida que se escribe.
 
-Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}.
+Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}, donde se muestra en \textbf{(a)} una pérdida de precisión del $2\%$ (considerando los mejores resultados) al no usar preproceso, con respecto a~\textbf{(b)} que sí utiliza preproceso.
 % \vspace*{-0.6cm}
 \begin{figure}[!htbp]
   \centering
@@ -99,9 +101,19 @@ Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema
 
 \subsection{Features de propósitos general}
 \label{sec:features_generales}
-Observar que los features no fueron diseñados especialmente para símbolos particulares, en este caso los dígitos o las letras. Con la gráfica FFFF, se pretende mostrar que los features obtenidos no dependen del símbolo a ser reconocido, pues se aplicó el mismo algoritmo (sin modificaciones) a la base de datos de letras, y se consiguieron también buenos resultados. % (casi $96\%$ con los polinomios de grado $10$).
-Entonces, los features se pueden considerar de propósitos general y pueden ser utilizados en diferentes situaciones, no sólo con los dígitos.
+Observar que los features no fueron diseñados especialmente para símbolos particulares, como ser los dígitos o las letras. Con la gráfica \ref{fig:letras_LS}, se pretende mostrar que los features obtenidos no dependen del símbolo a ser reconocido, pues se aplicó el mismo algoritmo (sin modificaciones) a la base de datos de letras, y se consiguieron también buenos resultados. % (casi $96\%$ con los polinomios de grado $10$).
+Entonces, los features se pueden considerar de propósitos general pudiendo ser utilizados en diferentes situaciones, y no sólo con los dígitos.
 
+En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a precisión, obtenidos con los polinomios de Legendre-Sobolev de grado $9$ con poco más de $96\,\%$ de reconocimiento correcto para la base de dato de letras.
+%; y en cuanto a \textbf{eficiencia}, obtenidos con momentos sin preprocesar los datos alcanzando un máximo de $9??\,\%$. Este último es el método más eficiente por las consideraciones hechas en el apartado \ref{prepoceso}.
+    \begin{figure}[!htbp]
+    \centering
+    \vspace*{-0.2cm}
+    \includegraphics[scale=0.65]{imagen/plot/least_square_LS_letras_preproceso_1.pdf}
+    \vspace*{-0.2cm}
+    \caption{Mejores resultados para la base de dato de letras.}
+    \label{fig:letras_LS}
+    \end{figure}
 
 \subsection{Mejor performance}
 \subsection{Mejor precisión}
