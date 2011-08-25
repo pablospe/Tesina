@@ -2,6 +2,11 @@
 
 \subsection{Bases de datos disponibles}
 
+\subsection{Validación}
+
+\subsection{Entendiendo las gráficas}
+
+
 \subsection{Momentos vs Pseudo-inversa}
 \subsection{Preprocesar o No Preprocesar}
 \label{prepoceso}
@@ -23,23 +28,34 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es el de traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Ésto permitiría tomar dos caminos al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Esta decisión de diseño puede ser tomada para caso en que se requiera extrema eficiencia y no procesar los trazos, como el caso de los dispositivos móviles, a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso.
-
-
-
-\begin{figure}[h!]
- \centering
- \advance\leftskip-2.8cm
- \advance\rightskip-2.8cm
- \includegraphics[scale=0.458,keepaspectratio=true]{imagen/plot/least_square_L_preproceso_0.pdf}
-% \end{figure}
-% \begin{figure}[h!]
-%  \centering
-\hspace*{-0.4cm}
+Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Ésto permitiría tomar dos caminos al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Esta decisión de diseño puede ser tomada para caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}.
+\vspace*{-0.3cm}
+\begin{figure}[!htbp]
+  \centering
+  \advance\leftskip-2.8cm
+  \advance\rightskip-2.8cm
+  \subfloat[Sin prepoceso]{\label{fig:prep}\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_0.pdf}}
+  \subfloat[Con prepoceso]{\label{fig:no_prep}\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}}
+  \caption{Momentos con polinomios de Legendre}
+  \label{fig:prep_vs_no_prep}
 \end{figure}
 
 
+% \begin{figure}[h!]
+%  \centering
+%  \advance\leftskip-2.8cm
+%  \advance\rightskip-2.8cm
+%  \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_0.pdf}
+% \hspace*{-0.4cm}
+% \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}
+%  \caption{Sin preproceso (izq.), y con preproceso (der.). Método: Momentos con polinomios de Legendre}
+%  \label{fig:prep_vs_no_prep}
+% \end{figure}
 
+
+
+%  \includegraphics[scale=0.458,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}
+%  \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_arc_preproceso_1.pdf}
 
 
 \subsection{Parametrización por tiempo vs Parametrización por longitud de arco}
