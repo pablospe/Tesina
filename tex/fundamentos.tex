@@ -11,11 +11,13 @@ Sea una familia de funciones $\{B_i\}$ en el espacio de funciones continuas en $
 \begin{descripcion1}{Producto interno:}
 \begin{align}
 \label{def:inner_product}
- \langle B_i, B_j \rangle & \doteq \int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt
+ \langle B_i, B_j \rangle & \doteq \int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt,
 \end{align}
 \end{descripcion1}
+\vspace*{-1ex}
+donde $w(t)$ es una función peso.
 
-\begin{descripcion1}{Norma:}
+\begin{descripcion1}{Norma inducida:}
 \begin{align}
 \label{def:norma}
  \| B_i \| & \doteq \sqrt{ \langle B_i, B_i \rangle }
@@ -35,22 +37,23 @@ Sea una familia de funciones $\{B_i\}$ en el espacio de funciones continuas en $
 \end{descripcion1}
 
 \subsubsection*{Ortogonalidad:}
-Se dicen que $B_i$ y $B_j$ son ortogonales si se cumple que $\langle B_i, B_j \rangle = 0$
+Se dice que $B_i$ y $B_j$ son ortogonales si se cumple que $\langle B_i, B_j \rangle = 0, \quad\quad \forall i\neq\,j$. \\
+Si además, $\langle B_i, B_i \rangle = 1$ se dice que $B_i$ y $B_j$ son ortonormales.
 
-\subsubsection*{Ortogonalización de Gram-Schmidt:}
+\subsubsection*{Proceso de ortogonalización de Gram-Schmidt:}
 Sea $\{v_1, \dots, v_n\}$ una base de un espacio $U$ con producto interno, se define recursivamente
 \begin{align}
 \label{eq:Gram-Schmidt}
-u_i & = \left( v_i - \sum_{i=0}^{i-1}{\langle v_i, u_j\rangle u_j} \right)
+u_i & = \left( v_i - \sum_{j=1}^{i-1}{\langle v_i, u_j\rangle u_j} \right), \quad\quad i = 1,2,\dots,n
 \end{align}
-Entonces, $\{u_1, \dots, u_n\}$ una base ortogonal y $\left\{\frac{u_1}{\|u_1\|}, \dots, \frac{u_n}{\|u_n\|}\right\}$ es base ortonormal de $U$.
+Entonces, $\{u_1, \dots, u_n\}$ es una base ortogonal y $\left\{\frac{u_1}{\|u_1\|}, \dots, \frac{u_n}{\|u_n\|}\right\}$ es base ortonormal de $U$.
 
 
 \subsection{Polinomios ortogonales}
 Polinomios ortogonales son clases de polinomios $\{B_{i}(t)\}$ definidos sobre el dominio $[a,b]$ que obedecen la relación de ortogonalidad
 \begin{align}
 \label{eq:ortogonalidad}
-\int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt & = 0 \quad\quad \text{cuando $i \neq$} j
+\int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt & = 0, \quad\quad \text{cuando $i \neq$} j
 \end{align}
 donde $w(t)$ es una función peso. Si además cumplen con
 \begin{align}
@@ -89,7 +92,7 @@ Si tomamos como función peso $w(t)=1$ en la definición \refEQ{def:inner_product}
 \begin{align*}
  \langle L_i, L_j \rangle & = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t)\,w(t)\,dt = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t)\,dt
 \end{align*}
-se pueden generar los polinomios de Legendre $\{L_i\}$ con el proceso de ortogonalización de Gram-Schmidt \refEQ{eq:Gram-Schmidt} en el intervalo $[-1,1]$. Normalizando de tal manera que $L_n(1)=1$ da los polinomios de Legendre esperados. Algunos de ellos:
+se pueden generar los polinomios de Legendre $\{L_i\}$ con el proceso de ortogonalización de Gram-Schmidt \refEQ{eq:Gram-Schmidt} en el intervalo $[-1,1]$. Normalizando de tal manera que $L_n(1)=1$ da los polinomios de Legendre esperados. Algunos de ellos son:
 \begin{align*}
 L_0(t) &= 1 \\[1ex]
 L_1(t) &= t \\
@@ -100,13 +103,13 @@ L_4(t) &= \frac{35\,{t}^{4}-30\,{t}^{2}+3}{8} \\
 \end{align*}
 
 % \subsubsection*{Shifted Legendre Polynomials}
-Para nuestro propósito es conveniente utilizar los polinomios análogos definido en $[0,1]$, los cuales son llamados \textit{\textbf{shifted} Legendre polynomials},
+Para nuestro propósito es conveniente utilizar los polinomios análogos definidos en $[0,1]$, los cuales son llamados \textit{\textbf{shifted} Legendre polynomials},
 \begin{align}
 \label{eq:legendre}
 L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,t^j }
 \end{align}
 % donde los coeficientes $C_{ij}$ pueden calcularse con una fórmula cerrada, ver \cite{abramowitz70a}
-el grado de $L_i$ es exactamente $i$.  Se conoce una fórmula cerrada para el cálculo de los coeficientes $C_{ij}$ ortonormales. A continuación dicha fórmula, que puede encontrarse en \cite{abramowitz70a},
+el grado de $L_i$ es exactamente $i$.  Se conoce una fórmula cerrada para el cálculo de los coeficientes $C_{ij}$ ortonormales. A continuación se muestra dicha fórmula, que puede encontrarse en \cite{abramowitz70a},
 \begin{align}
 \label{eq:legendre_coefficients}
 C_{ij} &= (2\,i+1)^{\frac{1}{2}}\begin{pmatrix}i\cr j\end{pmatrix} {\left( -1\right) }^{j} \begin{pmatrix}j+i\cr j\end{pmatrix}

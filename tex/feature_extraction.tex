@@ -5,7 +5,7 @@ Las técnicas usuales para \textit{handwriting recognition} tratan de encontrar \
 % Sobre todo si se tiene en cuenta que símbolos matemáticos pueden ser inventados o agregados en la marcha.
 Por lo que es deseable buscar una representación que permita ser aplicada sin importar qué tipo de símbolo se trate; ya sea un dígito, una letra o un símbolo matemático.
 
-Unos de los mayores problemas con los métodos de reconocimientos tradicionales es que los trazos son tratados como secuencias de puntos (en \textit{discreto}), en vez de verlos como lo que realmente son, curvas (en \textit{continuo}).
+Unos de los mayores problemas con los métodos de reconocimiento tradicionales es que los trazos son tratados como secuencias de puntos (en \textit{discreto}), en vez de verlos como lo que realmente son, curvas (en \textit{continuo}).
 % son pensados como una secuencia de puntos. El problema con ésto es que no se lo están tratando como lo que realmente son, curvas.
 
 \subsection{Trazos discretos como curvas continuas}
@@ -23,7 +23,7 @@ En vez de describir a los trazos como una secuencia de puntos, éstos pueden ser 
 
 \vspace*{-0.2cm}
 \noindent
-Observar que se necesitan aproximar dos curvas: $x(t)$, $y(t)$ por símbolos, figura~\ref{fig:x_e_y_en_t}.
+Observar que se necesitan aproximar dos curvas: $x(t)$, $y(t)$ por símbolo, figura~\ref{fig:x_e_y_en_t}.
 % \vspace*{-0.15cm}
     \begin{figure}[!htbp]
     \centering
@@ -62,9 +62,9 @@ y(t) & \approx & \sum_{i=0}^{d}{\beta}_{i}\,{B}_{i}(t)
 \end{equation}
 
 % \noindent
-Clasificación puede ser obtenida, por ejemplo, al medir la distancia Euclidiana de los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ entre los distintos trazos.
+La clasificación puede ser obtenida, por ejemplo, al medir la distancia Euclidiana de los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ entre los distintos trazos.
 
-Consideraremos \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)$. En lo siguiente, se mostrará dos formas de calcularlos y, en secciones posteriores, resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa a los trazos.
+Consideraremos \textbf{features} a estos vectores que tienen dimensión $2\:(d+1)$. En lo siguiente, se mostrarán dos formas de calcularlos y, en secciones posteriores, resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa a los trazos.
 
 % Se mostrará dos formas de calcularlos, una por medio de momentos matemáticos (sección \ref{HausdorffMomentProblem}) y otra a través aproximación por mínimo cuadrados usando la pseudo-inversa (sección \ref{leastSquare}), y resultados que avalen que los features son lo suficientemente representativos como para clasificar de manera precisa los trazos.
 
@@ -164,7 +164,7 @@ donde $\mathbf{C}$ es la matriz de coeficientes de los polinomios de Legendre, y
 
 
 % \subsection{Cálculo de los momentos}
-Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser \textbf{precalculada} con la fórmula cerrada~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calcule los coeficientes de los polinomios de Legendre, es importante notar que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
+Observar que en la ecuación anterior~\refEQ{eq:HMP}, la matriz~$\mathbf{C}$ puede ser \textbf{precalculada} con la fórmula cerrada~\refEQ{eq:legendre_coefficients}, o mediante el proceso de Gram-Schmidt~\refEQ{eq:Gram-Schmidt}. Cualquiera sea la forma en que se calculen los coeficientes de los polinomios de Legendre, es importante notar que solo es necesario realizarlo por única vez, por lo que es necesario focalizarse en el cálculo de los momentos.
 
 
 \subsubsection{Momentos para funciones definidas en otros dominios}
@@ -176,7 +176,7 @@ Generalicemos la definición \refEQ{eq:momentos}, sea $f$ una función definida en
 %  $[0,\ell]$
 % sección \ref{legendre}
 
-Al estar los polinomios de Legendre (shifted) definidos en $[0,1]$ es necesario calcular los momentos en ese dominio. Entonces, el problema aquí es cómo calcularlos a partir de una función~$f$ definida en $[0,\ell]$. Ésto se resuelve con un \textbf{cambio de variable} como se verá de inmediato.
+Al estar los polinomios de Legendre (shifted) definidos en $[0,1]$ es necesario calcular los momentos en ese dominio. Entonces, el problema aquí es cómo calcularlos a partir de una función~$f$ definida en $[0,\ell]$. Esto se resuelve con un \textbf{cambio de variable} como se verá de inmediato.
 
 Obsérvese que si se define,
 \begin{align}
@@ -227,7 +227,7 @@ Se demostrará que la normalización de este vector, es decir~$\frac{\alpha}{\|\al
 \begin{align*}
 \hat{f}(t) = s\,f(t), \quad\quad s>0
 \end{align*}
-Veamos cómo ésto afecta al cálculo de momentos,
+Veamos cómo esto afecta al cálculo de momentos,
 \begin{align*}
 \mu_{k}(\hat{f},\ell) & = \int_{0}^{\ell}{\hat{f}(\lambda)\,\lambda^k\,d\lambda} \\
                    & = \int_{0}^{\ell}{s\,f(\lambda)\,\lambda^k\,d\lambda} \\
@@ -261,7 +261,7 @@ Obsérvese que la integral siguiente debe aproximarse
 \mu_{k}(f,\ell) & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}
 \end{align*}
 
-Se ha intentado con las reglas del \textit{\textbf{Trapecio}} (primer orden) y \textit{\textbf{Simpson}} (segundo orden), pero no se ha alcanzado suficiente precisión para los valores de $\mu_k$ cuando $k$ crece. Métodos que requieran el conocimiento de $\ell$ tampoco pueden ser aplicado, por lo explicado en el primer párrafo.
+Se ha intentado con las reglas del \textit{\textbf{Trapecio}} (primer orden) y \textit{\textbf{Simpson}} (segundo orden), pero no se ha alcanzado suficiente precisión para los valores de $\mu_k$ cuando $k$ crece. Métodos que requieran el conocimiento de $\ell$ tampoco pueden ser aplicados, por lo explicado en el primer párrafo.
 
 Un método adecuado es una instancia especializada del método de integración de primer orden, debido a \cite{OnlineModeling}. Para computar $\int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda}$ se usa la siguiente aproximación en cada intervalo $[i,i+1]$, %se asume que los puntos están igualmente espaciados con $\Delta\lambda=1$,
 \begin{align}
@@ -271,7 +271,7 @@ Un método adecuado es una instancia especializada del método de integración de p
   \label{eq:integracion}
   & = \frac{f(i+1)+f(i)}{2} * \frac{(i+1)^{k+1} - (i)^{k}}{k+1}
 \end{align}
-Esta fórmula representa la integral exacta en $\lambda^k$ en $[i,i+1]$ multiplicado por el valor medio de la función en esos puntos. Sumando los intervalos,
+Esta fórmula representa la integral exacta en $\lambda^k$ en $[i,i+1]$ multiplicado por el valor medio de la función entre esos puntos. Sumando los intervalos,
 \begin{align}
 \mu_{k}(f,\ell)
   & = \int_{0}^{\ell}{f(\lambda)\,\lambda^k\,d\lambda} \nonumber \\
