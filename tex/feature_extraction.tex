@@ -286,7 +286,67 @@ La última igualdad puede obtenerse expandiendo los términos de la ecuación \refE
 En la ecuación \refEQ{eq:integracion_total_2}, se puede ir actualizando la suma $\sum_{i=1}^{\ell-1}{(\dots)}$ para todos los \textit{órdenes} $k$ de $0$ a $d$ tan pronto como el valor de $f(i+1)$ esté disponible, permitiendo así \textbf{calcular los momentos a medida que se ingresa el trazo}.
 \subsection{Pseudo-inversa de Moore-Penrose}
 \label{leastSquare}
+Otra forma de calcular los $\alpha$ de la ecuación~\refEQ{eq:aprox} es a través de la pseudo-inversa de Moore-Penrose. Esta solución no solo funciona con los polinomios de Legendre sino también para polinomios ortogonales $\{L_i\}$ cualesquiera. Definamos la siguiente función:
+\begin{align*}
+p(t) & = \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(t) \\
+     & = \alpha_{0}\,{L}_{0}(t) + \alpha_{1}\,{L}_{1}(t) + \dots + \alpha_{d}\,{L}_{d}(t)
+\end{align*}
 
+Planteamos el siguiente sistema sobre-determinado de ecuaciones
+\begin{equation*}
+\left\{
+    \begin{array}{rl}
+p(x_0) & = \alpha_{0}\,{L}_{0}(x_0) + \alpha_{1}\,{L}_{1}(x_0) + \dots + \alpha_{d}\,{L}_{d}(x_0) \\
+p(x_1) & = \alpha_{0}\,{L}_{0}(x_1) + \alpha_{1}\,{L}_{1}(x_1) + \dots + \alpha_{d}\,{L}_{d}(x_1) \\
+\vdots & \\
+p(x_d) &= \alpha_{0}\,{L}_{0}(x_d) + \alpha_{1}\,{L}_{1}(x_d) + \dots + \alpha_{d}\,{L}_{d}(x_d)
+    \end{array}
+\right.
+\end{equation*}
+que puede escribirse matricialmente como
+\begin{align*}
+% p vector
+\underbrace{
+    \begin{bmatrix}
+        p_{0} \\
+        p_{1} \\
+        \vdots \\
+        p_{d}
+    \end{bmatrix}%_{(d+1)}
+}_{P}
+& =
+% L matrix
+\underbrace{
+    \begin{bmatrix}
+      L_{0}(x_0) & L_{1}(x_0) & \dots & L_{d}(x_0) \\
+      L_{0}(x_1) & L_{1}(x_1) & \dots & L_{d}(x_1) \\
+      \vdots     & \vdots     & & \vdots \\
+      L_{0}(x_d) & L_{1}(x_d) & \dots & L_{d}(x_d) \\
+    \end{bmatrix}%_{(d+1)\times(d+1)}
+}_{L}
+\dot ~
+% alpha vector
+\underbrace{
+   \begin{bmatrix}
+    \alpha_{0} \\
+    \alpha_{1} \\
+    \vdots \\
+    \alpha_{d}
+   \end{bmatrix}%_{(d+1)}
+}_{\alpha} \\
+P &= L\,\alpha
+\end{align*}
+
+Es sabido que la solución del siguiente problema de minimización
+\begin{align*}
+\alpha & = \underset{\alpha}{\operatorname{arg\,mix}} ~~ \|P-L\alpha\|^{2},
+\end{align*}
+es la estima de mínimos cuadrados dada por
+\begin{align*}
+\hat{\alpha} & = (L^{T}L)^{-1}L\,P \\
+             & = L^{\dag}\,P
+\end{align*}
+donde $L^{\dag}$ es la pseudo-inversa de Moore-Penrose.
 
 \subsection{Parametrización por longitud de arco}
 \label{sec:arc-length}
