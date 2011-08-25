@@ -1,10 +1,39 @@
 \section{Resultados}
 
+En esta sección ... *** FALTA ***
+
 \subsection{Bases de datos disponibles}
+
+Se utilizó una base de datos disponible en \cite{LaViola}. Esta base de datos fue dividida en dos: base de datos de dígitos y de letras. La base de datos de dígito tiene~$1100$ muestras de~$11$ usuarios diferentes, que escribieron~$10$ veces cada número. Y la base de datos de letras contiene cerca de~$3600$ muestras. En la figura \ref{fig:db_digitos} se muestran~$10$ ejemplos normalizados a $[0,1]$ de la base de datos de dígitos.
+    \begin{figure}[!htbp]
+    \centering
+    \vspace*{-0.6cm}
+    \includegraphics[scale=0.65]{imagen/db_digitos.pdf}
+    \vspace*{-0.6cm}
+    \caption{Ejemplos de la dase de datos de dígitos}
+    \label{fig:db_digitos}
+    \end{figure}
+
+En caso de que especifique lo contrario, las gráficas que se muestran a continuación corresponden a la base de datos de dígitos, suspendiendo el análisis de los resultados para la base de datos de letras hasta la sección \ref{sec:features_generales}.
 
 \subsection{Validación}
 
+La validación cruzada (o \textit{\textbf{cross-validation}}), es la práctica de partir una base de datos en subconjuntos de tal forma que el entrenamiento es realizado en algunos de ellos (\textit{\textbf{training}}), mientras los otros subconjuntos son retenidos para su uso posterior en la confirmación y validación del análisis inicial (\textit{\textbf{testing}}).
+
+En \textit{\textbf{k-fold} cross-validation}, la base de datos es dividida en $k$ particiones. De las $k$ particiones, solo una se mantiene como datos de validación para testing, y las restante $k-1$ se utilizan para el entrenamiento. El proceso es repetido $k$ veces, de tal modo que cada una de las $k$ particiones es usada exactamente una vez para testing. Los $k$ resultados pueden ser promediados para producir una sola estimación. En este trabajo se ha utilizado 10-fold cross-validation.
+
+
 \subsection{Entendiendo las gráficas}
+
+A lo largo de esta sección se incluirán gráficas similares al estilo de la figura \ref{fig:graficas}.
+    \begin{figure}[!htbp]
+    \centering
+%     \vspace*{-0.3cm}
+    \includegraphics[scale=0.75]{imagen/plot/least_square_L_preproceso_1.pdf}
+    \vspace*{-0.5cm}
+    \caption{Ejemplos de gráfica.}
+    \label{fig:graficas}
+    \end{figure}
 
 
 \subsection{Momentos vs Pseudo-inversa}
@@ -28,8 +57,10 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Ésto permitiría tomar dos caminos al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Esta decisión de diseño puede ser tomada para caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}.
-\vspace*{-0.3cm}
+Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo es conocido recién cuando el trazo es finalizado, no permitiendo así el cálculo de los momentos a medida que se escribe.
+
+Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}.
+% \vspace*{-0.6cm}
 \begin{figure}[!htbp]
   \centering
   \advance\leftskip-2.8cm
@@ -59,9 +90,18 @@ Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el traz
 
 
 \subsection{Parametrización por tiempo vs Parametrización por longitud de arco}
-\subsection{Representación a elegir: Legendre, Chebyshev o Legendre-Sobolev}
+\subsection{Representación a elegir}
+\subsubsection{Legendre, Chebyshev o Legendre-Sobolev}
+\subsubsection{Elección del grado de los polinomios}
 
 \subsection{Momentos como features}
+
+
+\subsection{Features de propósitos general}
+\label{sec:features_generales}
+Observar que los features no fueron diseñados especialmente para símbolos particulares, en este caso los dígitos o las letras. Con la gráfica FFFF, se pretende mostrar que los features obtenidos no dependen del símbolo a ser reconocido, pues se aplicó el mismo algoritmo (sin modificaciones) a la base de datos de letras, y se consiguieron también buenos resultados. % (casi $96\%$ con los polinomios de grado $10$).
+Entonces, los features se pueden considerar de propósitos general y pueden ser utilizados en diferentes situaciones, no sólo con los dígitos.
+
 
 \subsection{Mejor performance}
 \subsection{Mejor precisión}

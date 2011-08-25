@@ -11,6 +11,7 @@
 *.toc
 *.out
 *.ind
+*.svn*
 *.*~
 *.ml*
 *.mt*
