@@ -1,7 +1,7 @@
 \section{Fundamentos}
 \label{fundamentos}
 
-En esta sección se introducirán algunos conceptos básicos que utilizaremos a lo largo del trabajo.
+En esta sección se introducirán algunos conceptos que utilizaremos a lo largo del trabajo.
 
 
 \subsection{Preliminares}
@@ -37,8 +37,8 @@ donde $w(t)$ es una función peso.
 \end{descripcion1}
 
 \subsubsection*{Ortogonalidad:}
-Se dice que $B_i$ y $B_j$ son ortogonales si se cumple que $\langle B_i, B_j \rangle = 0, \quad\quad \forall i\neq\,j$. \\
-Si además, $\langle B_i, B_i \rangle = 1$ se dice que $B_i$ y $B_j$ son ortonormales.
+Se dice que $B_i$ y $B_j$ son ortogonales si se cumple que $\langle B_i, B_j \rangle = 0, \quad\quad \forall i\neq\,j$.
+\\ Si además, $\langle B_i, B_i \rangle = 1$ se dice que $B_i$ y $B_j$ son ortonormales.
 
 \subsubsection*{Proceso de ortogonalización de Gram-Schmidt:}
 Sea $\{v_1, \dots, v_n\}$ una base de un espacio $U$ con producto interno, se define recursivamente
@@ -109,7 +109,7 @@ Para nuestro propósito es conveniente utilizar los polinomios análogos definidos
 L_i(t) &= \sum_{j=0}^{i}{ C_{ij}\,t^j }
 \end{align}
 % donde los coeficientes $C_{ij}$ pueden calcularse con una fórmula cerrada, ver \cite{abramowitz70a}
-el grado de $L_i$ es exactamente $i$.  Se conoce una fórmula cerrada para el cálculo de los coeficientes $C_{ij}$ ortonormales. A continuación se muestra dicha fórmula, que puede encontrarse en \cite{abramowitz70a},
+el grado de $L_i$ es exactamente $i$.  Se conoce una fórmula cerrada para el cálculo de los coeficientes $C_{ij}$ ortonormales. A continuación se muestra dicha fórmula, ver \cite{abramowitz70a},
 \begin{align}
 \label{eq:legendre_coefficients}
 C_{ij} &= (2\,i+1)^{\frac{1}{2}}\begin{pmatrix}i\cr j\end{pmatrix} {\left( -1\right) }^{j} \begin{pmatrix}j+i\cr j\end{pmatrix}
@@ -137,12 +137,34 @@ Pueden verse los primeros diez polinomios de Legendre gráficamente en la figura~
 
 
 \subsubsection{Polinomios de Chebyshev}
-Otros polinomios ortogonales que pueden usarse son los de Chebyshev. A diferencia de los de Legendre, la función peso es $w(t)=(1-x^2)^{\frac{1}{2}}$. Se pueden generar estos polinomios con el proceso de ortogonalización de Gram-Schmidt en el intervalos $[0,1]$.
+Otros polinomios ortogonales que pueden usarse son los polinomios de Chebyshev. A diferencia de los de Legendre, la función peso es $w(t)=(1-x^2)^{-\frac{1}{2}}$. Se pueden generar estos polinomios con el proceso de ortogonalización de Gram-Schmidt. Se muestran en la figura~\ref{fig:chebyshev} algunos de ellos.
+\begin{figure}[!htbp]
+\vspace*{-0.9cm}
+\centering
+\includegraphics[scale=0.275]{imagen/chebyshev.pdf}
+\vspace*{-0.6cm}
+\caption{Primeros diez polinomios de Chebyshev, en el intervalo $[-1,1]$}
+\label{fig:chebyshev}
+\end{figure}
+
 
 
 \subsubsection{Polinomios de Legendre-Sobolev}
+Se puede utilizar el producto interno de Sobolev con peso $w(t)=1$, es decir,
+\begin{align*}
+\label{ref:LS_inner_prod}
+ \langle f, g \rangle_{\mbox{\footnotesize$LS$}} & = \int_{a}^{b}f(t)\,g(t)\,dt + \mu \, \int_{a}^{b}f'(t)\,g'(t)\,dt
+\end{align*}
+dando lugar a los polinomios de Legendre-Sobolev, ver \cite{LegendreSobolevComp}. En la figura \ref{fig:LS} pueden verse dos instancia con $\mu=\frac{1}{8}$ y $\mu=\frac{1}{16}$,
+\begin{figure}[!htbp]
+\vspace*{-0.9cm}
+  \centering
+  \subfloat[$\mu=\frac{1}{8}$]{\label{fig:LS_u_1_8}\includegraphics[scale=0.275]{imagen/legendre-sobolev_1_8.pdf}}
+  \subfloat[$\mu=\frac{1}{16}$]{\label{fig:LS_u_1_16}\includegraphics[scale=0.275]{imagen/legendre-sobolev_1_16.pdf}}
+  \caption{Primeros veintes polinomios de Legendre-Sobolev, en el intervalo $[0,1]$ }
+  \label{fig:LS}
+\end{figure}
 
-(falta)
 
 \subsection{Series de funciones ortogonales}
 \label{Series_de_funciones_ortogonales}
