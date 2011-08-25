@@ -350,6 +350,11 @@ donde $L^{\dag}$ es la pseudo-inversa de Moore-Penrose.
 
 \subsection{Parametrización por longitud de arco}
 \label{sec:arc-length}
+Parametrización por tiempo y por longitud de arco (\textit{arc-length}) son las elecciones más populares en el campo de reconocimiento de escritura online, ver \cite{Nalwa} y \cite{Toward_affine_recognition}. Parametrización por longitud de arco es usualmente preferible, pues no es afectada por variaciones en la velocidad de escritura. Esta puede ser expresada como:
+\begin{align*}
+    \text{\textit{arc-length}}(\lambda) = \int_{0}^{\lambda}{\sqrt{(x'(\lambda))^2+(y'(\lambda))^2}}
+\end{align*}
+
 
 \subsection{Necesidad del preproceso}
-Se ha demostrado que el método es invariante a escala \ref{Invariante_escala} y a la velocidad de escritura \ref{sec:arc-length}. Pero no se ha mencionado que sea invariante a traslación, pues no lo es. Sí se puede probar empíricamente que a pesar de que no sea invariante a traslación, pequeñas traslaciones no perturban demasiado el cálculo de vectores, obteniendo igualmente buenos resultados. De aquí se deriva el análisis de si es necesario, o no, el preproceso. Se posterga dicho análisis hasta la sección \ref{prepoceso}.
+Se ha demostrado que el método es invariante a escala \ref{Invariante_escala}, y comentado en \ref{sec:arc-length} que la parametrización por longitud de archo no es afectada por las variaciones en la velocidad de escritura. Pero no se ha mencionado que sea invariante a traslación, pues no lo es. Sí se puede probar empíricamente que a pesar de que no sea invariante a traslación, pequeñas traslaciones no perturban demasiado el cálculo de los vectores, obteniendo igualmente resultados razonables que pueden ser usados en otros escenarios en donde la eficiencia computacional es un requerimiento determinante, como ser los dispositivos móviles. De aquí se deriva el análisis de si es posible evitar el preproceso, el cual se posterga hasta la sección \ref{prepoceso}.
