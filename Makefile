@@ -92,6 +92,16 @@ tar:
       ls -lh `NOMBRE`.tar.*
 	@echo "=============================="
 
+compress:
+	gs -q -dPDFSETTINGS=/prepress -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=$(CURRENT)_compressed.pdf  $(CURRENT).pdf
+	ls -hl $(CURRENT)_compressed.pdf $(CURRENT).pdf
+
+# Algunas opciones más:
+#             -dPDFSETTINGS=/screen   (screen-view-only quality, 72 dpi images)
+#             -dPDFSETTINGS=/ebook    (low quality, 150 dpi images)
+#             -dPDFSETTINGS=/printer  (high quality, 300 dpi images)
+#             -dPDFSETTINGS=/prepress (high quality, color preserving, 300 dpi imgs)
+#             -dPDFSETTINGS=/default  (almost identical to /screen)
 
 
 # =============

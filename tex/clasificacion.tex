@@ -152,6 +152,7 @@ K_{RBF}(x_k,x_\ell) & = & e^{-\frac{\|x_k-x_\ell\|^2}{\sigma^2}}
 
 
 \subsubsection{Grilla de Valores}
+\label{sec:grid}
 
 En este trabajo los mejores resultados se consiguieron con el Kernel RBF ($K_{RBF}$), el cuál posee un parámetro $\sigma$ que debe ser elegido convenientemente para cada conjunto de datos. También el parámetro $C$ debe ser escogido pues, como se indicó en la sección \ref{svm_lineal}, es el que controla la compensación entre los errores de entrenamiento y los márgenes. Al ser dos parámetros, se puede generar una grilla de valores e ir probando hasta encontrar dónde se llega al máximo dentro ella. Un ejemplo de este procedimiento puede verse en la figura \ref{fig:grid}, ignorar por el momento los resultados numéricos.
 \begin{figure}[!htbp]
