@@ -7,7 +7,7 @@
 #        make foo.ps
 #        make foo.pdf
 #        make foo       (que genera dvi, ps, pdf)
-FILES = main
+FILES = main.pdf
 
 # Dependencias
 DEP   = tex/*.tex bibliografia.bib

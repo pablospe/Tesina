@@ -52,6 +52,38 @@ Por último, la misma leyenda es utilizadas en todas las gráficas. Allí se indica
 
 
 \subsection{Momentos vs Pseudo-inversa}
+
+Se lo enumerarán algunas ventajas y desventajas del algoritmo de los momentos \ref{Momentos} frente a la pseudo-inversa~\ref{leastSquare}.
+
+\begin{basedescript}{\desclabelwidth{2.3cm}}
+\item[Ventajas:]
+    \begin{itemize}
+        \item El algoritmo se puede implementar de tal modo que los momentos se vayan calculando a medida que el usuario escriba el trazo, ver \ref{sec:calculo_numerico_momentos}. Por lo tanto, se puede dividir la complejidad computacional en: (1.) cálculos online (mientras se escribe), (2.) cálculos a partir de que se haya finalizado el trazo. Es necesario tomar solamente (2.) si se desea comparar con otro algoritmo que no tengan cálculos online, como el algoritmo de la pseudo-inversa. Se puede confirmar fácilmente que la parte (2.) del algoritmo de los momentos es \textbf{constante}. Esto sucede pues una vez calculados los momentos, solo se tiene que realizar una multiplicación matricial $\mathbf{\alpha}  = \mathbf{C\,\mu}$, para conseguir los features,
+        \item Es mucho más sencillo de implementar que la pseudo-inversa.
+    \end{itemize}
+
+\item[Desventajas:]
+    \begin{itemize}
+    \item El algoritmo de los momentos solo funciona para los polinomios de Legendre. En cambio, con la pseudo-inversa se pueden utilizar polinomios ortogonales cualesquiera.
+    \item El cálculo de momentos sufre de \textit{\textbf{inestabilidad numérica}} para~$d$ grandes. En la figura~\ref{fig:inestabilidad_numerica}, pueden verse aproximaciones para $\{d=9, d=12, \dots ,d=24\}$ de la función $u(t) = \mathrm{sin}\left( 3\,\pi \,t\right) -\frac{1}{2}\,\mathrm{sin}\left( \frac{15\,\pi \,t}{2}\right)$.
+        \begin{figure}[!htbp]
+            \centering
+%             \vspace*{-0.3cm}
+%             \advance\rightskip-1.5cm
+            \includegraphics[scale=0.6]{imagen/inestabilidad_numerica.pdf}
+%             \vspace*{-1cm}
+            \caption{Momentos: inestabilidad numérica}
+            \label{fig:inestabilidad_numerica}
+        \end{figure}
+    \end{itemize}
+
+\end{basedescript}
+
+
+No se enumerarán las ventajas y desventajas de la pseudo-inversa frente a los momentos, pues es la relación inversa. La ventaja de un método es la desventaja del otro.
+
+
+
 \subsection{Preprocesar o No Preprocesar}
 \label{prepoceso}
 
@@ -72,9 +104,9 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo de cada eje es conocido recién cuando el trazo es finalizado, no permitiendo así el cálculo de los momentos a medida que se escribe.
+Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo de cada eje es conocido recién cuando el trazo es finalizado, lo cual implica que el preproceso no permite el cálculo de los momentos a medida que se escribe el trazo.
 
-Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perder precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación sobre la precisión de reconocimiento puede verse en~\ref{fig:prep_vs_no_prep}, donde se muestra en \textbf{(a)} una pérdida de precisión del $2\%$ (considerando los mejores resultados) al no usar preproceso, con respecto a~\textbf{(b)} que sí utiliza preproceso.
+Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perdida precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación puede verse en~\ref{fig:prep_vs_no_prep}, donde al no usar preproceso en \textbf{(a)} se tiene una pérdida de precisión del $2\%$ (considerando los mejores resultados) con respecto a~\textbf{(b)} que sí utiliza preproceso.
 % \vspace*{-0.6cm}
 \begin{figure}[!htbp]
   \centering
@@ -86,30 +118,68 @@ Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema
   \label{fig:prep_vs_no_prep}
 \end{figure}
 
+\subsection{Elección del grado $d$ de los polinomios}
 
-% \begin{figure}[h!]
-%  \centering
-%  \advance\leftskip-2.8cm
-%  \advance\rightskip-2.8cm
-%  \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_0.pdf}
-% \hspace*{-0.4cm}
-% \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}
-%  \caption{Sin preproceso (izq.), y con preproceso (der.). Método: Momentos con polinomios de Legendre}
-%  \label{fig:prep_vs_no_prep}
+Recordar llamamos $d$ al grado de los polinomios elegidos, y que los features tienen dimensión $2\,(d+1)$. Cabe señalar que a menor $d$, menos \textbf{cómputos}; pero no necesariamente a mayor $d$, más \textbf{precisión}. Se observa en las gráficas que generalmente se obtienen los máximos en el rango $[9,15]$. Por lo que una buena elección de $d$ podría ser: $9$, $12$ ó $15$. Este es un parámetro que debe elegirse a la hora de implementar un sistema de reconocimiento usando estas técnicas.
+
+\subsection{Elección de la representación}
+La mejor representación puede variar según el escenario. Como vimos con anterioridad, la mejor representación posible teniendo como prioridad la eficiencia se logra con el método de los momentos, polinomios de Legendre (preproceso desactivado), ver figura \ref{fig:prep}. Y la mejor representación posible en cuanto a precisión se obtuvo con los polinomios de Legendre-Sobolev (preproceso activo), ver figura~\ref{fig:mejor_rep_presicion}.
+    \begin{figure}[!htbp]
+    \centering
+    \vspace*{-0.22cm}
+    \includegraphics[scale=0.6]{imagen/plot/least_square_LS_preproceso_1.pdf}
+    \vspace*{-0.42cm}
+    \caption{Mejor representación considerando como prioridad la precisión.}
+    \label{fig:mejor_rep_presicion}
+    \end{figure}
+
+También se ha probado con los polinomios de Chebyshev (ver gráfica \ref{fig:Legendre_vs_Chebyshev}), pero no se ha logrado mejoras significativas con respecto a Legendre. Motivamos por la falta de ventajas, y la desventaja de no poder utilizar momentos, se ha descartado esta representación.
+ \vspace*{-0.6cm}
+\begin{figure}[!htbp]
+  \centering
+  \advance\leftskip-2.8cm
+  \advance\rightskip-2.8cm
+  \subfloat[Legendre]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_L_preproceso_1.pdf}}
+  \subfloat[Chebyshev]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_C_preproceso_1.pdf}}
+  \caption{Legendre vs Chebyshev}
+  \label{fig:Legendre_vs_Chebyshev}
+\end{figure}
+
+\subsection{Parametrización por tiempo vs Parametrización por longitud de arco}
+
+Se ha indicado en \ref{sec:arc-length} que la parametrización por longitud de arco es usualmente preferible, pues no es afectada por variaciones en la velocidad de escritura. La pruebas realizadas no indican una mejora considerable, pero se sospecha que es por la calidad que posee la base de datos, la cual no parecería tener trazos con variaciones importantes en la velocidad de escritura.
+
+% \begin{figure}[!htbp]
+%   \centering
+%   \advance\leftskip-2.8cm
+%   \advance\rightskip-2.8cm
+%   \subfloat[Parametrización por tiempo]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_L_preproceso_1.pdf}}
+%   \subfloat[Parametrización por longitud de arco]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_L_arc_preproceso_1.pdf}}
+% %   \subfloat[Parametrización por tiempo]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_LS_preproceso_1.pdf}}
+% %   \subfloat[Parametrización por longitud de arco]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/least_square_LS_arc_preproceso_1.pdf}}  \\
+% %   \subfloat[Parametrización por tiempo]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}}
+% %   \subfloat[Parametrización por longitud de arco]{\includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_arc_preproceso_1.pdf}}
+%   \caption{Momentos con polinomios de Legendre}
+%   \label{fig:asdf}
 % \end{figure}
 
 
-
-%  \includegraphics[scale=0.458,keepaspectratio=true]{imagen/plot/moments_L_preproceso_1.pdf}
-%  \includegraphics[scale=0.46,keepaspectratio=true]{imagen/plot/moments_L_arc_preproceso_1.pdf}
-
-
-\subsection{Parametrización por tiempo vs Parametrización por longitud de arco}
-\subsection{Representación a elegir}
-\subsubsection{Legendre, Chebyshev o Legendre-Sobolev}
-\subsubsection{Elección del grado de los polinomios}
-
 \subsection{Momentos como features}
+En la ecuación \refEQ{eq:HMP},
+\begin{align}
+   \mathbf{\alpha} & = \mathbf{C\,\mu}
+\end{align}
+donde $C$ es la matriz de coeficientes de los polinomios de Legendre, puede verse que los únicos valores que cambian (de trazo en trazo) son los momentos~$\mu$, ya que $C$ está fija (precalculada). Por qué no intentar considerar entonces a los momentos como features. En la gráfica \ref{fig:momemts_as_features} el mejor método es k-NN con la distancia de Mahalanobis. Casi que no se ven las otras medidas, por el alto rango elegido de porcentaje de reconocimiento $[91,100]$. En estos resultados el preproceso estaba activado, pero si se desactiva el mejor método apenas supera el $90\%$ de precisión, con lo cuál no se puede utilizarlos sin preproceso.
+    \begin{figure}[!htbp]
+    \centering
+    \vspace*{-0.2cm}
+    \includegraphics[scale=0.6]{imagen/plot/moments_preproceso_1.pdf}
+    \vspace*{-0.3cm}
+    \caption{Momentos como features.}
+    \label{fig:momemts_as_features}
+    \end{figure}
+
+Observar que la mejora en la eficiencia no es significativa, pues para calcular $\mathbf{\alpha}$ se requiere una única multiplicación matricial $\mathbf{C\,\mu}$. \textbf{Es mayor la pérdida de precisión que la ganancia en eficiencia}, por lo que no se recomienda su utilización, pero sí se remarca la simpleza del método.
 
 
 \subsection{Features de propósitos general}
@@ -122,11 +192,8 @@ En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a 
     \begin{figure}[!htbp]
     \centering
     \vspace*{-0.2cm}
-    \includegraphics[scale=0.65]{imagen/plot/least_square_LS_letras_preproceso_1.pdf}
+    \includegraphics[scale=0.6]{imagen/plot/least_square_LS_letras_preproceso_1.pdf}
     \vspace*{-0.2cm}
     \caption{Mejores resultados para la base de dato de letras.}
     \label{fig:letras_LS}
     \end{figure}
-
-\subsection{Mejor performance}
-\subsection{Mejor precisión}
