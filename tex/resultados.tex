@@ -1,4 +1,5 @@
 \section{Resultados}
+\label{sec:resultados}
 
 En esta sección se indicará sobre qué conjuntos de datos se ha trabajado y la forma de evaluación usada. También se compararán los diferentes métodos descripto a lo largo del presente trabajo.
 
@@ -123,6 +124,7 @@ Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema
 Recordar que llamamos $d$ al grado de los polinomios elegidos, y que los features tienen dimensión $2\,(d+1)$. Cabe señalar que a menor $d$, menos \textbf{cómputos}; pero no necesariamente a mayor $d$, más \textbf{precisión}. Se observa en las gráficas que generalmente se obtienen los máximos en el rango $[9,15]$. Por lo que una buena elección de $d$ podría ser: $9$, $12$ ó $15$. Este es un parámetro que debe elegirse a la hora de implementar un sistema de reconocimiento usando estas técnicas.
 
 \subsection{Elección de la representación}
+\label{sec:mejor_representacion}
 La mejor representación puede variar según el escenario. Como vimos con anterioridad, la mejor representación posible teniendo como prioridad la eficiencia se logra con el método de los momentos, polinomios de Legendre (preproceso desactivado), ver figura \ref{fig:prep}. Y la mejor representación posible en cuanto a precisión se obtuvo con los polinomios de Legendre-Sobolev (preproceso activo), ver figura~\ref{fig:mejor_rep_presicion}.
     \begin{figure}[!htbp]
     \centering
