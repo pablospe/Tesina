@@ -1,10 +1,10 @@
 \section{Resultados}
 
-En esta sección ... *** FALTA ***
+En esta sección se indicará sobre qué conjuntos de datos se ha trabajado y la forma de evaluación. También se compararán los diferentes métodos descripto a lo largo del presente trabajo.
 
-\subsection{Bases de datos disponibles}
+\subsection{Base de datos}
 
-Se utilizó una base de datos disponible en \cite{LaViola}. Esta base de datos fue dividida en dos: base de datos de dígitos y de letras. La base de datos de dígito tiene~$1100$ muestras de~$11$ usuarios diferentes, que escribieron~$10$ veces cada número. Y la base de datos de letras contiene cerca de~$3600$ muestras. En la figura \ref{fig:db_digitos} se muestran~$10$ ejemplos normalizados a $[0,1]$ de la base de datos de dígitos.
+La base de datos utilizada se encuentra disponible en \cite{LaViola}. Dicha base de datos fue subdividida en dos partes: base de datos de dígitos y base de datos de letras. La primera contiene~$1100$ muestras de~$11$ personas distintas que escribieron cada número~$10$ veces. Y la base de datos de letras contiene cerca de~$3600$ muestras. En la figura \ref{fig:db_digitos} se muestran~$10$ ejemplos normalizados a $[0,1]$ de la base de datos de dígitos.
     \begin{figure}[!htbp]
     \centering
     \vspace*{-0.6cm}
@@ -25,17 +25,30 @@ En \textit{\textbf{k-fold} cross-validation}, la base de datos es dividida en $k
 
 \subsection{Entendiendo las gráficas}
 
-*** FALTA ***
-
-A lo largo de esta sección se incluirán gráficas similares al estilo de la figura \ref{fig:graficas}.
+A lo largo de esta sección se incluirán gráficas similares a la figura \ref{fig:graficas}.
     \begin{figure}[!htbp]
     \centering
 %     \vspace*{-0.3cm}
-    \includegraphics[scale=0.75]{imagen/plot/least_square_L_preproceso_1.pdf}
-    \vspace*{-0.5cm}
+    \includegraphics[scale=0.7]{imagen/plot/least_square_L_preproceso_1.pdf}
+%     \vspace*{-0.5cm}
     \caption{Ejemplos de gráfica.}
     \label{fig:graficas}
     \end{figure}
+
+En el título de las gráficas se indica la combinación de métodos y opciones usadas. A continuación se detallan los posibles valores:
+\begin{itemize}
+ \item  \textbf{Polinomio:} Legendre, Chebyshev o Legendre-Sobolev;
+ \item  \textbf{Método:} Momentos o Mínimo Cuadrados (mediante pseudo-inversa, \textit{LeastSquare});
+ \item  \textbf{Parametrización:} por tiempo o por longitud de arco (\textit{arc-length});
+ \item  \textbf{Preproceso:} activado ($1$) o desactivado ($0$);
+ \item  \textbf{libsvm:} los dos primeros parámetros son $C$ y $\gamma$, explicados en \ref{sec:grid}. Estos son pasado a la biblioteca \textit{libsvm}. Los demás parámetros son opciones internas de libsvm, que han elegido convenientemente y dejado fijas en todas las pruebas.
+\end{itemize}
+
+El eje $X$ de las gráficas representan el grado $d$ (\textit{degree}) de los polinomios elegidos, donde $d~\in~[3,20]$. Recordar que los \textit{features} son los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ que tiene dimensión $2\,(d+1)$.
+
+El eje $Y$ representa la \textit{\textbf{precisión}} alcanzada por el método, porcentaje de reconocimiento correcto, en el rango $[91,100]$.
+
+Por último, la misma leyenda es utilizadas en todas las gráficas. Allí se indica el color de los métodos de \textit{clasificación} usados: $k$-NN, con alguna de sus distancias (Euclidiana, Cityblock o Mahalanobis), o LibSVM.
 
 
 \subsection{Momentos vs Pseudo-inversa}
