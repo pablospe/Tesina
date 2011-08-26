@@ -1,7 +1,7 @@
 \section{Resultados}
 \label{sec:resultados}
 
-En esta sección se indicará sobre qué conjuntos de datos se ha trabajado y la forma de evaluación usada. También se compararán los diferentes métodos descripto a lo largo del presente trabajo.
+En esta sección se indicará sobre qué conjuntos de datos se ha trabajado y la forma de evaluación usada. También se compararán los diferentes métodos descriptos a lo largo del presente trabajo.
 
 \subsection{Base de datos}
 
@@ -15,7 +15,7 @@ La base de datos utilizada se encuentra disponible en \cite{LaViola}. Dicha base
     \label{fig:db_digitos}
     \end{figure}
 
-En caso de que especifique lo contrario, las gráficas que se muestran a continuación corresponden a la base de datos de dígitos, suspendiendo el análisis de los resultados para la base de datos de letras hasta la sección \ref{sec:features_generales}.
+Salvo que se especifique lo contrario, las gráficas que se muestran a continuación corresponden a la base de datos de dígitos, suspendiendo el análisis de los resultados para la base de datos de letras hasta la sección \ref{sec:features_generales}.
 
 \subsection{Validación}
 
@@ -42,7 +42,7 @@ En el título de las gráficas se indica la combinación de métodos y opciones usad
  \item  \textbf{Método:} Momentos o Mínimo Cuadrados (mediante pseudo-inversa, \textit{LeastSquare});
  \item  \textbf{Parametrización:} por tiempo o por longitud de arco (\textit{arc-length});
  \item  \textbf{Preproceso:} activado ($1$) o desactivado ($0$);
- \item  \textbf{libsvm:} los dos primeros parámetros son $C$ y $\gamma$, explicados en \ref{sec:grid}. Estos son pasado a la biblioteca \textit{libsvm}. Los demás son parámetros internos de libsvm, que se han elegido convenientemente y dejado fijos en todas las pruebas.
+ \item  \textbf{libsvm:} los dos primeros parámetros son $C$ y $\gamma$, explicados en \ref{sec:grid}. Estos son pasados a la biblioteca \textit{libsvm}. Los demás son parámetros internos de libsvm, que se han elegido convenientemente y dejado fijos en todas las pruebas.
 \end{itemize}
 
 El eje $X$ de las gráficas representan el grado $d$ (\textit{degree}) de los polinomios elegidos, donde $d~\in~[3,20]$. Recordar que los \textit{features} son los vectores $({\alpha}_{0}, \dots ,{\alpha}_{d}, {\beta}_{0}, \dots ,{\beta}_{d})$ que tiene dimensión $2\,(d+1)$.
@@ -54,13 +54,13 @@ Por último, la misma leyenda es utilizadas en todas las gráficas. Allí se indica
 
 \subsection{Momentos vs Pseudo-inversa}
 
-Se lo enumerarán algunas ventajas y desventajas del algoritmo de los momentos \ref{Momentos} frente a la pseudo-inversa~\ref{leastSquare}.
+Se enumerarán algunas ventajas y desventajas del algoritmo de los momentos \ref{Momentos} frente a la pseudo-inversa~\ref{leastSquare}.
 
 \begin{basedescript}{\desclabelwidth{2.3cm}}
 \item[Ventajas:]
     \begin{itemize}
-        \item El algoritmo se puede implementar de tal modo que los momentos se vayan calculando mientras el usuario escriba el trazo, ver \ref{sec:calculo_numerico_momentos}. Por lo tanto, se puede dividir la complejidad computacional en: (1.) cálculos online (mientras se escribe), (2.) cálculos a partir de que se haya finalizado el trazo. Es necesario tomar solamente (2.) si se desea comparar con otro algoritmo que no tengan cálculos online, como el algoritmo de la pseudo-inversa. Se puede ver fácilmente que la parte (2.) del algoritmo de los momentos es \textbf{constante}. Esto sucede pues una vez calculados los momentos, solo se tiene que realizar una multiplicación matricial $\mathbf{\alpha}  = \mathbf{C\,\mu}$, para conseguir los features,
-        \item Es mucho más sencillo de implementar que la pseudo-inversa.
+        \item El algoritmo se puede implementar de tal modo que los momentos se vayan calculando mientras el usuario escribe el trazo, ver \ref{sec:calculo_numerico_momentos}. Por lo tanto, se puede dividir la complejidad computacional en: (1.) cálculos online (mientras se escribe), (2.) cálculos a partir de que se haya finalizado el trazo. Es necesario tomar solamente (2.) si se desea comparar con otro algoritmo que no tenga cálculos online, como el algoritmo de la pseudo-inversa. Se puede ver fácilmente que la parte (2.) del algoritmo de los momentos es \textbf{constante}. Esto sucede pues una vez calculados los momentos, solo se tiene que realizar una multiplicación matricial $\mathbf{\alpha}  = \mathbf{C\,\mu}$, para conseguir los features,
+        \item Es más sencillo de implementar que la pseudo-inversa.
     \end{itemize}
 
 \item[Desventajas:]
@@ -92,7 +92,7 @@ Como se indicó en la sección \ref{sec:conceptos_preproceso}, antes del cálculo d
 
 % El algoritmo de cálculo de momento puede ser implementado (como se vio en la sec) de manera tal que puedan ser calculados a medida que los datos se vayan introduciendo.
 
-%Evitar utilizar estos filtros permitiría el cálculo de los momentos a medida que se van ingresando los datos, como se ha indicado en la sección \ref{sec:calculo_numerico_momentos}; lo cuál permitiría un aumento considerable de eficiencia en comparación con el método de la pseudo-inversa, el cual necesita esperar a que el usuario termine
+%Evitar utilizar estos filtros permitiría el cálculo de los momentos a medida que se van ingresando los datos, como se ha indicado en la sección \ref{sec:calculo_numerico_momentos}; lo cual permitiría un aumento considerable de eficiencia en comparación con el método de la pseudo-inversa, el cual necesita esperar a que el usuario termine
 
 
 \subsubsection{Evitando suavizado}
@@ -105,9 +105,9 @@ Al cambiar la representación de los trazos, de secuencia de puntos a curvas cont
 Se ha demostrado que los features obtenidos son invariantes a escala, sección \ref{Invariante_escala}. Por lo que también es innecesario aplicar este filtro.
 
 \subsubsection{Evitando traslación}
-Un filtro no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo de cada eje es conocido recién cuando el trazo es finalizado, lo cual implica que el preproceso no permite el cálculo de los momentos \textit{mientras} se escribe el trazo, perdiendo su ventaja computacional frente al método de la pseudo-inversa.
+Un procesamiento no mencionado es aplicar traslación, que se ocupa de trasladar el trazo de manera tal que el mínimo de cada eje sea $0$. Se ha expresado que los features no son invariantes a traslación. Aquí se muestra por experimentación, que las traslaciones no provocan una pérdida significativa en la precisión de reconocimiento. Esto permitiría tomar dos caminos posibles al implementar un sistema de reconocimiento: preprocesar o no hacerlo. Observar que a pesar de que el preproceso se haya reducido a una simple traslación, el mínimo de cada eje es conocido recién cuando el trazo es finalizado, lo cual implica que el preproceso no permite el cálculo de los momentos \textit{mientras} se escribe el trazo, perdiendo su ventaja computacional frente al método de la pseudo-inversa.
 
-Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perdida precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación puede verse en~\ref{fig:prep_vs_no_prep}, donde al no usar preproceso en \textbf{(a)} se tiene una pérdida de precisión del $2\%$ (considerando los mejores resultados) con respecto a~\textbf{(b)} que sí utiliza preproceso.
+Esta decisión de diseño puede ser tomada para el caso en que se requiera extrema eficiencia, como el caso de los dispositivos móviles, evitando preprocesar a costa de perdida precisión. Entonces, se tiene que evaluar en qué escenario se desea utilizar el sistema de reconocimiento, y elegir el balance justo entre eficiencia y precisión según sea el caso. Una comparación puede verse en la figura~\ref{fig:prep_vs_no_prep}, donde al no usar preproceso en \textbf{(a)} se tiene una pérdida de precisión del~$2\%$ (considerando los mejores resultados) con respecto a~\textbf{(b)} que sí utiliza preproceso.
 % \vspace*{-0.6cm}
 \begin{figure}[!htbp]
   \centering
@@ -135,7 +135,7 @@ La mejor representación puede variar según el escenario. Como vimos con anterior
     \label{fig:mejor_rep_presicion}
     \end{figure}
 
-También se ha probado con los polinomios de Chebyshev (ver gráfica \ref{fig:Legendre_vs_Chebyshev}), pero no se ha logrado mejoras significativas con respecto a Legendre. Motivamos por la falta de ventajas, y la desventaja de no poder utilizar momentos, se ha descartado esta representación.
+También se ha probado con los polinomios de Chebyshev (ver gráfica \ref{fig:Legendre_vs_Chebyshev}), pero no se han logrado mejoras significativas con respecto a Legendre. Motivados por la falta de ventajas, y la desventaja de no poder utilizar momentos, se ha descartado esta representación.
  \vspace*{-0.6cm}
 \begin{figure}[!htbp]
   \centering
@@ -171,7 +171,7 @@ En la ecuación \refEQ{eq:HMP},
 \begin{align}
    \mathbf{\alpha} & = \mathbf{C\,\mu}
 \end{align}
-donde $C$ es la matriz de coeficientes de los polinomios de Legendre, puede verse que los únicos valores que cambian (de trazo en trazo) son los momentos~$\mu$, ya que $C$ está fija (precalculada). Por qué no intentar considerar entonces a los momentos como features. En la gráfica \ref{fig:momemts_as_features} el mejor método es k-NN con la distancia de Mahalanobis. Casi que no se ven las otras medidas, por el alto rango elegido de porcentaje de reconocimiento $[91,100]$. En estos resultados el preproceso estaba activado, pero si se desactiva el mejor método apenas supera el $90\%$ de precisión, con lo cuál no se lo puede utilizar sin preproceso.
+donde $C$ es la matriz de coeficientes de los polinomios de Legendre, puede verse que los únicos valores que cambian (de trazo en trazo) son los momentos~$\mu$, ya que $C$ está fija (precalculada). Por qué no intentar considerar entonces a los momentos como features. En la gráfica \ref{fig:momemts_as_features} el mejor método es k-NN con la distancia de Mahalanobis. Casi que no se ven las otras medidas, por el alto rango elegido de porcentaje de reconocimiento $[91,100]$. En estos resultados el preproceso estaba activado, pero si se desactiva el mejor método apenas supera el $90\%$ de precisión, con lo cual no se lo puede utilizar sin preproceso.
     \begin{figure}[!htbp]
     \centering
     \vspace*{-0.2cm}
@@ -187,9 +187,9 @@ Observar que la mejora en la eficiencia, al evitar calcular $\mathbf{\alpha}$, n
 \subsection{Features de propósitos general}
 \label{sec:features_generales}
 Observar que los features no fueron diseñados especialmente para símbolos particulares, como ser los dígitos o las letras. Con la gráfica \ref{fig:letras_LS}, se pretende mostrar que los features obtenidos no dependen del símbolo a ser reconocido, pues se aplicó el mismo algoritmo (sin modificaciones) a la base de datos de letras, y se consiguieron también buenos resultados. % (casi $96\%$ con los polinomios de grado $10$).
-Entonces, los features se pueden considerar de propósitos general pudiendo ser utilizados en diferentes situaciones, y no sólo con los dígitos.
+Entonces, los features se pueden considerar de propósitos generales pudiendo ser utilizados en diferentes situaciones, y no sólo con los dígitos.
 
-En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a precisión, obtenidos con los polinomios de Legendre-Sobolev de grado $9$ con poco más de $96\,\%$ de reconocimiento correcto para la base de dato de letras. Recordar que la base de datos es más grande que la de dígitos (con cerca de $3600$) y que posee más clases, lo cuál la diferencia de precisión se debe esencialmente a que la base de datos es más complicada.
+En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a precisión, obtenidos con los polinomios de Legendre-Sobolev de grado $9$ con poco más de $96\,\%$ de reconocimiento correcto para la base de dato de letras. Recordar que la base de datos es más grande que la de dígitos (con cerca de $3600$) y que posee más clases, por lo cual la diferencia de precisión se debe esencialmente a que la base de datos es más complicada.
 %; y en cuanto a \textbf{eficiencia}, obtenidos con momentos sin preprocesar los datos alcanzando un máximo de $9??\,\%$. Este último es el método más eficiente por las consideraciones hechas en el apartado \ref{prepoceso}.
     \begin{figure}[!htbp]
     \centering

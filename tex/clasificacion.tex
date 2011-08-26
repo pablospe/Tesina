@@ -32,9 +32,9 @@ dist(x,y) & = \sum_{i=0}^d |x_i-y_i|
 \subsubsection{Distancia Mahalanobis}
 Esta medida se diferencia de la distancia euclídea en que tiene en cuenta la correlación entre las variables aleatorias,
 \begin{align}
-dist(x,y)^2 & = (x-y)\,C^{-1}\,(x-y)^T
+dist(x,y)^2 & = (x-y)\,\Sigma^{-1}\,(x-y)^T
 \end{align}
-donde $C$ es la matriz de covariancia.
+donde $\Sigma$ es la matriz de covariancia.
 
 
 
@@ -134,11 +134,11 @@ y(x)=sign\left(\sum_{k=1}^n\alpha_k\,y_k\,K(x,x_k)+b\right)
 \end{equation}
 donde los $\alpha_k$ vienen de la solución del problema dual \cite{SVM}.
 
-Diferentes Kernels han sido usados en la literatura pero los más populares son: Linear, Polinomial and Función de Base Radial (\textit{\textbf{Radial Basis Functions}}, o \textit{\textbf{RBF}}). Definidas de la siguiente manera:
+Diferentes Kernels han sido usados en la literatura pero los más populares son: Linear, Polinomial y Función de Base Radial (\textit{\textbf{Radial Basis Functions}}, o \textit{\textbf{RBF}}). Definidas de la siguiente manera:
 \begin{eqnarray*}
 K_{linear}(x_k,x_\ell) & = & x_k^Tx_\ell ,\\
 K_{polinomial}(x_k,x_\ell) & = & (1+x_k^Tx_\ell)^d ,\nonumber \\
-K_{RBF}(x_k,x_\ell) & = & e^{-\frac{\|x_k-x_\ell\|^2}{\sigma^2}}
+K_{RBF}(x_k,x_\ell) & = & e^{-\frac{\|x_k-x_\ell\|^2}{\gamma^2}}
 \end{eqnarray*}
 
 
@@ -154,18 +154,18 @@ K_{RBF}(x_k,x_\ell) & = & e^{-\frac{\|x_k-x_\ell\|^2}{\sigma^2}}
 \subsubsection{Grilla de Valores}
 \label{sec:grid}
 
-En este trabajo los mejores resultados se consiguieron con el Kernel RBF ($K_{RBF}$), el cuál posee un parámetro $\sigma$ que debe ser elegido convenientemente para cada conjunto de datos. También el parámetro $C$ debe ser escogido pues, como se indicó en la sección \ref{svm_lineal}, es el que controla la compensación entre los errores de entrenamiento y los márgenes. Al ser dos parámetros, se puede generar una grilla de valores e ir probando hasta encontrar dónde se llega al máximo dentro ella. Un ejemplo de este procedimiento puede verse en la figura \ref{fig:grid}, ignorar por el momento los resultados numéricos.
+En este trabajo los mejores resultados se consiguieron con el Kernel RBF ($K_{RBF}$), el cual posee un parámetro $\gamma$ que debe ser elegido convenientemente para cada conjunto de datos. También el parámetro $C$ debe ser escogido pues, como se indicó en la sección \ref{svm_lineal}, es el que controla la compensación entre los errores de entrenamiento y los márgenes. Al ser dos parámetros, se puede generar una grilla de valores e ir probando hasta encontrar dónde se llega al máximo dentro ella. Un ejemplo de este procedimiento puede verse en la figura \ref{fig:grid}, ignorar por el momento los resultados numéricos.
 \begin{figure}[!htbp]
     \centering
     \vspace*{-0.1cm}
     \hspace*{2.5cm}
     \includegraphics[scale=1]{imagen/grid.pdf}
     \vspace*{-0.1cm}
-    \caption{Grilla de valores de $C$ y $\sigma$, con el objetivo de encontrar los óptimos}
+    \caption{Grilla de valores de $C$ y $\gamma$, con el objetivo de encontrar los óptimos}
     \label{fig:grid}
 \end{figure}
 
 
 \subsubsection{LibSVM}
 
-Se utilizó una implementación disponible que puede encontrarse en \cite{libsvm}.
+Se utilizó una implementación de SVM disponible que puede encontrarse en \cite{libsvm}.
