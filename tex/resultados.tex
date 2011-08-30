@@ -189,13 +189,13 @@ Observar que la mejora en la eficiencia, al evitar calcular $\mathbf{\alpha}$, n
 Observar que los features no fueron diseñados especialmente para símbolos particulares, como ser los dígitos o las letras. Con la gráfica \ref{fig:letras_LS}, se pretende mostrar que los features obtenidos no dependen del símbolo a ser reconocido, pues se aplicó el mismo algoritmo (sin modificaciones) a la base de datos de letras, y se consiguieron también buenos resultados. % (casi $96\%$ con los polinomios de grado $10$).
 Entonces, los features se pueden considerar de propósitos generales pudiendo ser utilizados en diferentes situaciones, y no sólo con los dígitos.
 
-En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a precisión, obtenidos con los polinomios de Legendre-Sobolev de grado $9$ con poco más de $96\,\%$ de reconocimiento correcto para la base de dato de letras. Recordar que la base de datos es más grande que la de dígitos (con cerca de $3600$) y que posee más clases, por lo cual la diferencia de precisión se debe esencialmente a que la base de datos es más complicada.
+En la gráfica recién mencionada, se muestran los mejores resultados en cuanto a precisión, obtenidos con los polinomios de Legendre-Sobolev de grado $9$ con poco más de $96\,\%$ de reconocimiento correcto para la base de datos de letras. Recordar que la base de datos es más grande que la de dígitos (con cerca de $3600$) y que posee más clases, por lo cual la diferencia de precisión se debe esencialmente a que la base de datos es más complicada.
 %; y en cuanto a \textbf{eficiencia}, obtenidos con momentos sin preprocesar los datos alcanzando un máximo de $9??\,\%$. Este último es el método más eficiente por las consideraciones hechas en el apartado \ref{prepoceso}.
     \begin{figure}[!htbp]
     \centering
     \vspace*{-0.2cm}
     \includegraphics[scale=0.6]{imagen/plot/least_square_LS_letras_preproceso_1.pdf}
     \vspace*{-0.2cm}
-    \caption{Mejores resultados para la base de dato de letras.}
+    \caption{Mejores resultados para la base de datos de letras.}
     \label{fig:letras_LS}
     \end{figure}
