@@ -1,4 +1,5 @@
-\documentclass[compress]{beamer}
+% \documentclass[compress]{beamer}
+\documentclass{beamer}
 \usepackage[latin1]{inputenc}
 \usepackage{default}
 
@@ -129,7 +130,7 @@ Universidad Nacional de Rosario}}
 \begin{frame}[<+->]
 \frametitle{Offline vs Online}
 % \only<2->
-% { 
+% {
     \begin{center}
     \includegraphics[scale=0.7]{../imagen/off_vs_on-line.pdf}
     \end{center}
@@ -167,18 +168,18 @@ Universidad Nacional de Rosario}}
     \end{center}
 \end{frame}
 
-% \begin{frame}
-% \frametitle{Reconocimiento de escritura para todos}
-%         \begin{center}
-%         \includegraphics[scale=0.5]{papa.jpg}
-%         \end{center}
-% \end{frame}
+\begin{frame}
+\frametitle{Reconocimiento de escritura para todos}
+        \begin{center}
+        \includegraphics[scale=0.5]{papa.jpg}
+        \end{center}
+\end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Expresiones Matemáticas}
     \begin{block}{Handwriting}
         \begin{center}
-        \includegraphics[scale=0.8]{../imagen/formula2.pdf}
+        \includegraphics[scale=0.8]{../imagen/formula.pdf}
         \end{center}
     \end{block}
     \pause
@@ -190,6 +191,131 @@ Universidad Nacional de Rosario}}
        } ~ dx\end{verbatim}
     \end{exampleblock}
 \end{frame}
+
+
+\subsection{Conceptos (continuación)}
+
+\begin{frame}
+\frametitle{Trazos discretos como curvas continuas}
+        \begin{center}
+        \includegraphics[scale=0.5]{../imagen/trazos_como_curva.pdf}
+        \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Curvas paramétricas}
+        \begin{center}
+        \includegraphics[scale=0.37]{../imagen/x_e_y_en_t.pdf}
+        \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Curvas paramétricas}
+        \begin{center}
+        \includegraphics[scale=0.4]{x_e_y_en_t_example.pdf}
+        \end{center}
+\end{frame}
+
+
+\section{Feature extraction}
+
+\subsection{Fundamentos}
+
+\begin{frame}
+\frametitle{Aproximaciones}
+\framesubtitle{con Bases de Polinomios Ortogonales}
+
+    \begin{equation*}
+    \label{eq:features}
+    \left\{
+    \begin{array}{rcl}
+    x(t) & \approx & \sum_{i=0}^{d}{\alt<3>{\color{red}\alpha_{i}}{\color{black}\alpha_{i}}}\,{B}_{i}(t) \\
+    y(t) & \approx & \sum_{i=0}^{d}{\alt<3>{\color{blue}\beta_{i}}{\color{black}\beta_{i}}}\,{B}_{i}(t)
+    \end{array}
+    \right.
+    \end{equation*}
+\pause
+donde $\{B_i\}$ es base de polinomios ortogonales
+
+\vspace*{3ex}
+\pause
+    \begin{exampleblock}{Features}
+        \begin{center}
+        $({\alt<3>{\color{red}\alpha_{0}}{\color{black}\alpha_{0}}}, \dots ,{\alt<3>{\color{red}\alpha_{d}}{\color{black}\alpha_{d}}}, {\alt<3>{\color{blue}\beta_{0}}{\color{black}\beta_{0}}}, \dots ,{\alt<3>{\color{blue}\beta_{d}}{\color{black}\beta_{d}}})$
+        \end{center}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+    \begin{block}{Producto interno:}
+    \[ \langle B_i, B_j \rangle \doteq \int_{a}^{b}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt \]
+    donde $w(t)$ es una función peso.
+    \end{block}
+\pause
+    \begin{block}{Ortogonalidad:}
+        \begin{itemize}
+        \item<2-| alert@2>    $\langle B_i, B_j \rangle = 0, \quad \forall i\neq\,j ~ ~ \quad\Longrightarrow\quad B_i$ y $B_j$ son \alt<2>{\color{blue} ortogonales}{\color{black} ortogonales} \\
+        \item<3-| alert@3> Si además, $\langle B_i, B_i \rangle = 1 \quad\Longrightarrow\quad B_i$ y $B_j$ son \alt<3>{\color{blue} ortonormales}{\color{black} ortonormales}.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Polinomios de Legendre}
+    \begin{block}{Producto interno:}
+    \[ \langle B_i, B_j \rangle = \int_{-1}^{1}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt \]
+    \end{block}
+\pause
+    \begin{block}{}
+    Si tomamos como función peso {\color{red}$w(t)=1$} en la definición anterior
+    \begin{align*}
+    \langle L_i, L_j \rangle & = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t)\,dt
+    \end{align*}
+    se pueden generar los polinomios de Legendre $\{L_i\}$ con el proceso de ortogonalización de \textbf{Gram-Schmidt} en el intervalo $[-1,1]$.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Polinomios de Legendre}
+    \begin{block}{}
+    \[ L_i(t) = \sum_{j=0}^{i}{ {\color{red}C_{ij}}\,t^j } \]
+    \end{block}
+%     \begin{block}{Formula cerrada}
+%     \[ C_{ij} = (2\,i+1)^{\frac{1}{2}}\begin{pmatrix}i\cr j\end{pmatrix} {\left( -1\right) }^{j} \]
+%     \end{block}
+% \pause
+%     \begin{block}{}
+        \vspace*{-2ex}
+        \begin{center}
+            \includegraphics[scale=0.27]{../imagen/legendre.pdf}
+        \end{center}
+%     \end{block}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}
+    \frametitle{Interview}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{title}
+                test
+            \end{alertblock}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+        \begin{Example}
+                test
+            \end{Example}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 
 
 \begin{frame}[plain]
@@ -236,9 +362,9 @@ Universidad Nacional de Rosario}}
     \begin{alertblock}{title}
         test
     \end{alertblock}
-    \begin{Example}
+    \begin{exampleblock}
         test
-    \end{Example}
+    \end{exampleblock}
 \end{frame}
 
 
