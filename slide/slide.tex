@@ -2,6 +2,7 @@
 \documentclass{beamer}
 \usepackage[latin1]{inputenc}
 \usepackage{default}
+\usepackage{url}
 
 \setbeamercovered{transparent}
 \setbeamertemplate{navigation symbols}{} % remove navigation symbols
@@ -152,7 +153,7 @@ Universidad Nacional de Rosario}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Segmentacion}
+\frametitle{Segmentación}
     \begin{center}
     \includegraphics[scale=0.6]{../imagen/segmentation.pdf}
     \end{center}
@@ -193,7 +194,7 @@ Universidad Nacional de Rosario}}
 \end{frame}
 
 
-\subsection{Conceptos (continuación)}
+\subsection{Trazos como curvas}
 
 \begin{frame}
 \frametitle{Trazos discretos como curvas continuas}
@@ -226,7 +227,6 @@ Universidad Nacional de Rosario}}
 \framesubtitle{con Bases de Polinomios Ortogonales}
 
     \begin{equation*}
-    \label{eq:features}
     \left\{
     \begin{array}{rcl}
     x(t) & \approx & \sum_{i=0}^{d}{\alt<3>{\color{red}\alpha_{i}}{\color{black}\alpha_{i}}}\,{B}_{i}(t) \\
@@ -263,7 +263,7 @@ donde $\{B_i\}$ es base de polinomios ortogonales
 \begin{frame}
 \frametitle{Polinomios de Legendre}
     \begin{block}{Producto interno:}
-    \[ \langle B_i, B_j \rangle = \int_{-1}^{1}{B}_{i}(t) \,{B}_{j}(t) \, w(t) dt \]
+    \[ \langle L_i, L_j \rangle = \int_{-1}^{1}{L}_{i}(t) \,{L}_{j}(t) \, w(t) dt \]
     \end{block}
 \pause
     \begin{block}{}
@@ -283,89 +283,534 @@ donde $\{B_i\}$ es base de polinomios ortogonales
 %     \begin{block}{Formula cerrada}
 %     \[ C_{ij} = (2\,i+1)^{\frac{1}{2}}\begin{pmatrix}i\cr j\end{pmatrix} {\left( -1\right) }^{j} \]
 %     \end{block}
-% \pause
 %     \begin{block}{}
+
+\pause
         \vspace*{-2ex}
         \begin{center}
+        \invisible<1>{
             \includegraphics[scale=0.27]{../imagen/legendre.pdf}
+        }
         \end{center}
 %     \end{block}
 \end{frame}
 
-
-
-
-
-
-
-
 \begin{frame}
-    \frametitle{Interview}
+\frametitle{Series de funciones ortonormales}
+%  $\{B_i\}$ es base de polinomios ortonormales respecto al producto interno definido,
+    \begin{block}{Serie}
+    \[ f(t) = \sum_{i=0}^{\infty}{\alpha}_{i}\,{L}_{i}(t) \]
+    \end{block}
+\pause
+    \begin{exampleblock}{Coeficientes}
+    \[ {\alpha}_{i} = \langle f, L_i \rangle \]
+    \end{exampleblock}
+\pause
+
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{alertblock}{title}
-                test
-            \end{alertblock}
+            \begin{block}{Aproximación}
+            \[ f(t) \approx \sum_{i=0}^{d}{\alpha}_{i}\,{L}_{i}(t) \]
+            \end{block}
         \end{column}
 
+        \pause
         \begin{column}{0.5\textwidth}
-        \begin{Example}
-                test
-            \end{Example}
+            \vspace*{-1ex}
+            \begin{block}{Features}
+            \vspace*{-2ex}
+            \begin{equation*}
+            \left\{
+            \begin{array}{rcl}
+            x(t) & \approx & \sum_{i=0}^{d}{\alt<4>{\color{red}\alpha_{i}}{\color{black}\alpha_{i}}}\,{L}_{i}(t) \\
+            y(t) & \approx & \sum_{i=0}^{d}{\alt<4>{\color{blue}\beta_{i}}{\color{black}\beta_{i}}}\,{L}_{i}(t)
+            \end{array}
+            \right.
+            \end{equation*}
+            \begin{center}
+            $({\alt<4>{\color{red}\alpha_{0}}{\color{black}\alpha_{0}}}, \dots ,{\alt<4>{\color{red}\alpha_{d}}{\color{black}\alpha_{d}}}, {\alt<4>{\color{blue}\beta_{0}}{\color{black}\beta_{0}}}, \dots ,{\alt<4>{\color{blue}\beta_{d}}{\color{black}\beta_{d}}})$
+            \end{center}
+            \end{block}
         \end{column}
     \end{columns}
 \end{frame}
 
+\subsection{Momentos}
 
-
-\begin{frame}[plain]
-\frametitle{Índice}
-\scriptsize % Para r e d u c i r e l tama \~ no de l e t r a
-\tableofcontents
-\end{frame}
-
-
-\begin{frame}[<+->]
-\frametitle{There Is No Largest Prime Number}
-\framesubtitle{The proof uses \textit{reductio ad absurdum}.}
-    \begin{theorem}
-    There is no largest prime number.
-    \end{theorem}
-    \begin{proof}
-    \begin{enumerate}
-    \item<1-| alert@1> Suppose $p$ were the largest prime number.
-    \item<2-| alert@2> Let $q$ be the product of the first $p$ numbers.
-    \item<3-| alert@3> Then $q+1$ is not divisible by any of them.
-    \item<1-> Thus $q+1$ is also prime and greater than $p$.\qedhere
-    \end{enumerate}
-    \end{proof}
-
-    \begin{block}{Block title}
-        \begin{itemize}
-        \item<2-> \alt<2>{\color{blue} Everything}{\color{black} Everything}
-        \item<2-> \alt<3>{\color{blue} that has}{that has}
-        \item<2-> \alt<4>{\color{blue} beginning}{\color{red} beginning}
-        \item<2-> \alt<5>{\color{blue} has end.}{\color{green} has end.}
-        \end{itemize}
+\begin{frame}
+\frametitle{Momentos}
+    \begin{block}{Definición}
+    Los momentos de una función $f$ definida en $[0,1]$ son
+    \[ \mu_{k} \doteq \int_{0}^{1}{f(t)\,t^k\,dt} \]
     \end{block}
-\end{frame}
-
-
-\begin{frame}[<+->]
-    \begin{block}{title}
-        test \\
-        a second line
-    \end{block}
-    \begin{block}{}
-        test without title
-    \end{block}
-    \begin{alertblock}{title}
-        test
-    \end{alertblock}
-    \begin{exampleblock}
-        test
+\pause
+    \begin{exampleblock}{Hausdorff Moment Problem}
+    Recuperar a partir de una secuencia finita de momentos $\{\mu_k\}_{k=0,1,2,...,d}$ una función $f$ en el dominio $[0,1]$.
     \end{exampleblock}
 \end{frame}
 
+
+\begin{frame}
+\vspace*{-1ex}
+    \begin{columns}
+        \begin{column}{0.36\textwidth}
+        \begin{block}{\centering\small{Producto interno}}
+            \begin{center}
+            $ \langle f, g \rangle = \int_{0}^{1}f(t)\,g(t)\,dt $
+            \end{center}
+        \end{block}
+        \end{column}
+\pause
+        \begin{column}{0.32\textwidth}
+        \begin{exampleblock}{\centering\small{Polinomios de Legendre}}
+            \begin{center}
+            $  L_i(t) = \sum_{j=0}^{i}{ C_{ij}\,t^j } $
+            \end{center}
+        \end{exampleblock}
+        \end{column}
+\pause
+        \begin{column}{0.32\textwidth}
+            \begin{alertblock}{\centering\small{Momentos}}
+            \begin{center}
+            $ \mu_{j} = \int_{0}^{1}{f(t)\,t^j\,dt} $
+            \end{center}
+            \end{alertblock}
+        \end{column}
+
+    \end{columns}
+\invisible<1-3>{
+\pause
+    \begin{block}{}
+    \[ f(t) \approx \sum_{i=0}^{d}{\alt<11>{\alpha_{i}}{\color{red}\alpha_{i}}}\,{L}_{i}(t) \]
+    \invisible<4>{
+    \pause
+    \vspace*{-5ex}
+        \begin{align*}
+        \alt<11>{\color{red}\alpha_{i}}{\alpha_{i}} &= \langle f, L_i \rangle  \\
+        &\invisible<4-5>{ \pause = \int_{0}^{1}f(t)\,L_i(t)\,dt }  \\
+        &\invisible<4-6>{ \pause = \int_{0}^{1}f(t)\, \left( \sum_{j=0}^{i}{ C_{ij}\,t^j } \right) \,dt } \\
+        &\invisible<4-7>{ \pause = \sum_{j=0}^{i}{ C_{ij}\, \alt<8>{\left( \int_{0}^{1}f(t)\,t^j\,dt  \right)}{\underbrace{\left( \int_{0}^{1}f(t)\,t^j\,dt  \right)}_{\mu_j}} } }
+        \pause \invisible<4-9>{ \pause \alt<10>{= \sum_{j=0}^{i}{ C_{ij}\,\mu_j}}{\color{red}= \sum_{j=0}^{i}{ C_{ij}\,\mu_j}} }
+        \pause \vspace*{-1ex}
+        \end{align*}
+    }
+
+    \end{block}
+}
+\end{frame}
+
+\begin{frame}
+    \begin{block}{}
+    \[ \alt<1>{\color{red}\alpha_{i} = \sum_{j=0}^{i}{ C_{ij}\,\mu_j}}{\alpha_{i} = \sum_{j=0}^{i}{ C_{ij}\,\mu_j}} \]
+    \end{block}
+\pause
+    \begin{block}{}
+    % Se puede escribir en forma matricial
+    \vspace*{-3ex}
+    \begin{align*}
+    % alpha vector
+    \begin{bmatrix}
+        \alpha_{0} \\
+        \alpha_{1} \\
+        \vdots \\
+        \alpha_{d}
+    \end{bmatrix}
+    & =
+    % C matrix
+        \begin{bmatrix}
+        C_{00} \\
+        C_{10} & C_{11} \\
+        \vdots & \vdots & \ddots \\
+        C_{d0} & C_{d1} & \dots & C_{dd}
+        \end{bmatrix} \dot ~
+    % mu vector
+    \begin{bmatrix}
+        \mu_{0} \\
+        \mu_{1} \\
+        \vdots \\
+        \mu_{d}
+    \end{bmatrix}
+    \end{align*}
+    \end{block}
+\pause
+    \begin{exampleblock}{Matricialmente}
+    \[ \mathbf{\alpha} = \mathbf{C\,\mu} \]
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{Calculo numérico de los momentos}
+    \begin{block}{}
+    \[ f(t) \approx \sum_{i=0}^{d}{\color{red}\alpha_{i}}\,{L}_{i}(t) \]
+    \[ \mathbf{\color{red}\alpha} = \mathbf{C\,\mu} \]
+    \end{block}
+\pause
+    \begin{block}{}
+    \[ \mu_{k} = \int_{0}^{1}{f(t)\,t^k\,dt} \]
+    \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Inestabilidad numérica}
+%         \begin{center}
+\hspace*{-1.7cm}
+        \includegraphics[scale=0.5]{../imagen/inestabilidad_numerica.pdf}
+%         \end{center}
+\end{frame}
+
+
+\subsection{Preproceso}
+
+\begin{frame}
+\frametitle{Preproceso}
+        \begin{center}
+        \includegraphics[scale=1.5]{../imagen/preprocesing.pdf} \\
+        \texttt{(a)} Suavizado y Resizing, \texttt{(b)} Resampling
+        \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Preproceso}
+    \begin{block}{Invariante a escala}
+    \[ \hat{\alpha} = \frac{\alpha}{\|\alpha\|} \]
+    \end{block}
+\pause
+    \begin{block}{Suavizado}
+    \begin{center}
+    \invisible<1>{
+        \includegraphics[scale=0.5]{suavizado.pdf}
+    }
+    \end{center}
+    \end{block}
+%     \begin{itemize}
+%      \item<3> Entonces, ¿qué pasa si preprocesamos (es decir, trasladamos)?
+%     \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Reparametrización por longitud de arco}
+    \begin{block}{Variaciones en la velocidad de escritura}
+%         Parametrización por tiempo y por longitud de arco (\textit{arc-length}) son las elecciones más populares en el campo de reconocimiento de escritura online.
+        Parametrización por longitud de arco es usualmente preferible, pues \textbf{no es afectada por variaciones en la velocidad de escritura}. Esta puede ser expresada como:
+        \begin{align*}
+            \text{\textit{arc-length}}(t) = \int_{0}^{t}{\sqrt{(x'(\lambda))^2+(y'(\lambda))^2}\,d\lambda}
+        \end{align*}
+    \end{block}
+\end{frame}
+
+
+\subsection{Pseudo-Inversa}
+
+\begin{frame}
+\frametitle{Pseudo-Inversa}
+\framesubtitle{Aproximación por Mínimos Cuadrados}
+\begin{block}{}
+    \[ f(t) \approx \sum_{i=0}^{d}{\alpha}_{i}\,{B}_{i}(t) \]
+Una forma alternativa para calcular los $\alpha_{i}$ es mediante la Pseudo-Inversa de Moore-Penrose.
+\end{block}
+\pause
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \begin{block}{Ventajas}
+                \begin{itemize}[<+->]
+                 \item \footnotesize No presenta inestabilidad numérica
+                 \item \footnotesize Polinomios cualesquiera
+                \end{itemize}
+            \end{block}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Desventajas}
+                \begin{itemize}[<+->]
+                    \item \footnotesize Calculo offline
+                    \item \footnotesize Implementación más complicada
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Polinomios de Legendre-Sobolev}
+    \begin{block}{Producto interno (de Sobolev)}
+        \vspace*{-2ex}
+        \begin{align*}
+        \langle f, g \rangle_{\mbox{\tiny$LS$}} & = \int_{0}^{1}f(t)\,g(t)\,dt + \mu \, \int_{0}^{1}f'(t)\,g'(t)\,dt
+        \end{align*}
+    \end{block}
+\pause
+\invisible<1>{
+    \vspace*{-4ex}
+    \begin{center}
+        \hspace*{-0.6cm}
+        \includegraphics[scale=0.22]{../imagen/legendre-sobolev_1_8.pdf}
+        \hspace*{-1.3cm}
+        \includegraphics[scale=0.22]{../imagen/legendre-sobolev_1_16.pdf}
+    \end{center}
+}
+\end{frame}
+
+
+
+\section{Clasificacion}
+
+\subsection{Vecinos más cercanos: $k$-NN}
+
+\begin{frame}
+\frametitle{$k$-NN}
+    \vspace*{-1.2ex}
+    \begin{block}{Distancia Euclidiana}
+    \vspace*{-3ex}
+    \begin{align*}
+    dist(x,y)^2 & = \sum_{i=0}^d (x_i-y_i)^2 = (x-y)\,(x-y)^T
+    \end{align*}
+    \end{block}
+\pause
+    \vspace*{-0.8ex}
+    \begin{exampleblock}{Distancia de Hamming o Cityblock}
+    \vspace*{-3ex}
+    \begin{align*}
+    dist(x,y) & = \sum_{i=0}^d |x_i-y_i|
+    \end{align*}
+    \end{exampleblock}
+\pause
+    \vspace*{-0.8ex}
+    \begin{alertblock}{Distancia Mahalanobis\footnotemark[1]}
+    \vspace*{-3ex}
+    \begin{align*}
+    dist(x,y)^2 & = (x-y)\,\Sigma^{-1}\,(x-y)^T
+    \end{align*}
+    donde $\Sigma$ es la matriz de covariancia.
+    \end{alertblock}
+
+\footnotetext[1]{\begin{tiny}\textit{A diferencia de la distancia euclidiana, se tiene en cuenta la correlación entre las variables aleatorias}\end{tiny}}
+\end{frame}
+
+\subsection{Support Vector Machine: SVM}
+
+\begin{frame}
+\frametitle{SVM lineal}
+
+    \begin{columns}
+        \begin{column}{0.55\textwidth}
+            \begin{center}
+            \includegraphics[scale=0.19]{../imagen/Svm_max_sep_hyperplane_with_margin.png}
+            \end{center}
+        \end{column}
+
+        \begin{column}{0.45\textwidth}
+        \pause
+        \invisible<1>{
+            \begin{align*}
+            \mathcal{D} & = \left\{ (\mathbf{x}_i, y_i)\mid\mathbf{x}_i \in \mathbb{R}^p,\, y_i \in \{-1,1\}\right\}_{i=1}^n
+            \end{align*}
+        }
+        \pause
+        \invisible<1-2>{
+            \begin{align*}
+            \omega^Tx_k-b &\geq~ ~1, \quad \mbox{para} \hspace*{2mm} y_k=1\\
+            \omega^Tx_k-b &\leq-1, \quad \mbox{para} \hspace*{2mm} y_k=-1
+            \end{align*}
+        }
+        \pause
+        \invisible<1-3>{
+            \vspace*{2ex} \\
+            Pueden combinarse,
+            \begin{align*}
+            y_k(\omega^Tx_k-b)-1\geq0, \hspace{3mm} k=1,...,n
+            \end{align*}
+        }
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Problema de clasificación no separable}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \includegraphics[scale=1]{../imagen/svm_2.pdf}
+            \end{center}
+        \end{column}
+
+
+        \begin{column}{0.5\textwidth}
+        \pause
+            \begin{block}{\textit{Variable Slack} ($\xi_k$)}
+                \vspace*{-3ex}
+                \begin{align*}
+                y_k(\omega^Tx_k-b)\geq1-\xi_k
+                \end{align*}
+%                 donde $k=1,...,n$
+            \end{block}
+        \pause
+            \begin{exampleblock}{Formulación}
+                \vspace*{-3ex}
+                \begin{eqnarray*}
+                \min_{\omega,b,\xi}  &  %J_P(\omega,\xi) =
+                \hspace*{-3ex}  \frac{1}{2} \|w\|^2 + {\color{red}C} \sum_{k=1}^n \xi_k \\
+                \mbox{s.t.}   & \hspace*{1ex} y_k(\omega^Tx_k-b)  \geq  1-\xi_k, &  \\
+                              & \hspace*{7ex} \xi_k  \geq  0, &
+                \end{eqnarray*}
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+
+
+\pause \vspace*{3ex}
+\invisible<1-3>{${\color{red}C}$: compensación entre errores de entrenamiento y los márgenes rígidos. Permite algunos errores en la clasificación a la vez que los penaliza.}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{SVM no lineal - Kernels}
+    \vspace*{-2ex}
+    \begin{center}
+        \includegraphics[scale=0.35]{../imagen/Kernel_Machine.png}
+    \end{center}
+\pause
+    \vspace*{-2ex}
+    \begin{exampleblock}{Kernels más usados}
+        \vspace*{-3ex}
+        \begin{eqnarray*}
+        K_{linear}(x_k,x_\ell) & = & x_k^Tx_\ell \\
+        K_{polinomial}(x_k,x_\ell) & = & (1+x_k^Tx_\ell)^d  \\
+        \color{red} K_{RBF}(x_k,x_\ell) & \color{red} = & \color{red} e^{-\frac{\|x_k-x_\ell\|^2}{\gamma^2}}
+        \end{eqnarray*}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{SVM no lineal - Kernels}
+    \begin{block}{Formulación}
+        \vspace*{-3ex}
+        \begin{eqnarray*}
+        \min_{\omega,b,\xi}  &  %J_P(\omega,\xi) =
+        \hspace*{-4ex}  \frac{1}{2} \|w\|^2 + C \sum_{k=1}^n \xi_k \\
+        \mbox{s.t.}   & \hspace*{2ex} y_k(\omega^T{\color{red}\phi(x_k)}-b)  \geq  1-\xi_k, & \\
+                    & \hspace*{11ex} \xi_k  \geq  0, &
+        \end{eqnarray*}
+    \end{block}
+
+    \pause
+    \begin{exampleblock}{Problema dual (clasificador)}
+%         \vspace*{-3ex}
+        \begin{equation*}
+        y(x)=sign\left(\sum_{k=1}^n\alpha_k\,y_k\,K(x,x_k)+b\right)
+        \end{equation*}
+%         donde los $\alpha_k$ vienen de la solución del problema dual.
+    \end{exampleblock}
+
+\end{frame}
+
+
+
+\section{Resultados - Posibles Aplicaciones - Conclusiones}
+
+\subsection{Prioridad: Eficiencia}
+
+\begin{frame}
+\frametitle{Resultados}
+\framesubtitle{Sin preproceso, Momentos, Polinomios de Legendre}
+    \hspace*{-1cm}
+    \includegraphics[scale=0.58]{../imagen/plot/moments_L_preproceso_0.pdf}
+\end{frame}
+
+\subsection{Prioridad: Precisión}
+
+\begin{frame}
+\frametitle{Resultados}
+\framesubtitle{Con preproceso, Pseudo-inversa, Polinomios de Legendre-Sobolev}
+    \hspace*{-1cm}
+    \includegraphics[scale=0.58]{../imagen/plot/least_square_LS_preproceso_1.pdf}
+\end{frame}
+
+\begin{frame}
+\frametitle{Resultados}
+\framesubtitle{Base de datos de letras ($3600$ muestras)}
+    \hspace*{-1cm}
+    \includegraphics[scale=0.58]{../imagen/plot/least_square_LS_letras_preproceso_1.pdf}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Posibles Aplicaciones}
+\begin{center}
+%     \hspace*{-1cm}
+% \begin{itemize}[<+->]
+    \includegraphics[scale=0.9]{../imagen/formula.pdf}  \vspace*{3ex}
+\pause
+    \invisible<1>{ \includegraphics[scale=0.5]{../imagen/firmas.pdf}  } \vspace*{3ex}
+\pause
+    \invisible<1-2>{ \includegraphics[scale=0.45]{../imagen/partitura.pdf} }
+% \end{itemize}
+\end{center}
+\end{frame}
+
+\subsection{Conclusiones}
+
+\begin{frame}
+\frametitle{Conclusiones}
+    \begin{itemize}[<+->]
+
+    \item Implementación \textbf{eficiente} del cálculo de los momentos (orden constante).
+
+    \item Representación con polinomios ortogonales caracteriza muy bien a los trazos, permitiendo alcanzar una alta precisión en el reconocimiento. Resultados sobresalientes con \textbf{Legendre-Solobev}.
+
+    \item Se ha mostrado que \textbf{SVM} alcanza los mejores resultados de clasificación.
+
+    \item Se han utilizado métodos modernos para la representación de trazos, diferenciándose de los métodos tradicionales en los cuales éstos son tratados como secuencias de puntos.
+
+    \item Código disponible: {\color{blue}\url{https://github.com/pablospe/legendre}}
+    \end{itemize}
+\end{frame}
+
+\subsection{Fin}
+
+\begin{frame}
+\begin{center}
+¿Preguntas?
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+¡Gracias!
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+¡Game Over! :-)
+\end{center}
+\end{frame}
+
+
+\begin{frame}[plain]
+\titlepage
+\vspace*{-1.25 cm}
+\begin{center}
+    \includegraphics[scale=0.025]{../imagen/logo_fceia.pdf}
+    \hspace*{5cm}
+    \includegraphics[scale=0.156]{../imagen/logo_unr.pdf}
+\end{center}
+\vspace*{-0.5 cm}
+\begin{center}
+\tiny{\textit{Lic. en Cs. de la Computación \\
+Facultad de Ciencias Exactas, Ingeniería y Agrimensura \\
+Universidad Nacional de Rosario}}
+\end{center}
+
+\vspace*{0.65 cm}
+\begin{footnotesize}
+\textbf{Director}: Dr. Juan Carlos Gomez\footnote{\textit{\tiny{Procesamiento de Señales Multimedia}, CIFASIS}} \\
+\textbf{Co-director}:  Dr. Pablo Granitto\footnote{\textit{\tiny{Aprendizaje Automatizado y Aplicaciones}, CIFASIS}}
+\end{footnotesize}
+\end{frame}
 
 \end{document}
